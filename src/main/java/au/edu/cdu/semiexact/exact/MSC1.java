@@ -5,7 +5,7 @@ import java.util.List;
 import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
 
-public class MSC {
+public class MSC1 {
 	public int msc(List<List<Integer>> s){
 		if(s==null || s.size()==0) return 0;
 		ExistQualifiedSet exist=Util.existSubset(s);

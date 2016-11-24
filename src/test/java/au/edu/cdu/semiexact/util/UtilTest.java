@@ -1,7 +1,9 @@
 package au.edu.cdu.semiexact.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -158,7 +160,7 @@ public class UtilTest {
 		
 	}
 	@Test
-	public void testDeletSi(){
+	public void testDeletSetFromList(){
 		int[] l1 = { 2, 3 };
 		List<Integer> list1 = Util.arrayToList(l1);
 		List<List<Integer>> list = null;
@@ -180,6 +182,35 @@ public class UtilTest {
 		Assert.assertNotNull(list);
 		Assert.assertEquals(1, list.size());
 		Assert.assertEquals(list2, list.get(0));
+	}
+	
+	@Test
+	public void testDeletSetFromMap(){
+		
+		int[] l1 = { 2, 3 };
+		int[] l2 = { 1, 2 };
+		int[] l3={1,2,3};
+		
+		List<Integer> list1 =Util.arrayToList(l1);
+		List<Integer> list2 = Util.arrayToList(l2);
+		List<Integer> list3 =Util.arrayToList(l3);
+		
+		Map<Integer,List<Integer>> map=null;
+		Util.deleteSet(map,list1);
+		Assert.assertNull(map);
+		
+		map=new HashMap<Integer,List<Integer>>();
+		map.put(1, list1);
+		map.put(2, list2);
+		map.put(3, list3);
+		
+		Util.deleteSet(map,null);
+		Assert.assertNotNull(map);
+		
+		Util.deleteSet(map,list1);
+		Assert.assertNotNull(map);
+		
+		Assert.assertEquals(2, map.size());
 	}
 	
 	@Test
@@ -227,5 +258,45 @@ public class UtilTest {
 		list4=Util.getMaxCardinalitySet(list);
 		Assert.assertEquals(3,list4.size()); 
 		 
+	}
+	
+	@Test
+	public void testConvertMapToListOfSet(){
+		int[] l1 = { 2, 3 };
+		int[] l2 = { 1, 2 };
+		int[] l3={1,2,3};
+		
+		List<Integer> list1 =Util.arrayToList(l1);
+		List<Integer> list2 = Util.arrayToList(l2);
+		List<Integer> list3 =Util.arrayToList(l3);
+		
+		Map<Integer,List<Integer>> map=new HashMap<Integer,List<Integer>>();
+		map.put(1, list1);
+		map.put(2, list2);
+		map.put(3, list3);
+		
+		List<List<Integer>> list=Util.convertMapToListOfSet(map);
+		Assert.assertEquals(3, list.size());
+		
+	}
+	
+	@Test
+	public void testCopyMap(){
+		int[] l1 = { 2, 3 };
+		int[] l2 = { 1, 2 };
+		int[] l3={1,2,3};
+		
+		List<Integer> list1 =Util.arrayToList(l1);
+		List<Integer> list2 = Util.arrayToList(l2);
+		List<Integer> list3 =Util.arrayToList(l3);
+		
+		Map<Integer,List<Integer>> map=new HashMap<Integer,List<Integer>>();
+		map.put(1, list1);
+		map.put(2, list2);
+		map.put(3, list3);
+		
+		Map<Integer, List<Integer>> map1=Util.copyMap(map);
+		Assert.assertEquals(3, map1.size());
+		
 	}
 }
