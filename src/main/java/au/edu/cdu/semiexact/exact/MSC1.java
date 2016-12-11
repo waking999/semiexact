@@ -6,7 +6,18 @@ import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
 
 public class MSC1 {
-	public int msc(List<List<Integer>> s){
+	private List<List<Integer>> s;
+	
+	
+	public void setS(List<List<Integer>> s) {
+		this.s = s;
+	}
+
+	public int run(){
+		return branch(s);
+	}
+	
+	private int branch(List<List<Integer>> s){
 		if(s==null || s.size()==0) return 0;
 		ExistQualifiedSet exist=Util.existSubset(s);
 		if(exist.isExist()){
@@ -14,7 +25,7 @@ public class MSC1 {
 			List<Integer> si=s.get(setIndex);
 			List<List<Integer>> sCopy=Util.copyList(s);
 			Util.removeSet(sCopy, si);
-			return msc(sCopy);
+			return branch(sCopy);
 		}
 		List<Integer> uList=Util.unionSets(s);
 		exist=Util.existUniqueSetForAElement(uList, s);
@@ -23,14 +34,14 @@ public class MSC1 {
 			List<Integer> si=s.get(setIndex);
 			List<List<Integer>> sCopy=Util.copyList(s);
 			sCopy=Util.deleteSet(sCopy, si);
-			return 1+msc(sCopy);
+			return 1+branch(sCopy);
 		}
 		List<Integer> si=Util.getMaxCardinalitySet(s);
 		int siLen=si.size();
 		if(siLen<=2){
 			return polyMsc(s);
 		}
-		return Math.min(msc(Util.removeSet(Util.copyList(s), si)), 1+msc(Util.deleteSet(Util.copyList(s), si)));
+		return Math.min(branch(Util.removeSet(Util.copyList(s), si)), 1+branch(Util.deleteSet(Util.copyList(s), si)));
 		
 		 
 	}

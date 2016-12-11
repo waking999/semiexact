@@ -299,4 +299,11 @@ public class UtilTest {
 		Assert.assertEquals(3, map1.size());
 		
 	}
+	
+	@Test
+	public void testGetMaxIndex(){
+		int[] array={5,3,2,23,1,2};
+		int maxIdx=Util.getMaxIndex(array);
+		Assert.assertEquals(3, maxIdx);
+	}
 }

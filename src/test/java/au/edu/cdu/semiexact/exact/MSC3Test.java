@@ -18,7 +18,10 @@ public class MSC3Test {
 
 		 
 		MSC3 msc = new MSC3();
-		ReturnResult<Integer> rr1 = msc.msc(map, rr);
+		msc.setMap(map);
+		msc.setRr(rr);
+		
+		ReturnResult<Integer> rr1 = msc.run();
 
 		Assert.assertEquals(2, rr1.getResultSize());
 		System.out.println(rr1);
