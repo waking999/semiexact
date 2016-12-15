@@ -9,7 +9,6 @@ import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
 
 public class MSC2 {
-	public int msc(List<List<Integer>> s) {
 		if (s == null || s.size() == 0)
 			return 0;
 		ExistQualifiedSet exist = Util.existSubset(s);
@@ -32,23 +31,14 @@ public class MSC2 {
 			sCopy = Util.deleteSet(sCopy, si);
 		    
 			exist = Util.existSubset(sCopy);
-			if(exist.isExist()){
-				do{
-					int setIndexPrime=exist.getSetIndex();
-					List<Integer> siPrime=sCopy.get(setIndexPrime);
 					Util.removeSet(sCopy, siPrime);
-					exist=Util.existSubset(sCopy);
-				}while(exist.isExist());
 			}
-			
-			return 1 + msc(sCopy);
 		}
 		List<Integer> si = Util.getMaxCardinalitySet(s);
 		int siLen = si.size();
 		if (siLen <= 2) {
 			return polyMsc(s);
 		}
-		return Math.min(msc(Util.removeSet(Util.copyList(s), si)), 1 + msc(Util.deleteSet(Util.copyList(s), si)));
 
 	}
 

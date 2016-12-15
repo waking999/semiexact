@@ -14,7 +14,8 @@ public class MSC2Test {
 		List<List<Integer>> list = TestUtil.simpleTestCase1();
 
 		MSC2 msc = new MSC2();
-		int result = msc.msc(list);
+		msc.setS(list);
+		int result = msc.run();
 		Assert.assertEquals(2, result);
 		System.out.println(result);
 	}

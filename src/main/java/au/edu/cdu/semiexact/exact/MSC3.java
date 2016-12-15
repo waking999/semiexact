@@ -16,7 +16,6 @@ import au.edu.cdu.semiexact.util.Util;
  *
  */
 public class MSC3 {
-	public ReturnResult<Integer> msc(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) { 
 
 		if (map == null || map.size() == 0) {
 			return rr;

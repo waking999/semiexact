@@ -525,5 +525,20 @@ public class Util {
 		}
 		return list;
 	}
+	
+	public static int getMaxIndex(int[] array){
+		int maxIndex = 0;
+		int arraySize=array.length;
+		int max=array[0];
+		
+		for (int i = 1; i < arraySize; i++) {
+		    if (array[i] > max) {
+		        max = array[i];
+		        maxIndex = i;
+		    }
+		}
+		return maxIndex;
+	}
+	
 
 }
