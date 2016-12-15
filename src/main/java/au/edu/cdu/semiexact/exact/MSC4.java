@@ -9,7 +9,7 @@ import au.edu.cdu.semiexact.util.GlobalVariable;
  * @author kwang1 1. convert Faisal's c code into java format
  */
 public class MSC4 <ET, ST>{
-<<<<<<< HEAD
+ 
 
 	/**
 	 * decrease element frequency because of deleting set
@@ -17,92 +17,12 @@ public class MSC4 <ET, ST>{
 	 * @param eToDecIdx, the element index to be decreased 
 	 * @param sToDelIdx, the set index to be deleted
 	 */
-=======
-//	private T[] sL; // index to set list
-//	private Map<T, Integer> sIL; // set to index list
-//	private int[][] sAL; // set index adjacent list
-//	private int[][] sIM; // set index incident matrix
-//	
-//	private T[] eL; //index to element list
-//	private Map<T,Integer> eIL;// element to index list
-//	private int[][] eAL; // element index adjacent list,
-//	private int[][] eIM; // element index incident matrix
-//
-//
-//
-//	public int[][] getsIM() {
-//		return sIM;
-//	}
-//
-//	public void setsIM(int[][] sIM) {
-//		this.sIM = sIM;
-//	}
-//
-//	public T[] geteL() {
-//		return eL;
-//	}
-//
-//	public void seteL(T[] eL) {
-//		this.eL = eL;
-//	}
-//
-//	public Map<T, Integer> geteIL() {
-//		return eIL;
-//	}
-//
-//	public void seteIL(Map<T, Integer> eIL) {
-//		this.eIL = eIL;
-//	}
-//
-//
-//
-//	public T[] getsL() {
-//		return sL;
-//	}
-//
-//	public void setsL(T[] sL) {
-//		this.sL = sL;
-//	}
-//
-//	public Map<T, Integer> getsIL() {
-//		return sIL;
-//	}
-//
-//	public void setsIL(Map<T, Integer> sIL) {
-//		this.sIL = sIL;
-//	}
-//
-//	public int[][] getsAL() {
-//		return sAL;
-//	}
-//
-//	public void setsAL(int[][] sAL) {
-//		this.sAL = sAL;
-//	}
-//
-//	public int[][] geteAL() {
-//		return eAL;
-//	}
-//
-//	public void seteAL(int[][] eAL) {
-//		this.eAL = eAL;
-//	}
-//
-//	public int[][] geteIM() {
-//		return eIM;
-//	}
-//
-//	public void seteIM(int[][] eIM) {
-//		this.eIM = eIM;
-//	}
-
-	
->>>>>>> origin/master
+ 
 	protected void decreaseElementFrequency(GlobalVariable<ET,ST> gv, int eToDecIdx, int sToDelIdx) {
 		int[] freq=gv.getFreq();
 		int[][] eIM=gv.geteIM();
 		int[][] eAL=gv.geteAL();
-<<<<<<< HEAD
+ 
 		
 		int eIMSToDelCellVal=eIM[sToDelIdx][eToDecIdx];
 		int eFreq=freq[eToDecIdx];
@@ -114,19 +34,8 @@ public class MSC4 <ET, ST>{
 		eIM[sToDelIdx][eToDecIdx]=eIMSToExchCellVal;
 		
 		// exchange the index of set to be deleted with that of last active set in eAL
-=======
-		
-		int eIMSToDelCellVal=eIM[sToDelIdx][eToDecIdx];
-		int eFreq=freq[eToDecIdx];
-		int sToExchIdx=eAL[eToDecIdx][eFreq-1];
-		int eIMSToExchCellVal=eIM[sToExchIdx][eToDecIdx];
-		
-		// exchange the index of set to be deleted with that of last active set in eIM
-		eIM[sToExchIdx][eToDecIdx]=eIMSToDelCellVal;
-		eIM[sToDelIdx][eToDecIdx]=eIMSToExchCellVal;
-		
-		// exchange the index of set to be deleted with that of last active set in eIM
->>>>>>> origin/master
+ 
+	 
 		eAL[eToDecIdx][eIMSToExchCellVal]=sToDelIdx;
 		eAL[eToDecIdx][eIMSToDelCellVal]=sToExchIdx;
 		freq[eToDecIdx]--;
@@ -140,14 +49,7 @@ public class MSC4 <ET, ST>{
 	/**
 	 * delete a set in the hybrid graph representation
 	 * 
-	 * @param card,
-	 *            the cardinality array of each set
-	 * @param curSetCount,
-	 *            the current active set count
-	 * @param freq,
-	 *            the frequency array of each element
-	 * @param curEleCount,
-	 *            the current active element count
+	 * @param gv, Global Variable
 	 * @param sToDel,
 	 *            the set to be deleted
 	 */
@@ -182,7 +84,7 @@ public class MSC4 <ET, ST>{
 		gv.setsIL(sIL);
 
 	}
-<<<<<<< HEAD
+ 
 	/**
 	 * decrease set cardinality because of deleting an element
 	 * 
@@ -213,8 +115,44 @@ public class MSC4 <ET, ST>{
  		gv.setsIM(sIM);
  		gv.setsAL(sAL);
 	}
-=======
 	
->>>>>>> origin/master
+	/**
+	 * 
+	 * @param gv
+	 * @param eToDel
+	 */
+	protected void deleteElement(GlobalVariable<ET,ST> gv, ET eToDel) {
+		int curEleCount=gv.getCurEleCount();
+		int[] freq=gv.getFreq();
+		
+		ET[] eL=gv.geteL();
+		Map<ET,Integer> eIL=gv.geteIL();
+		int[][] eAL=gv.geteAL();
+		 
+		
+		ET last = eL[curEleCount-1];
+		int eToDelIdx =eIL.get(eToDel);
+		// exchange the element to be deleted with the last active element in element list
+		eL[eToDelIdx] = last;
+		eL[curEleCount-1] = eToDel;
+		// exchange the element to be deleted with the last active element in element index
+		// list
+		eIL.replace(last, eToDelIdx);
+		eIL.replace(eToDel, curEleCount-1);
+		// modify the sets' cardinality  containing the element to be deleted
+		for (int i = 0; i <  freq[eToDelIdx]; i++) {
+			int s = eAL[eToDelIdx][i];
+			decreaseSetCardinality(gv, s, eToDelIdx);
+		}
+
+		freq[eToDelIdx] = 0;
+		
+		gv.setFreq(freq);;
+		gv.setCurEleCount(curEleCount-1);
+		gv.seteL(eL);
+		gv.seteIL(eIL);
+
+	}
+ 
 	 
 }

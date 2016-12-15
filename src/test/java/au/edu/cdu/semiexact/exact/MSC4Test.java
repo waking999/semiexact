@@ -72,33 +72,14 @@ public class MSC4Test {
 	public void testDecreaseElementFrequency() {
 
 		GlobalVariable<String, String> gv = getTestCase1();
-<<<<<<< HEAD
-		 
-=======
-		// String[] eL=gv.geteL();
->>>>>>> origin/master
+
 		Map<String, Integer> eIL = gv.geteIL();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
 
-<<<<<<< HEAD
-		 
 		Map<String, Integer> sIL = gv.getsIL();
-	 
 
 		int[] freq = gv.getFreq();
-		 
-=======
-		// String[] sL=gv.getsL();
-		Map<String, Integer> sIL = gv.getsIL();
-		// int[][] sAL=gv.getsAL();
-		// int[][] sIM=gv.getsIM();
-
-		int[] freq = gv.getFreq();
-		// int[] card=gv.getCard();
-
-		// int curEleCount=gv.getCurEleCount();
->>>>>>> origin/master
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -192,23 +173,21 @@ public class MSC4Test {
 		Assert.assertEquals(new Integer(sToDelIdx), sIL.get(sToExch));
 
 	}
-
 	
+	
+
 	@Test
 	public void testDecreaseSetCardinality() {
 
 		GlobalVariable<String, String> gv = getTestCase1();
-		 
+
 		Map<String, Integer> sIL = gv.getsIL();
 		int[][] sAL = gv.getsAL();
 		int[][] sIM = gv.getsIM();
 
-		 
 		Map<String, Integer> eIL = gv.geteIL();
-		 
 
-		int[] card = gv.getCard(); 
-		 
+		int[] card = gv.getCard();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -224,8 +203,8 @@ public class MSC4Test {
 
 		int sIMCell2B4 = sIM[sAL[sToDecIdx][cardB4 - 1]][sToDecIdx];
 
-		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx); 
-		
+		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx);
+
 		Assert.assertEquals(sAL[sToDecIdx][sIMEToDelCellValB4], eToExchIdx);
 		Assert.assertEquals(sAL[sToDecIdx][cardB4 - 1], eToDelIdx);
 		Assert.assertEquals(sIM[eToExchIdx][sToDecIdx], sIMEToDelCellValB4);
@@ -243,7 +222,7 @@ public class MSC4Test {
 		eToExchIdx = sAL[sToDecIdx][cardB4 - 1];
 
 		sIMCell2B4 = sIM[sAL[sToDecIdx][cardB4 - 1]][sToDecIdx];
-		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx); 
+		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx);
 
 		Assert.assertEquals(gv.getsAL()[sToDecIdx][sIMEToDelCellValB4], eToExchIdx);
 		Assert.assertEquals(gv.getsAL()[sToDecIdx][cardB4 - 1], eToDelIdx);
@@ -252,4 +231,56 @@ public class MSC4Test {
 		Assert.assertEquals(cardB4 - 1, gv.getCard()[sToDecIdx]);
 
 	}
+	
+	@Test
+	public void testDeleteElement() {
+		GlobalVariable<String, String> gv = getTestCase1();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		String eToDel = "e";
+
+		int curEleCount = gv.getCurEleCount();
+		Map<String, Integer> eIL = gv.geteIL();
+		String[] eL = gv.geteL();
+		int eToDelIdx = eIL.get(eToDel);
+		String eToExch = eL[curEleCount - 1];
+
+		msc.deleteElement(gv, eToDel);
+
+		Assert.assertEquals(curEleCount - 1, gv.getCurEleCount());
+
+		eL = gv.geteL();
+		eIL = gv.geteIL();
+
+		Assert.assertEquals(0, gv.getFreq()[eToDelIdx]);
+		Assert.assertEquals(eToDel, eL[curEleCount - 1]);
+		Assert.assertEquals(eToExch, eL[eToDelIdx]);
+		Assert.assertEquals(new Integer(curEleCount - 1), eIL.get(eToDel));
+		Assert.assertEquals(new Integer(eToDelIdx), eIL.get(eToExch));
+
+		eToDel = "f";
+
+		curEleCount = gv.getCurEleCount();
+		eIL = gv.geteIL();
+		eL = gv.geteL();
+		eToDelIdx = eIL.get(eToDel);
+		eToExch =eL[curEleCount - 1];
+
+		msc.deleteElement(gv, eToDel);
+
+		Assert.assertEquals(curEleCount - 1, gv.getCurEleCount());
+
+		eL = gv.geteL();
+		eIL = gv.geteIL();
+
+		Assert.assertEquals(0, gv.getFreq()[eToDelIdx]);
+		Assert.assertEquals(eToDel, eL[curEleCount - 1]);
+		Assert.assertEquals(eToExch, eL[eToDelIdx]);
+		Assert.assertEquals(new Integer(curEleCount - 1), eIL.get(eToDel));
+		Assert.assertEquals(new Integer(eToDelIdx), eIL.get(eToExch));
+
+	}
+	
+	
 }
