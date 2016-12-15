@@ -1,5 +1,7 @@
 package au.edu.cdu.semiexact.exact;
-
+/**
+ * 1. the exactly same as the basic algorithm
+ */
 import java.util.List;
 
 import au.edu.cdu.semiexact.util.ExistQualifiedSet;

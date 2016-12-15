@@ -6,7 +6,15 @@ import java.util.Set;
 
 import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
-
+/**
+ * 
+ * @author kwang1
+ * 
+ * 1. the exactly same as the basic algorithm
+ * 2. apply the reduction rule exhaustedly 
+ * 3. return not only solution size but also solutions
+ *
+ */
 public class MSC3 {
 	public ReturnResult<Integer> msc(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) { 
 
