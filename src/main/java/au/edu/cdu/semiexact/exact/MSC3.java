@@ -16,6 +16,25 @@ import au.edu.cdu.semiexact.util.Util;
  *
  */
 public class MSC3 {
+	Map<Integer, List<Integer>> map;
+	 
+	public void setMap(Map<Integer, List<Integer>> map) {
+		this.map = map;
+	}
+
+ 
+	public void setRr(ReturnResult<Integer> rr) {
+		this.rr = rr;
+	}
+
+	ReturnResult<Integer> rr;
+	
+ 
+	public ReturnResult<Integer> run() {
+		return branch(map,rr);
+	}
+
+	public ReturnResult<Integer> branch(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) {
 
 		if (map == null || map.size() == 0) {
 			return rr;
@@ -29,14 +48,14 @@ public class MSC3 {
 			} while (exist.isExist());
 			Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
 
-			return msc(mapCopy, rr);
+			return branch(mapCopy, rr);
 		}
 		List<Integer> uList = Util.unionSets(map);
 		exist = Util.existUniqueSetForAElement(uList, map);
 		if (exist.isExist()) {
 			int setIndex = exist.getSetIndex();
 			List<Integer> si = map.get(setIndex);
-			 
+
 			Util.deleteSet(map, si);
 
 			exist = Util.existSubset(map);
@@ -52,7 +71,7 @@ public class MSC3 {
 			rr.setResultSize(rr.getResultSize() + 1);
 			Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
 
-			return msc(mapCopy, rr);
+			return branch(mapCopy, rr);
 		}
 		int siIndex = Util.getMaxCardinalitySetIndex(map);
 		List<Integer> si = map.get(siIndex);
@@ -64,13 +83,13 @@ public class MSC3 {
 
 		Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
 		mapCopy.remove(siIndex);
-		ReturnResult<Integer> rr1 = msc(mapCopy, rr);
+		ReturnResult<Integer> rr1 = branch(mapCopy, rr);
 
 		mapCopy = Util.copyMap(map);
 		Util.deleteSet(mapCopy, si);
 		rr.getResults().add(siIndex);
 		rr.setResultSize(rr.getResultSize() + 1);
-		ReturnResult<Integer> rr2 = msc(mapCopy, rr);
+		ReturnResult<Integer> rr2 = branch(mapCopy, rr);
 
 		if (rr1.getResultSize() < rr2.getResultSize()) {
 			return rr1;
