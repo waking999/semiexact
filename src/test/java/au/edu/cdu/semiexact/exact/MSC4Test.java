@@ -72,17 +72,33 @@ public class MSC4Test {
 	public void testDecreaseElementFrequency() {
 
 		GlobalVariable<String, String> gv = getTestCase1();
+<<<<<<< HEAD
 		 
+=======
+		// String[] eL=gv.geteL();
+>>>>>>> origin/master
 		Map<String, Integer> eIL = gv.geteIL();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
 
+<<<<<<< HEAD
 		 
 		Map<String, Integer> sIL = gv.getsIL();
 	 
 
 		int[] freq = gv.getFreq();
 		 
+=======
+		// String[] sL=gv.getsL();
+		Map<String, Integer> sIL = gv.getsIL();
+		// int[][] sAL=gv.getsAL();
+		// int[][] sIM=gv.getsIM();
+
+		int[] freq = gv.getFreq();
+		// int[] card=gv.getCard();
+
+		// int curEleCount=gv.getCurEleCount();
+>>>>>>> origin/master
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
