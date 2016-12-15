@@ -3,15 +3,15 @@ package au.edu.cdu.semiexact.util;
  
 import java.util.Map;
 
-public class GlobalVariable <T>{
-	T[] eL;
-	Map<T, Integer> eIL;
+public class GlobalVariable <ET,ST>{
+	ET[] eL;
+	Map<ET, Integer> eIL;
 	int[][] eAL;
 	int[][] eIM;
 	int[] freq;
 
-	T[] sL;
-	Map<T, Integer> sIL;
+	ST[] sL;
+	Map<ST, Integer> sIL;
 	int[][] sAL;
 	int[][] sIM;
 	int[] card;
@@ -31,16 +31,16 @@ public class GlobalVariable <T>{
 	public void setCurSetCount(int curSetCount) {
 		this.curSetCount = curSetCount;
 	}
-	public T[] geteL() {
+	public ET[] geteL() {
 		return eL;
 	}
-	public void seteL(T[] eL) {
+	public void seteL(ET[] eL) {
 		this.eL = eL;
 	}
-	public Map<T, Integer> geteIL() {
+	public Map<ET, Integer> geteIL() {
 		return eIL;
 	}
-	public void seteIL(Map<T, Integer> eIL) {
+	public void seteIL(Map<ET, Integer> eIL) {
 		this.eIL = eIL;
 	}
 	public int[][] geteAL() {
@@ -61,16 +61,16 @@ public class GlobalVariable <T>{
 	public void setFreq(int[] freq) {
 		this.freq = freq;
 	}
-	public T[] getsL() {
+	public ST[] getsL() {
 		return sL;
 	}
-	public void setsL(T[] sL) {
+	public void setsL(ST[] sL) {
 		this.sL = sL;
 	}
-	public Map<T, Integer> getsIL() {
+	public Map<ST, Integer> getsIL() {
 		return sIL;
 	}
-	public void setsIL(Map<T, Integer> sIL) {
+	public void setsIL(Map<ST, Integer> sIL) {
 		this.sIL = sIL;
 	}
 	public int[][] getsAL() {

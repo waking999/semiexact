@@ -1,55 +1,37 @@
 package au.edu.cdu.semiexact.io;
 
-<<<<<<< HEAD
-import java.io.FileNotFoundException;
-=======
->>>>>>> origin/master
+ 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-<<<<<<< HEAD
-import java.util.Arrays;
 import java.util.List;
 
-public class FileOperation {
-	private static final String BLANK = " ";
-	
-	public static void readGraph(String filePath) throws FileNotFoundException, IOException{
-=======
-import java.util.List;
-
+import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.Util;
 
-public class FileOperation {
+public class FileOperation <ET,ST> {
 	private static final String BLANK = " ";
 
-	public static GlobalVariable retriveProblemInfoByEdgePair(String filePath) throws IOException  {
->>>>>>> origin/master
+	public GlobalVariable<ET,ST> retriveProblemInfoByEdgePair(String filePath) throws IOException  {
+ 
 		Path path = Paths.get(filePath);
 		List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
 		String line0 = lines.get(0);
 		String[] line0Array = line0.split(BLANK);
 		String numOfVerStr = line0Array[0];
-<<<<<<< HEAD
+ 
 		//String numOfEdStr = line0Array[1];
 		
 		int numOfVer = Integer.parseInt(numOfVerStr);
 		//int numOfEd= Integer.parseInt(numOfEdStr);
 		 
 		
-		for(int i=0;i<=numOfVer;i++){
-			
-		}
-		
-		
-		int linesSize = lines.size();
-		for (int i = 1; i < linesSize; i++) {
-			 
-		}
-=======
-		int numOfVer = Integer.parseInt(numOfVerStr);
+		 
+		 
+ 
+		 
 
 		int mallocsize = numOfVer + 1;
 
@@ -145,28 +127,28 @@ public class FileOperation {
 			first[i]=0;
 		}
 		
-		GlobalVariable gv=new GlobalVariable();
-		gv.setEal(eal);
-		gv.setEil(eil);
-		gv.setEim(eim);
-		gv.setEl(el);
-		gv.setFirst(first);
-		gv.setLabelType(labelType);
-		gv.setLabelValue(labelValue);
-		gv.setMate(mate);
-		gv.setOc(oc);
-		gv.setOf(of);
-		gv.setSal(sal);
-		gv.setSil(sil);
-		gv.setSim(sim);
-		gv.setSl(sl);
-		
-		gv.setE(numOfVer);
-		gv.setS(numOfVer);
-		gv.setBestSolCount(numOfVer);
-		gv.setSolCount(0);
+		GlobalVariable<ET,ST> gv=new GlobalVariable<ET,ST>();
+//		gv.setEal(eal);
+//		gv.setEil(eil);
+//		gv.setEim(eim);
+//		gv.setEl(el);
+//		gv.setFirst(first);
+//		gv.setLabelType(labelType);
+//		gv.setLabelValue(labelValue);
+//		gv.setMate(mate);
+//		gv.setOc(oc);
+//		gv.setOf(of);
+//		gv.setSal(sal);
+//		gv.setSil(sil);
+//		gv.setSim(sim);
+//		gv.setSl(sl);
+//		
+//		gv.setE(numOfVer);
+//		gv.setS(numOfVer);
+//		gv.setBestSolCount(numOfVer);
+//		gv.setSolCount(0);
 		return gv;
 
->>>>>>> origin/master
+ 
 	}
 }
