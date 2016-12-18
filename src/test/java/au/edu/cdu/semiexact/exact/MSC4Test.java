@@ -3,18 +3,23 @@ package au.edu.cdu.semiexact.exact;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
 import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.LogUtil;
 
 /**
  * 
  * @author kwang1 1. convert Faisal's c code into java format
  */
 public class MSC4Test {
+	private static Logger log = LogUtil.getLogger(MSC4Test.class);
+
+	private static final String FUNCTION_SEP = "***********************************************************";
 	private static final int IMPOSSIBLE_VALUE = -1;
 
 	private GlobalVariable<String, String> getTestCase1() {
@@ -79,9 +84,7 @@ public class MSC4Test {
 	@Ignore
 	@Test
 	public void testDecreaseElementFrequency() {
-		System.out.println(
-				"****************************************************************************************************");
-
+		log.debug(FUNCTION_SEP);
 		GlobalVariable<String, String> gv = getTestCase1();
 		TestUtil.printStatus(gv);
 
@@ -141,8 +144,7 @@ public class MSC4Test {
 	@Ignore
 	@Test
 	public void testDeleteSet() {
-		System.out.println(
-				"****************************************************************************************************");
+		log.debug(FUNCTION_SEP);
 		GlobalVariable<String, String> gv = getTestCase1();
 		TestUtil.printStatus(gv);
 
@@ -195,8 +197,7 @@ public class MSC4Test {
 	@Ignore
 	@Test
 	public void testDecreaseSetCardinality() {
-		System.out.println(
-				"****************************************************************************************************");
+		log.debug(FUNCTION_SEP);
 		GlobalVariable<String, String> gv = getTestCase1();
 		TestUtil.printStatus(gv);
 
@@ -254,18 +255,15 @@ public class MSC4Test {
 	@Ignore
 	@Test
 	public void testDeleteElement() {
-		System.out.println(
-				"****************************************************************************************************");
+		log.debug(FUNCTION_SEP);
 		GlobalVariable<String, String> gv = getTestCase1();
 		TestUtil.printStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
 		String eToDel = "e";
-		String sFrom = "Se";
 
 		int[] eIL = gv.geteIL();
-		int sFromIdx = gv.getsLIL().get(sFrom);
 
 		int eActCount = gv.geteActCount();
 		Map<String, Integer> eLIL = gv.geteLIL();
@@ -273,7 +271,7 @@ public class MSC4Test {
 		int eToDelIdx = eLIL.get(eToDel);
 		int eToExchIdx = eIL[eActCount - 1];
 
-		msc.deleteElement(gv, eToDelIdx, sFromIdx);
+		msc.deleteElement(gv, eToDelIdx);
 		TestUtil.printStatus(gv);
 
 		Assert.assertEquals(eActCount - 1, gv.geteActCount());
@@ -289,8 +287,6 @@ public class MSC4Test {
 		Assert.assertEquals(eToDelIdx, eIL[eToExchIdx]);
 
 		eToDel = "a";
-		sFrom = "Sb";
-		sFromIdx = gv.getsLIL().get(sFrom);
 
 		eActCount = gv.geteActCount();
 		eLIL = gv.geteLIL();
@@ -298,7 +294,7 @@ public class MSC4Test {
 		eToDelIdx = eLIL.get(eToDel);
 		eToExchIdx = eIL[eActCount - 1];
 
-		msc.deleteElement(gv, eToDelIdx, sFromIdx);
+		msc.deleteElement(gv, eToDelIdx);
 		TestUtil.printStatus(gv);
 
 		Assert.assertEquals(eActCount - 1, gv.geteActCount());
@@ -315,10 +311,10 @@ public class MSC4Test {
 
 	}
 
+	@Ignore
 	@Test
 	public void testAddSetToCover() {
-		System.out.println(
-				"****************************************************************************************************");
+		log.debug(FUNCTION_SEP);
 		GlobalVariable<String, String> gv = getTestCase1();
 		TestUtil.printStatus(gv);
 
@@ -326,16 +322,236 @@ public class MSC4Test {
 
 		Map<String, Integer> sLIL = gv.getsLIL();
 
-		String sToAdd = "Se";
+		String sToAdd = "Se"; 
+		int sActCount = gv.getsActCount(); 
+		int sToAddIdx = sLIL.get(sToAdd); 
+		msc.addSetToCover(gv, sToAddIdx);
+		TestUtil.printStatus(gv);
+		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
-		int sActCount = gv.getsActCount();
-
-		int sToAddIdx = sLIL.get(sToAdd);
-
+		sToAdd = "Sa"; 
+		sActCount = gv.getsActCount(); 
+		sToAddIdx = sLIL.get(sToAdd); 
 		msc.addSetToCover(gv, sToAddIdx);
 		TestUtil.printStatus(gv);
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
 	}
 
+	@Ignore
+	@Test
+	public void testAProcessManuallyByPersonSimulation() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		Map<String, Integer> sLIL = gv.getsLIL();
+
+		// 1. delete sf
+		String s = "Sf";
+		int sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		// 2. add se
+		s = "Se";
+		sIdx = sLIL.get(s);
+		msc.addSetToCover(gv, sIdx);
+		TestUtil.printStatus(gv);
+		// 3. delete sb
+		s = "Sb";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		// 4. delete sc
+		s = "Sc";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		// 5. delete sd
+		s = "Sd";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		// 6. add sa
+		s = "Sa";
+		sIdx = sLIL.get(s);
+		msc.addSetToCover(gv, sIdx);
+		TestUtil.printStatus(gv);
+	}
+
+	@Ignore
+	@Test
+	public void testSelectSet() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
+
+		Map<String, Integer> sLIL = gv.getsLIL();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		int sIdx = sLIL.get("Sd"); 
+		int selectSetIdx = msc.selectSet(gv);
+		Assert.assertEquals(sIdx, selectSetIdx);
+
+		//  delete sf
+		String s = "Sf";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		//   add se
+		s = "Se";
+		sIdx = sLIL.get(s);
+		msc.addSetToCover(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		sIdx = sLIL.get("Sa"); 
+		selectSetIdx = msc.selectSet(gv);
+		Assert.assertEquals(sIdx, selectSetIdx);
+
+	}
+
+	@Ignore
+	@Test
+	public void testGetSetOfFrequencyOneElement() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
+
+		Map<String, Integer> sLIL = gv.getsLIL();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		//  delete sf
+		String s = "Sf";
+		int sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		sIdx = sLIL.get("Se"); 
+		int selectSetIdx = msc.getSetOfFrequencyOneElement(gv);
+		Assert.assertEquals(sIdx, selectSetIdx);
+
+		//  add se
+		s = "Se";
+		sIdx = sLIL.get(s);
+		msc.addSetToCover(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		//   delete sb
+		s = "Sb";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		// delete sc
+		s = "Sc";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+		//   delete sd
+		s = "Sd";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		sIdx = sLIL.get("Sa"); 
+		selectSetIdx = msc.getSetOfFrequencyOneElement(gv);
+		Assert.assertEquals(sIdx, selectSetIdx);
+	}
+
+	@Ignore
+	@Test
+	public void testIs1Subset2() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
+		Map<String, Integer> sLIL = gv.getsLIL();
+		
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		String s1 = "Sf";
+		String s2 = "Se"; 
+		int s1Idx = sLIL.get(s1);
+		int s2Idx = sLIL.get(s2); 
+		Assert.assertTrue(msc.is1Subset2(gv, s1Idx, s2Idx));
+		Assert.assertFalse(msc.is1Subset2(gv, s2Idx, s1Idx));
+
+		//   delete sf
+		String s = "Sf";
+		int sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		//   add se
+		s = "Se";
+		sIdx = sLIL.get(s);
+		msc.addSetToCover(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		s1 = "Sb";
+		s2 = "Sa"; 
+		s1Idx = sLIL.get(s1);
+		s2Idx = sLIL.get(s2); 
+		Assert.assertTrue(msc.is1Subset2(gv, s1Idx, s2Idx));
+		Assert.assertFalse(msc.is1Subset2(gv, s2Idx, s1Idx));
+
+	}
+
+	@Ignore
+	@Test
+	public void testGetSubset() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		String s1 = "Sf";
+		Map<String, Integer> sLIL = gv.getsLIL(); 
+		int s1Idx = sLIL.get(s1);
+		int subSetIdx = msc.getSubset(gv);
+		Assert.assertEquals(s1Idx, subSetIdx);
+
+		//  delete sf
+		String s = "Sf";
+		int sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		//  add se
+		s = "Se";
+		sIdx = sLIL.get(s);
+		msc.addSetToCover(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		s1 = "Sb";
+		s1Idx = sLIL.get(s1); 
+		subSetIdx = msc.getSubset(gv);
+		Assert.assertEquals(s1Idx, subSetIdx);
+		
+		// delete sb
+		s = "Sb";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		s1 = "Sd";
+		s1Idx = sLIL.get(s1);
+		subSetIdx = msc.getSubset(gv);
+		Assert.assertEquals(s1Idx, subSetIdx);
+
+		// delete sd
+		s = "Sd";
+		sIdx = sLIL.get(s);
+		msc.deleteSet(gv, sIdx);
+		TestUtil.printStatus(gv);
+
+		s1 = "Sc";
+		s1Idx = sLIL.get(s1);
+		subSetIdx = msc.getSubset(gv);
+		Assert.assertEquals(s1Idx, subSetIdx);
+
+	}
 }

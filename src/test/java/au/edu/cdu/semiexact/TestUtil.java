@@ -9,6 +9,8 @@ import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.Util;
 
 public class TestUtil {
+	//private static Logger log = LogUtil.getLogger(TestUtil.class);
+
 	public static List<List<Integer>> simpleTestCase1() {
 		int[] l1 = { 1, 2, 3 };
 		int[] l2 = { 1, 2, 4 };

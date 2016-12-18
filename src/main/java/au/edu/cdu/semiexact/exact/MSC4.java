@@ -1,6 +1,6 @@
 package au.edu.cdu.semiexact.exact;
 
-import java.util.Map;
+import org.junit.Test;
 
 import au.edu.cdu.semiexact.util.GlobalVariable;
 
@@ -9,6 +9,8 @@ import au.edu.cdu.semiexact.util.GlobalVariable;
  * @author kwang1 1. convert Faisal's c code into java format
  */
 public class MSC4<ET, ST> {
+	private static final int IMPOSSIBLE_VALUE = -1;
+
 	/**
 	 * delete the edge from a vertex of index u to a vertex of index v
 	 * 
@@ -154,7 +156,15 @@ public class MSC4<ET, ST> {
 		gv.setsIM(sIM);
 	}
 
-	protected void deleteElement(GlobalVariable<ET, ST> gv, int eToDelIdx, int sFrom) {
+	/**
+	 * delete element
+	 * 
+	 * @param gv,
+	 *            global variable
+	 * @param eToDelIdx,
+	 *            the index of the element to be deleted
+	 */
+	protected void deleteElement(GlobalVariable<ET, ST> gv, int eToDelIdx) {
 		int[] freq = gv.getFreq();
 		int[] card = gv.getCard();
 
@@ -179,9 +189,12 @@ public class MSC4<ET, ST> {
 	}
 
 	/**
+	 * add a set to solution
 	 * 
-	 * @param gv
-	 * @param sToAddIdx
+	 * @param gv,
+	 *            global variable
+	 * @param sToAddIdx,
+	 *            the index of the set to be added
 	 */
 	protected void addSetToCover(GlobalVariable<ET, ST> gv, int sToAddIdx) {
 		int[] card = gv.getCard();
@@ -189,7 +202,7 @@ public class MSC4<ET, ST> {
 		int sActCount = gv.getsActCount();
 		int[] sIL = gv.getsIL();
 
-		int[][] sAL = gv.geteAL();
+		int[][] sAL = gv.getsAL();
 
 		int d = card[sToAddIdx];
 		int last = sL[sActCount - 1];
@@ -201,7 +214,7 @@ public class MSC4<ET, ST> {
 
 		for (int j = d - 1; j >= 0; j--) {
 			int e = sAL[sToAddIdx][j];
-			deleteElement(gv, e, sToAddIdx);
+			deleteElement(gv, e);
 
 		}
 		card[sToAddIdx] = 0;
@@ -211,6 +224,162 @@ public class MSC4<ET, ST> {
 		gv.setsIL(sIL);
 		gv.setsAL(sAL);
 		gv.setsActCount(sActCount - 1);
+	}
+
+	/**
+	 * select a set of the maximum cardinality
+	 * 
+	 * @param gv,
+	 *            global variables
+	 * @return the set index of the maximum cardinality
+	 */
+	protected int selectSet(GlobalVariable<ET, ST> gv) {
+
+		int maxCard = IMPOSSIBLE_VALUE;
+		int index = IMPOSSIBLE_VALUE;
+
+		int sActCount = gv.getsActCount();
+
+		int[] sL = gv.getsL();
+		int[] card = gv.getCard();
+
+		for (int i = 0; i < sActCount; i++) {
+			int j = sL[i];
+			if (card[j] > maxCard) {
+				index = j;
+				maxCard = card[j];
+			}
+			if (card[j] >= maxCard && j < index) {
+				index = j;
+				maxCard = card[j];
+			}
+		}
+
+		return index;
+	}
+
+	/**
+	 * get the set index which contains an element of frequency one
+	 * 
+	 * @param gv,
+	 *            global variables
+	 * @return set index
+	 */
+	protected int getSetOfFrequencyOneElement(GlobalVariable<ET, ST> gv) {
+		int eActCount = gv.geteActCount();
+		int[] freq = gv.getFreq();
+		int[] eL = gv.geteL();
+
+		int[][] eAL = gv.geteAL();
+
+		for (int i = 0; i < eActCount; i++) {
+			int j = eL[i];
+			if (freq[j] == 1) {
+				return eAL[j][0];
+			}
+		}
+
+		return IMPOSSIBLE_VALUE;
+	}
+
+	/**
+	 * if the set (with limited setSize) contains the element
+	 * 
+	 * @param set,
+	 *            the set
+	 * @param setSize,
+	 *            limit the set size
+	 * @param ele,
+	 *            the element
+	 * @return true: the set contains the element; false: otherwise
+	 */
+	private boolean setContiansEle(int[] set, int setSize, int ele) {
+		for (int i = 0; i < setSize; i++) {
+			if (ele == set[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * if set1 is a subset of set2
+	 * 
+	 * @param gv,
+	 *            global variables
+	 * @param s1Idx,
+	 *            set1 index
+	 * @param s2Idx,
+	 *            set2 index
+	 * @return true: set1 is a subset of set2; false: otherwise
+	 */
+	protected boolean is1Subset2(GlobalVariable<ET, ST> gv, int s1Idx, int s2Idx) {
+		if (s1Idx == s2Idx) {
+			return false;
+		}
+
+		int[] card = gv.getCard();
+		int s1Card = card[s1Idx];
+		int s2Card = card[s2Idx];
+
+		if (s1Card == 0 || s2Card == 0 || s1Card > s2Card) {
+			return false;
+		}
+
+		int[][] sAL = gv.getsAL();
+		int[] s1Array = sAL[s1Idx];
+		int[] s2Array = sAL[s2Idx];
+
+		int count = 0;
+		for (int i = 0; i < s1Card; i++) {
+			int tmp = s1Array[i];
+			if (setContiansEle(s2Array, s2Card, tmp)) {
+				count++;
+			}
+		}
+
+		if (count == s1Card) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
+	 * if a set is a subset of another set, return the former set index
+	 * 
+	 * @param gv,
+	 *            global variable
+	 * @return a subset of another set
+	 */
+	protected int getSubset(GlobalVariable<ET, ST> gv) {
+		int sActCount = gv.geteActCount();
+		int[] sL = gv.getsL();
+		int[] card = gv.getCard();
+
+		for (int i = 0; i < sActCount - 1; i++) {
+			int isL = sL[i];
+			if (card[isL] <= 0) {
+				continue;
+			}
+			for (int j = i + 1; j < sActCount; j++) {
+
+				int jsL = sL[j];
+				if (card[jsL] <= 0) {
+					continue;
+				}
+
+				if (is1Subset2(gv, isL, jsL)) {
+					return isL;
+				} else if (is1Subset2(gv, jsL, isL)) {
+					return jsL;
+				}
+
+			}
+		}
+
+		return IMPOSSIBLE_VALUE;
 	}
 
 }
