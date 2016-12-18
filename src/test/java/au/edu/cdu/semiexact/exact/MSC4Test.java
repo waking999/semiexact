@@ -4,23 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import au.edu.cdu.semiexact.TestUtil;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 
+/**
+ * 
+ * @author kwang1 1. convert Faisal's c code into java format
+ */
 public class MSC4Test {
 	private static final int IMPOSSIBLE_VALUE = -1;
 
 	private GlobalVariable<String, String> getTestCase1() {
-		String[] eL = { "a", "b", "c", "d", "e", "f" };
+		int eActCount = 6;
 
-		Map<String, Integer> eIL = new HashMap<String, Integer>();
-		eIL.put("a", 0);
-		eIL.put("b", 1);
-		eIL.put("c", 2);
-		eIL.put("d", 3);
-		eIL.put("e", 4);
-		eIL.put("f", 5);
+		Map<String, Integer> eLIL = new HashMap<String, Integer>();
+		eLIL.put("a", 0);
+		eLIL.put("b", 1);
+		eLIL.put("c", 2);
+		eLIL.put("d", 3);
+		eLIL.put("e", 4);
+		eLIL.put("f", 5);
+		int[] eL = { 0, 1, 2, 3, 4, 5 };
+		int[] eIL = { 0, 1, 2, 3, 4, 5 };
+		int[] freq = { 3, 3, 3, 4, 3, 2 };
 		int[][] eAL = { { 0, 1, 2 }, { 0, 1, 3 }, { 0, 2, 3 }, { 1, 2, 3, 4 }, { 3, 4, 5 }, { 4, 5 } };
 		int[][] eIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
 				{ 1, 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
@@ -28,16 +37,18 @@ public class MSC4Test {
 				{ IMPOSSIBLE_VALUE, 2, 2, 2, 0, IMPOSSIBLE_VALUE },
 				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
 				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
-		int[] freq = { 3, 3, 3, 4, 3, 2 };
 
-		String[] sL = { "Sa", "Sb", "Sc", "Sd", "Se", "Sf" };
-		Map<String, Integer> sIL = new HashMap<String, Integer>();
-		sIL.put("Sa", 0);
-		sIL.put("Sb", 1);
-		sIL.put("Sc", 2);
-		sIL.put("Sd", 3);
-		sIL.put("Se", 4);
-		sIL.put("Sf", 5);
+		int sActCount = 6;
+		Map<String, Integer> sLIL = new HashMap<String, Integer>();
+		sLIL.put("Sa", 0);
+		sLIL.put("Sb", 1);
+		sLIL.put("Sc", 2);
+		sLIL.put("Sd", 3);
+		sLIL.put("Se", 4);
+		sLIL.put("Sf", 5);
+		int[] sL = { 0, 1, 2, 3, 4, 5 };
+		int[] sIL = { 0, 1, 2, 3, 4, 5 };
+		int[] card = { 3, 3, 3, 4, 3, 2 };
 		int[][] sAL = { { 0, 1, 2 }, { 0, 1, 3 }, { 0, 2, 3 }, { 1, 2, 3, 4 }, { 3, 4, 5 }, { 4, 5 } };
 		int[][] sIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
 				{ 1, 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
@@ -46,38 +57,39 @@ public class MSC4Test {
 				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
 				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
 
-		int[] card = { 3, 3, 3, 4, 3, 2 };
-
-		int curEleCount = 6;
-		int curSetCount = 6;
-
 		GlobalVariable<String, String> gv = new GlobalVariable<String, String>();
 		gv.setCard(card);
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
 		gv.seteIM(eIM);
-		gv.seteL(eL);
+		gv.seteLIL(eLIL);
 		gv.setFreq(freq);
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
 		gv.setsIM(sIM);
+		gv.setsLIL(sLIL);
+		gv.seteActCount(eActCount);
+		gv.setsActCount(sActCount);
 		gv.setsL(sL);
-		gv.setCurEleCount(curEleCount);
-		gv.setCurSetCount(curSetCount);
+		gv.seteL(eL);
 
 		return gv;
 	}
 
+	@Ignore
 	@Test
 	public void testDecreaseElementFrequency() {
+		System.out.println(
+				"****************************************************************************************************");
 
 		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
 
-		Map<String, Integer> eIL = gv.geteIL();
+		Map<String, Integer> eLIL = gv.geteLIL();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
 
-		Map<String, Integer> sIL = gv.getsIL();
+		Map<String, Integer> sLIL = gv.getsLIL();
 
 		int[] freq = gv.getFreq();
 
@@ -86,8 +98,8 @@ public class MSC4Test {
 		String eToDec = "d";
 		String sToDel = "Se";
 
-		int eToDecIdx = eIL.get(eToDec);
-		int sToDelIdx = sIL.get(sToDel);
+		int eToDecIdx = eLIL.get(eToDec);
+		int sToDelIdx = sLIL.get(sToDel);
 
 		int freqB4 = freq[eToDecIdx];
 		int eIMSToDelCellValB4 = eIM[sToDelIdx][eToDecIdx];
@@ -96,6 +108,7 @@ public class MSC4Test {
 		int eIMCell2B4 = eIM[eAL[eToDecIdx][freqB4 - 1]][eToDecIdx];
 
 		msc.decreaseElementFrequency(gv, eToDecIdx, sToDelIdx);
+		TestUtil.printStatus(gv);
 
 		Assert.assertEquals(eAL[eToDecIdx][eIMSToDelCellValB4], sToExchIdx);
 		Assert.assertEquals(eAL[eToDecIdx][freqB4 - 1], sToDelIdx);
@@ -106,8 +119,8 @@ public class MSC4Test {
 		eToDec = "f";
 		sToDel = "Se";
 
-		eToDecIdx = eIL.get(eToDec);
-		sToDelIdx = sIL.get(sToDel);
+		eToDecIdx = eLIL.get(eToDec);
+		sToDelIdx = sLIL.get(sToDel);
 
 		freqB4 = freq[eToDecIdx];
 		eIMSToDelCellValB4 = eIM[sToDelIdx][eToDecIdx];
@@ -115,6 +128,7 @@ public class MSC4Test {
 
 		eIMCell2B4 = eIM[eAL[eToDecIdx][freqB4 - 1]][eToDecIdx];
 		msc.decreaseElementFrequency(gv, eToDecIdx, sToDelIdx);
+		TestUtil.printStatus(gv);
 
 		Assert.assertEquals(gv.geteAL()[eToDecIdx][eIMSToDelCellValB4], sToExchIdx);
 		Assert.assertEquals(gv.geteAL()[eToDecIdx][freqB4 - 1], sToDelIdx);
@@ -124,68 +138,73 @@ public class MSC4Test {
 
 	}
 
+	@Ignore
 	@Test
 	public void testDeleteSet() {
+		System.out.println(
+				"****************************************************************************************************");
 		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
-		String sToDel = "Sf";
+		String sToDel = "Sd";
 
-		int curSetCount = gv.getCurSetCount();
-		Map<String, Integer> sIL = gv.getsIL();
-		String[] sL = gv.getsL();
-		int sToDelIdx = sIL.get(sToDel);
-		String sToExch = sL[curSetCount - 1];
+		int sActCount = gv.getsActCount();
+		Map<String, Integer> sLIL = gv.getsLIL();
+		int[] sIL = gv.getsIL();
+		int sToDelIdx = sLIL.get(sToDel);
+		int sToExchIdx = sIL[sActCount - 1];
 
-		msc.deleteSet(gv, sToDel);
+		msc.deleteSet(gv, sToDelIdx);
+		TestUtil.printStatus(gv);
 
-		Assert.assertEquals(curSetCount - 1, gv.getCurSetCount());
+		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
-		sL = gv.getsL();
 		sIL = gv.getsIL();
 
 		Assert.assertEquals(0, gv.getCard()[sToDelIdx]);
-		Assert.assertEquals(sToDel, sL[curSetCount - 1]);
-		Assert.assertEquals(sToExch, sL[sToDelIdx]);
-		Assert.assertEquals(new Integer(curSetCount - 1), sIL.get(sToDel));
-		Assert.assertEquals(new Integer(sToDelIdx), sIL.get(sToExch));
+		Assert.assertEquals(sToDelIdx, sIL[sActCount - 1]);
+		Assert.assertEquals(sToExchIdx, sIL[sToDelIdx]);
+		Assert.assertEquals(sActCount - 1, sIL[sToDelIdx]);
+		Assert.assertEquals(sToDelIdx, sIL[sToExchIdx]);
 
-		sToDel = "Se";
+		sToDel = "Sa";
 
-		curSetCount = gv.getCurSetCount();
+		sActCount = gv.getsActCount();
 		sIL = gv.getsIL();
-		sL = gv.getsL();
-		sToDelIdx = sIL.get(sToDel);
-		sToExch = sL[curSetCount - 1];
 
-		msc.deleteSet(gv, sToDel);
+		sToDelIdx = sLIL.get(sToDel);
+		sToExchIdx = sIL[sActCount - 1];
 
-		Assert.assertEquals(curSetCount - 1, gv.getCurSetCount());
+		msc.deleteSet(gv, sToDelIdx);
+		TestUtil.printStatus(gv);
 
-		sL = gv.getsL();
+		Assert.assertEquals(sActCount - 1, gv.getsActCount());
+
 		sIL = gv.getsIL();
 
 		Assert.assertEquals(0, gv.getCard()[sToDelIdx]);
-		Assert.assertEquals(sToDel, sL[curSetCount - 1]);
-		Assert.assertEquals(sToExch, sL[sToDelIdx]);
-		Assert.assertEquals(new Integer(curSetCount - 1), sIL.get(sToDel));
-		Assert.assertEquals(new Integer(sToDelIdx), sIL.get(sToExch));
+		Assert.assertEquals(sToDelIdx, sIL[sActCount - 1]);
+		Assert.assertEquals(sToExchIdx, sIL[sToDelIdx]);
+		Assert.assertEquals(sActCount - 1, sIL[sToDelIdx]);
+		Assert.assertEquals(sToDelIdx, sIL[sToExchIdx]);
 
 	}
-	
-	
 
+	@Ignore
 	@Test
 	public void testDecreaseSetCardinality() {
-
+		System.out.println(
+				"****************************************************************************************************");
 		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
 
-		Map<String, Integer> sIL = gv.getsIL();
+		Map<String, Integer> sLIL = gv.getsLIL();
 		int[][] sAL = gv.getsAL();
 		int[][] sIM = gv.getsIM();
 
-		Map<String, Integer> eIL = gv.geteIL();
+		Map<String, Integer> eLIL = gv.geteLIL();
 
 		int[] card = gv.getCard();
 
@@ -194,8 +213,8 @@ public class MSC4Test {
 		String sToDec = "Se";
 		String eToDel = "d";
 
-		int sToDecIdx = sIL.get(sToDec);
-		int eToDelIdx = eIL.get(eToDel);
+		int sToDecIdx = sLIL.get(sToDec);
+		int eToDelIdx = eLIL.get(eToDel);
 
 		int cardB4 = card[sToDecIdx];
 		int sIMEToDelCellValB4 = sIM[eToDelIdx][sToDecIdx];
@@ -204,7 +223,7 @@ public class MSC4Test {
 		int sIMCell2B4 = sIM[sAL[sToDecIdx][cardB4 - 1]][sToDecIdx];
 
 		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx);
-
+		TestUtil.printStatus(gv);
 		Assert.assertEquals(sAL[sToDecIdx][sIMEToDelCellValB4], eToExchIdx);
 		Assert.assertEquals(sAL[sToDecIdx][cardB4 - 1], eToDelIdx);
 		Assert.assertEquals(sIM[eToExchIdx][sToDecIdx], sIMEToDelCellValB4);
@@ -212,10 +231,10 @@ public class MSC4Test {
 		Assert.assertEquals(cardB4 - 1, card[sToDecIdx]);
 
 		sToDec = "Se";
-		eToDel = "d";
+		eToDel = "f";
 
-		sToDecIdx = sIL.get(sToDec);
-		eToDelIdx = eIL.get(eToDel);
+		sToDecIdx = sLIL.get(sToDec);
+		eToDelIdx = eLIL.get(eToDel);
 
 		cardB4 = card[sToDecIdx];
 		sIMEToDelCellValB4 = sIM[eToDelIdx][sToDecIdx];
@@ -223,7 +242,7 @@ public class MSC4Test {
 
 		sIMCell2B4 = sIM[sAL[sToDecIdx][cardB4 - 1]][sToDecIdx];
 		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx);
-
+		TestUtil.printStatus(gv);
 		Assert.assertEquals(gv.getsAL()[sToDecIdx][sIMEToDelCellValB4], eToExchIdx);
 		Assert.assertEquals(gv.getsAL()[sToDecIdx][cardB4 - 1], eToDelIdx);
 		Assert.assertEquals(gv.getsIM()[eToExchIdx][sToDecIdx], sIMEToDelCellValB4);
@@ -231,56 +250,92 @@ public class MSC4Test {
 		Assert.assertEquals(cardB4 - 1, gv.getCard()[sToDecIdx]);
 
 	}
-	
+
+	@Ignore
 	@Test
 	public void testDeleteElement() {
+		System.out.println(
+				"****************************************************************************************************");
 		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
 		String eToDel = "e";
+		String sFrom = "Se";
 
-		int curEleCount = gv.getCurEleCount();
-		Map<String, Integer> eIL = gv.geteIL();
-		String[] eL = gv.geteL();
-		int eToDelIdx = eIL.get(eToDel);
-		String eToExch = eL[curEleCount - 1];
+		int[] eIL = gv.geteIL();
+		int sFromIdx = gv.getsLIL().get(sFrom);
 
-		msc.deleteElement(gv, eToDel);
+		int eActCount = gv.geteActCount();
+		Map<String, Integer> eLIL = gv.geteLIL();
 
-		Assert.assertEquals(curEleCount - 1, gv.getCurEleCount());
+		int eToDelIdx = eLIL.get(eToDel);
+		int eToExchIdx = eIL[eActCount - 1];
 
-		eL = gv.geteL();
+		msc.deleteElement(gv, eToDelIdx, sFromIdx);
+		TestUtil.printStatus(gv);
+
+		Assert.assertEquals(eActCount - 1, gv.geteActCount());
+
+		int[] eL = gv.geteL();
 		eIL = gv.geteIL();
+		eLIL = gv.geteLIL();
 
 		Assert.assertEquals(0, gv.getFreq()[eToDelIdx]);
-		Assert.assertEquals(eToDel, eL[curEleCount - 1]);
-		Assert.assertEquals(eToExch, eL[eToDelIdx]);
-		Assert.assertEquals(new Integer(curEleCount - 1), eIL.get(eToDel));
-		Assert.assertEquals(new Integer(eToDelIdx), eIL.get(eToExch));
+		Assert.assertEquals(eToDelIdx, eL[eActCount - 1]);
+		Assert.assertEquals(eToExchIdx, eL[eToDelIdx]);
+		Assert.assertEquals(eActCount - 1, eIL[eToDelIdx]);
+		Assert.assertEquals(eToDelIdx, eIL[eToExchIdx]);
 
-		eToDel = "f";
+		eToDel = "a";
+		sFrom = "Sb";
+		sFromIdx = gv.getsLIL().get(sFrom);
 
-		curEleCount = gv.getCurEleCount();
+		eActCount = gv.geteActCount();
+		eLIL = gv.geteLIL();
 		eIL = gv.geteIL();
-		eL = gv.geteL();
-		eToDelIdx = eIL.get(eToDel);
-		eToExch =eL[curEleCount - 1];
+		eToDelIdx = eLIL.get(eToDel);
+		eToExchIdx = eIL[eActCount - 1];
 
-		msc.deleteElement(gv, eToDel);
+		msc.deleteElement(gv, eToDelIdx, sFromIdx);
+		TestUtil.printStatus(gv);
 
-		Assert.assertEquals(curEleCount - 1, gv.getCurEleCount());
+		Assert.assertEquals(eActCount - 1, gv.geteActCount());
 
 		eL = gv.geteL();
 		eIL = gv.geteIL();
+		eLIL = gv.geteLIL();
 
 		Assert.assertEquals(0, gv.getFreq()[eToDelIdx]);
-		Assert.assertEquals(eToDel, eL[curEleCount - 1]);
-		Assert.assertEquals(eToExch, eL[eToDelIdx]);
-		Assert.assertEquals(new Integer(curEleCount - 1), eIL.get(eToDel));
-		Assert.assertEquals(new Integer(eToDelIdx), eIL.get(eToExch));
+		Assert.assertEquals(eToDelIdx, eL[eActCount - 1]);
+		Assert.assertEquals(eToExchIdx, eL[eToDelIdx]);
+		Assert.assertEquals(eActCount - 1, eIL[eToDelIdx]);
+		Assert.assertEquals(eToDelIdx, eIL[eToExchIdx]);
 
 	}
-	
-	
+
+	@Test
+	public void testAddSetToCover() {
+		System.out.println(
+				"****************************************************************************************************");
+		GlobalVariable<String, String> gv = getTestCase1();
+		TestUtil.printStatus(gv);
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+
+		Map<String, Integer> sLIL = gv.getsLIL();
+
+		String sToAdd = "Se";
+
+		int sActCount = gv.getsActCount();
+
+		int sToAddIdx = sLIL.get(sToAdd);
+
+		msc.addSetToCover(gv, sToAddIdx);
+		TestUtil.printStatus(gv);
+		Assert.assertEquals(sActCount - 1, gv.getsActCount());
+
+	}
+
 }
