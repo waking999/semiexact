@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-	public static final int IMPOSSIBLE_SET_INDEX = -1;
+	 
 
 	/**
 	 * convert an integer array to an integer list
@@ -72,10 +72,10 @@ public class Util {
 	 */
 	public static <T> ExistQualifiedSet existSubset(List<List<T>> s) {
 		if (s == null)
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		int sLen = s.size();
 		if (sLen < 2) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		for (int i = 0; i < sLen; i++) {
 			for (int j = 0; j < sLen; j++) {
@@ -84,15 +84,15 @@ public class Util {
 				}
 			}
 		}
-		return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
 	
 	public static ExistQualifiedSet existSubset(Map<Integer,List<Integer>> map) {
 		if (map == null)
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		int mapLen = map.size();
 		if (mapLen < 2) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		Set<Integer> keySet=map.keySet();
 		for(Integer i:keySet){
@@ -104,7 +104,7 @@ public class Util {
 		}
 		
 		 
-		return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
 
 	/**
@@ -119,11 +119,11 @@ public class Util {
 	 */
 	public static <T> ExistQualifiedSet existUniqueSetForAElement(T u, List<List<T>> s) {
 		if (s == null) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		int sLen = s.size();
 		int count = 0;
-		int containSetIndex = IMPOSSIBLE_SET_INDEX;
+		int containSetIndex = ConstantValue.IMPOSSIBLE_VALUE;
 		for (int i = 0; i < sLen; i++) {
 			List<T> si = s.get(i);
 			if (si.contains(u)) {
@@ -135,7 +135,7 @@ public class Util {
 			}
 		}
 		if (count != 1) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 
 		return new ExistQualifiedSet(true, containSetIndex);
@@ -143,11 +143,11 @@ public class Util {
 	
 	public static  ExistQualifiedSet existUniqueSetForAElement(Integer u, Map<Integer,List<Integer>> map) {
 		if (map == null) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		 
 		int count = 0;
-		int containSetIndex = IMPOSSIBLE_SET_INDEX;
+		int containSetIndex = ConstantValue.IMPOSSIBLE_VALUE;
 		
 		Set<Integer> keySet=map.keySet();
 		
@@ -165,7 +165,7 @@ public class Util {
 		
 		
 		if (count != 1) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 
 		return new ExistQualifiedSet(true, containSetIndex);
@@ -173,10 +173,10 @@ public class Util {
 
 	public static   ExistQualifiedSet existUniqueSetForAElement(List<Integer> uList, Map<Integer,List<Integer>> map) {
 		if (uList == null) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		if (map == null) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		 
 		
@@ -187,7 +187,7 @@ public class Util {
 				return exist;
 			}
 		}
-		return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
 	
 	/**
@@ -203,10 +203,10 @@ public class Util {
 	 */
 	public static <T> ExistQualifiedSet existUniqueSetForAElement(List<T> uList, List<List<T>> s) {
 		if (uList == null) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		if (s == null) {
-			return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		int uLen = uList.size();
 		for (int i = 0; i < uLen; i++) {
@@ -215,7 +215,7 @@ public class Util {
 				return exist;
 			}
 		}
-		return new ExistQualifiedSet(false, IMPOSSIBLE_SET_INDEX);
+		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
 
 	public static <T> List<T> unionSets(Map<T,List<T>> map) {
@@ -439,7 +439,7 @@ public class Util {
 	
 	public static <T> int getMaxCardinalitySetIndex(List<List<T>> s) {
 		if (s == null) {
-			return IMPOSSIBLE_SET_INDEX;
+			return ConstantValue.IMPOSSIBLE_VALUE;
 		}
 
 		int maxCardinality = 0;
@@ -458,11 +458,11 @@ public class Util {
 	
 	public static Integer getMaxCardinalitySetIndex(Map<Integer,List<Integer>> map) {
 		if (map == null) {
-			return IMPOSSIBLE_SET_INDEX;
+			return ConstantValue.IMPOSSIBLE_VALUE;
 		}
 
 		int maxCardinality = 0;
-		int rtnIndex=IMPOSSIBLE_SET_INDEX;
+		int rtnIndex=ConstantValue.IMPOSSIBLE_VALUE;
 
 		Set<Integer> keySet=map.keySet();
 		

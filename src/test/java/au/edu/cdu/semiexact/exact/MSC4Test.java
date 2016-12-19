@@ -1,5 +1,6 @@
 package au.edu.cdu.semiexact.exact;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+import au.edu.cdu.semiexact.io.FileOperation;
+import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
 
@@ -20,7 +23,7 @@ public class MSC4Test {
 	private static Logger log = LogUtil.getLogger(MSC4Test.class);
 
 	private static final String FUNCTION_SEP = "***********************************************************";
-	private static final int IMPOSSIBLE_VALUE = -1;
+	private static final int IMPOSSIBLE_VALUE = ConstantValue.IMPOSSIBLE_VALUE;
 
 	private GlobalVariable<String, String> getTestCase1() {
 		int eActCount = 6;
@@ -322,16 +325,16 @@ public class MSC4Test {
 
 		Map<String, Integer> sLIL = gv.getsLIL();
 
-		String sToAdd = "Se"; 
-		int sActCount = gv.getsActCount(); 
-		int sToAddIdx = sLIL.get(sToAdd); 
+		String sToAdd = "Se";
+		int sActCount = gv.getsActCount();
+		int sToAddIdx = sLIL.get(sToAdd);
 		msc.addSetToCover(gv, sToAddIdx);
 		TestUtil.printStatus(gv);
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
-		sToAdd = "Sa"; 
-		sActCount = gv.getsActCount(); 
-		sToAddIdx = sLIL.get(sToAdd); 
+		sToAdd = "Sa";
+		sActCount = gv.getsActCount();
+		sToAddIdx = sLIL.get(sToAdd);
 		msc.addSetToCover(gv, sToAddIdx);
 		TestUtil.printStatus(gv);
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
@@ -392,22 +395,22 @@ public class MSC4Test {
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
-		int sIdx = sLIL.get("Sd"); 
+		int sIdx = sLIL.get("Sd");
 		int selectSetIdx = msc.selectSet(gv);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
-		//  delete sf
+		// delete sf
 		String s = "Sf";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
 		TestUtil.printStatus(gv);
-		//   add se
+		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
 		TestUtil.printStatus(gv);
 
-		sIdx = sLIL.get("Sa"); 
+		sIdx = sLIL.get("Sa");
 		selectSetIdx = msc.selectSet(gv);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
@@ -424,23 +427,23 @@ public class MSC4Test {
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
-		//  delete sf
+		// delete sf
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
 		TestUtil.printStatus(gv);
 
-		sIdx = sLIL.get("Se"); 
+		sIdx = sLIL.get("Se");
 		int selectSetIdx = msc.getSetOfFrequencyOneElement(gv);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
-		//  add se
+		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
 		TestUtil.printStatus(gv);
 
-		//   delete sb
+		// delete sb
 		s = "Sb";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
@@ -450,13 +453,13 @@ public class MSC4Test {
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
 		TestUtil.printStatus(gv);
-		//   delete sd
+		// delete sd
 		s = "Sd";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
 		TestUtil.printStatus(gv);
 
-		sIdx = sLIL.get("Sa"); 
+		sIdx = sLIL.get("Sa");
 		selectSetIdx = msc.getSetOfFrequencyOneElement(gv);
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
@@ -468,32 +471,32 @@ public class MSC4Test {
 		GlobalVariable<String, String> gv = getTestCase1();
 		TestUtil.printStatus(gv);
 		Map<String, Integer> sLIL = gv.getsLIL();
-		
+
 		MSC4<String, String> msc = new MSC4<String, String>();
 
 		String s1 = "Sf";
-		String s2 = "Se"; 
+		String s2 = "Se";
 		int s1Idx = sLIL.get(s1);
-		int s2Idx = sLIL.get(s2); 
+		int s2Idx = sLIL.get(s2);
 		Assert.assertTrue(msc.is1Subset2(gv, s1Idx, s2Idx));
 		Assert.assertFalse(msc.is1Subset2(gv, s2Idx, s1Idx));
 
-		//   delete sf
+		// delete sf
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
 		TestUtil.printStatus(gv);
 
-		//   add se
+		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
 		TestUtil.printStatus(gv);
 
 		s1 = "Sb";
-		s2 = "Sa"; 
+		s2 = "Sa";
 		s1Idx = sLIL.get(s1);
-		s2Idx = sLIL.get(s2); 
+		s2Idx = sLIL.get(s2);
 		Assert.assertTrue(msc.is1Subset2(gv, s1Idx, s2Idx));
 		Assert.assertFalse(msc.is1Subset2(gv, s2Idx, s1Idx));
 
@@ -509,28 +512,28 @@ public class MSC4Test {
 		MSC4<String, String> msc = new MSC4<String, String>();
 
 		String s1 = "Sf";
-		Map<String, Integer> sLIL = gv.getsLIL(); 
+		Map<String, Integer> sLIL = gv.getsLIL();
 		int s1Idx = sLIL.get(s1);
 		int subSetIdx = msc.getSubset(gv);
 		Assert.assertEquals(s1Idx, subSetIdx);
 
-		//  delete sf
+		// delete sf
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
 		TestUtil.printStatus(gv);
 
-		//  add se
+		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
 		TestUtil.printStatus(gv);
 
 		s1 = "Sb";
-		s1Idx = sLIL.get(s1); 
+		s1Idx = sLIL.get(s1);
 		subSetIdx = msc.getSubset(gv);
 		Assert.assertEquals(s1Idx, subSetIdx);
-		
+
 		// delete sb
 		s = "Sb";
 		sIdx = sLIL.get(s);
@@ -553,5 +556,15 @@ public class MSC4Test {
 		subSetIdx = msc.getSubset(gv);
 		Assert.assertEquals(s1Idx, subSetIdx);
 
+	}
+
+	@Test
+	public void testReadGraph() throws IOException {
+		String fileName = "/Users/kwang/Documents/git/semiexact/src/test/resources/sample.txt";
+
+		FileOperation fo = new FileOperation();
+
+		GlobalVariable<String, String> gv = fo.readGraphByEdgePair(fileName);
+		TestUtil.printStatus(gv);
 	}
 }

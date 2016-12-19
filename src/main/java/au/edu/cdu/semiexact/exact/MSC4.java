@@ -1,7 +1,6 @@
 package au.edu.cdu.semiexact.exact;
 
-import org.junit.Test;
-
+import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 
 /**
@@ -9,7 +8,7 @@ import au.edu.cdu.semiexact.util.GlobalVariable;
  * @author kwang1 1. convert Faisal's c code into java format
  */
 public class MSC4<ET, ST> {
-	private static final int IMPOSSIBLE_VALUE = -1;
+	
 
 	/**
 	 * delete the edge from a vertex of index u to a vertex of index v
@@ -235,8 +234,8 @@ public class MSC4<ET, ST> {
 	 */
 	protected int selectSet(GlobalVariable<ET, ST> gv) {
 
-		int maxCard = IMPOSSIBLE_VALUE;
-		int index = IMPOSSIBLE_VALUE;
+		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
+		int index = ConstantValue.IMPOSSIBLE_VALUE;
 
 		int sActCount = gv.getsActCount();
 
@@ -279,7 +278,7 @@ public class MSC4<ET, ST> {
 			}
 		}
 
-		return IMPOSSIBLE_VALUE;
+		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
 
 	/**
@@ -379,7 +378,8 @@ public class MSC4<ET, ST> {
 			}
 		}
 
-		return IMPOSSIBLE_VALUE;
+		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
+ 
 
 }

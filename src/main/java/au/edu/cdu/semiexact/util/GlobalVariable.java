@@ -104,4 +104,13 @@ public class GlobalVariable<ET, ST> {
 		this.sL = sL;
 	}
 
+	private int bestSolCount;
+	public int getBestSolCount() {
+		return bestSolCount;
+	}
+	public void setBestSolCount(int bestSolCount) {
+		this.bestSolCount = bestSolCount;
+	} 
+	
+	
 }
