@@ -1,6 +1,13 @@
 package au.edu.cdu.semiexact.exact;
 
 import java.util.ArrayList;
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+import java.util.Arrays;
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +15,7 @@ import java.util.Set;
 
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.Util;
 
 /**
  * 
@@ -287,26 +295,6 @@ public class MSC4<ET, ST> {
 	}
 
 	/**
-	 * if the set (with limited setSize) contains the element
-	 * 
-	 * @param set,
-	 *            the set
-	 * @param setSize,
-	 *            limit the set size
-	 * @param ele,
-	 *            the element
-	 * @return true: the set contains the element; false: otherwise
-	 */
-	private boolean setContiansEle(int[] set, int setSize, int ele) {
-		for (int i = 0; i < setSize; i++) {
-			if (ele == set[i]) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * if set1 is a subset of set2
 	 * 
 	 * @param gv,
@@ -337,7 +325,7 @@ public class MSC4<ET, ST> {
 		int count = 0;
 		for (int i = 0; i < s1Card; i++) {
 			int tmp = s1Array[i];
-			if (setContiansEle(s2Array, s2Card, tmp)) {
+			if (Util.setContiansEle(s2Array, s2Card, tmp)) {
 				count++;
 			}
 		}
@@ -385,6 +373,11 @@ public class MSC4<ET, ST> {
 
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 
 	protected Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv) {
 
@@ -745,5 +738,332 @@ public class MSC4<ET, ST> {
 	// }
 	// return size;
 	// }
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
 
+	protected Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv) {
+
+		int[][] sAL = gv.getsAL();
+		int sActNum = gv.getsActCount();
+		int[] card = gv.getCard();
+
+		Map<Integer, List<Integer>> g = new HashMap<Integer, List<Integer>>();
+
+		for (int i = 0; i < sActNum; i++) {
+			if (card[i] > 0) {
+				int[] sEL = sAL[i];
+				int sELSize = sEL.length;
+				for (int j = 0; j < sELSize; j++) {
+					int sELj = sEL[j];
+					if (!g.containsKey(sELj)) {
+						List<Integer> tmpList = new ArrayList<Integer>();
+						g.put(sELj, tmpList);
+					}
+					List<Integer> tmpList = g.get(sELj);
+					for (int k = 0; k < sELSize; k++) {
+						if (j == k) {
+							continue;
+						}
+						int sELk = sEL[k];
+						if (!tmpList.contains(sELk)) {
+							tmpList.add(sELk);
+						}
+					}
+				}
+			}
+		}
+
+		return g;
+
+	}
+
+	/**
+	 * 
+	 * @param gv
+	 * @return
+	 */
+	protected int buildMaxMatching(GlobalVariable<ET, ST> gv) {
+		Map<Integer, List<Integer>> g = transferGVIntoMMParam(gv);
+		MM mm = new MM();
+		MMObj o = mm.maxMatching(g);
+
+		int[] eL = gv.geteL();
+		int eActCount = gv.geteActCount();
+		int[] mate = gv.getMate();
+		for (int i = 0; i < eActCount; i++) {
+			mate[eL[i]] = ConstantValue.MATE_EXPOSE;
+		}
+
+		int size = o.getMnum();
+		Map<Integer, Integer> matching = o.getMatching();
+		Set<Integer> keySet = matching.keySet();
+		for (int key : keySet) {
+			int val = matching.get(key);
+			mate[key] = val;
+		}
+		gv.setMate(mate);
+
+		return size;
+
+	}
+
+	/**
+	 * apply reduction rules;
+	 * 
+	 * @param gv
+	 * @return
+	 */
+	protected boolean preProcess(GlobalVariable<ET, ST> gv) {
+
+		int bestSolCount = gv.getBestSolCount();
+		int solCount = gv.getSolCount();
+		List<Integer> sol = gv.getSol();
+		int eActCount = gv.geteActCount();
+		int[] card = gv.getCard();
+
+		int k1 = -1;
+		int count = 0;
+
+		while (k1 != (bestSolCount - solCount - 1)) {
+			// subset rule
+			k1 = bestSolCount - solCount - 1;
+			int domSet = getSubset(gv);
+			while (domSet > ConstantValue.IMPOSSIBLE_VALUE) {
+				if (bestSolCount <= solCount + 1) {
+					return true;
+				}
+				deleteSet(gv, domSet);
+				count++;
+				domSet = getSubset(gv);
+			}
+			// frequency one rule
+			int freqOneSet = this.getSetOfFrequencyOneElement(gv);
+			while (freqOneSet > ConstantValue.IMPOSSIBLE_VALUE) {
+				if (bestSolCount <= solCount + 1) {
+					return true;
+				}
+				sol.add(freqOneSet);
+				solCount++;
+				int tmpCard=card[freqOneSet];
+				this.addSetToCover(gv, freqOneSet);
+				eActCount = eActCount - tmpCard;
+				gv.seteActCount(eActCount);
+
+				count++;
+				freqOneSet = this.getSetOfFrequencyOneElement(gv);
+			}
+			// TODO: other rules
+
+		}
+		gv.seteActCount(eActCount);
+		gv.setSol(sol);
+		gv.setSolCount(solCount);
+
+		if (count > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	// protected int findEdge(GlobalVariable<ET, ST> gv, int v, int w) {
+	// int[] freq = gv.getFreq();
+	// int[][] eAL = gv.geteAL();
+	// int[][] sAL = gv.getsAL();
+	//
+	// for (int i = 0; i < freq[v]; i++) {
+	// int edge = eAL[v][i];
+	// if (sAL[edge][0] == w || sAL[edge][1] == w) {
+	// return edge;
+	// }
+	// }
+	// return ConstantValue.IMPOSSIBLE_VALUE;
+	// }
+
+	protected int kHighest(GlobalVariable<ET, ST> gv, int maxCard) {
+		int bestSolCount = gv.getBestSolCount();
+		int solCount = gv.getSolCount();
+		int sActCount = gv.getsActCount();
+		int[] sL = gv.getsL();
+		int[] card = gv.getCard();
+
+		int k = bestSolCount - solCount - 1;
+		int count = 0;
+		int kMax = 0;
+
+		int[] cardIdx = new int[maxCard + 1];
+		for (int i = 0; i < maxCard; i++) {
+			cardIdx[i] = 0;
+		}
+
+		for (int i = 0; i < sActCount; i++) {
+			int v = sL[i];
+			cardIdx[card[v]]++;
+		}
+
+		for (int i = maxCard; i > 0; i--) {
+			if (count >= k) {
+				break;
+			}
+
+			if ((count + cardIdx[i]) > k) {
+				return (kMax + (i * (k - count)));
+			} else {
+				kMax += (i * cardIdx[i]);
+				count += cardIdx[i];
+			}
+
+		}
+>>>>>>> Stashed changes
+
+		return kMax;
+
+	}
+
+	protected int branch(GlobalVariable<ET, ST> gv) {
+		int bestSolCount = gv.getBestSolCount();
+		int solCount = gv.getSolCount();
+
+		if (bestSolCount <= solCount) {
+			return bestSolCount;
+		}
+		int eActCount = gv.geteActCount();
+		if (eActCount == 0) {
+			solCount=gv.getSolCount();
+			bestSolCount = solCount;
+			gv.setBestSolCount(bestSolCount);
+			return bestSolCount;
+		}
+
+		if (bestSolCount <= solCount + 1) {
+			return bestSolCount;
+		}
+
+		while (preProcess(gv)) {
+			if (bestSolCount <= solCount) {
+				return bestSolCount;
+			}
+
+			eActCount = gv.geteActCount();
+			if (eActCount == 0) {
+				solCount=gv.getSolCount();
+				bestSolCount = solCount;
+				gv.setBestSolCount(bestSolCount);
+				return bestSolCount;
+			}
+
+			if (bestSolCount <= solCount + 1) {
+				return bestSolCount;
+			}
+		}
+
+		if (bestSolCount <= solCount) {
+			return bestSolCount;
+		}
+
+		eActCount = gv.geteActCount();
+		if (eActCount == 0) {
+			solCount=gv.getSolCount();
+			bestSolCount = solCount;
+			gv.setBestSolCount(bestSolCount);
+			return bestSolCount;
+		}
+
+		if (bestSolCount <= solCount + 1) {
+			return bestSolCount;
+		}
+
+		int set = this.selectSet(gv);
+		if(set==ConstantValue.IMPOSSIBLE_VALUE){
+			return bestSolCount;
+		}
+		int[] card = gv.getCard();
+		eActCount = gv.geteActCount();
+
+		int kMax = kHighest(gv, card[set]);
+
+		if (kMax < eActCount) {
+			return bestSolCount;
+		}
+
+		if (card[set] == 2) {
+			int size = this.buildMaxMatching(gv);
+			solCount = gv.getSolCount();
+			bestSolCount = gv.getBestSolCount();
+			eActCount = gv.geteActCount();
+
+			if (size == ConstantValue.IMPOSSIBLE_VALUE) {
+				return bestSolCount;
+			} else {
+				if ((size + solCount + (eActCount - 2 * size)) >= bestSolCount) {
+					int sActCount = gv.getsActCount();
+					int[] mate = gv.getMate();
+					int[][] sAL = gv.getsAL();
+					int[] sL = gv.getsL();
+					List<Integer> sol = gv.getSol();
+
+					for (int i = 0; i < sActCount; i++) {
+						if ((mate[sAL[sL[i]][0]] == sAL[sL[i]][1]) && (mate[sAL[sL[i]][1]] == sAL[sL[i]][1])) {
+							sol.add(sL[i]);
+							solCount++;
+							continue;
+						}
+						if (mate[sAL[sL[i]][0]] == ConstantValue.MATE_EXPOSE) {
+							sol.add(sL[i]);
+							solCount++;
+							mate[sAL[sL[i]][0]] = sAL[sL[i]][1];
+							continue;
+						}
+						if (mate[sAL[sL[i]][1]] == ConstantValue.MATE_EXPOSE) {
+							sol.add(sL[i]);
+							solCount++;
+							mate[sAL[sL[i]][1]] = sAL[sL[i]][0];
+							continue;
+						}
+					}
+					bestSolCount = solCount;
+					gv.setBestSolCount(bestSolCount);
+					gv.setSol(sol);
+					gv.setSolCount(solCount);
+					gv.setMate(mate);
+					return bestSolCount;
+				}
+			}
+
+		}
+		GlobalVariable<ET,ST> copyGv=Util.copyGlobalVariable(gv);
+		eActCount=gv.geteActCount();
+		int[] copyMate=Arrays.copyOf(gv.getMate(), eActCount);
+		copyGv.setMate(copyMate);
+		List<Integer> copySol=new ArrayList<Integer>( gv.getSol()); 
+		copyGv.setSol(copySol);
+		int[] copyCard=Arrays.copyOf(gv.getCard(), gv.getsActCount());
+		copyGv.setCard(copyCard);
+		int[] copyFreq=Arrays.copyOf(gv.getFreq(),eActCount);
+		copyGv.setFreq(copyFreq);
+		
+		
+		copySol.add(set);
+		int copySolCount=copyGv.getSolCount();
+		copyGv.setBestSolCount(copySolCount+1);
+		copyGv.setSol(copySol);
+		this.addSetToCover(copyGv, set);
+		int res1=branch(copyGv);
+	 
+		
+		this.deleteSet(gv, set);
+		int res2=branch(gv);
+		
+		if(res1<res2){
+			gv=copyGv;
+			return res1;
+		}else{
+			return res2;
+		}
+
+		 
+		
+		 
+	}
 }

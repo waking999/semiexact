@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class Util {
-	 
 
 	/**
 	 * convert an integer array to an integer list
@@ -86,24 +85,23 @@ public class Util {
 		}
 		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
-	
-	public static ExistQualifiedSet existSubset(Map<Integer,List<Integer>> map) {
+
+	public static ExistQualifiedSet existSubset(Map<Integer, List<Integer>> map) {
 		if (map == null)
 			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		int mapLen = map.size();
 		if (mapLen < 2) {
 			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
-		Set<Integer> keySet=map.keySet();
-		for(Integer i:keySet){
-			for(Integer j:keySet){
+		Set<Integer> keySet = map.keySet();
+		for (Integer i : keySet) {
+			for (Integer j : keySet) {
 				if ((!i.equals(j)) && (is1Subset2(map.get(i), map.get(j)))) {
 					return new ExistQualifiedSet(true, i);
 				}
 			}
 		}
-		
-		 
+
 		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
 
@@ -140,30 +138,28 @@ public class Util {
 
 		return new ExistQualifiedSet(true, containSetIndex);
 	}
-	
-	public static  ExistQualifiedSet existUniqueSetForAElement(Integer u, Map<Integer,List<Integer>> map) {
+
+	public static ExistQualifiedSet existUniqueSetForAElement(Integer u, Map<Integer, List<Integer>> map) {
 		if (map == null) {
 			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
-		 
+
 		int count = 0;
 		int containSetIndex = ConstantValue.IMPOSSIBLE_VALUE;
-		
-		Set<Integer> keySet=map.keySet();
-		
-		for(Integer key:keySet){
-			List<Integer> si=map.get(key);
-			if(si.contains(u)){
+
+		Set<Integer> keySet = map.keySet();
+
+		for (Integer key : keySet) {
+			List<Integer> si = map.get(key);
+			if (si.contains(u)) {
 				count++;
-				containSetIndex=key;
+				containSetIndex = key;
 			}
 			if (count > 1) {
 				break;
 			}
 		}
-		
-		
-		
+
 		if (count != 1) {
 			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
@@ -171,15 +167,14 @@ public class Util {
 		return new ExistQualifiedSet(true, containSetIndex);
 	}
 
-	public static   ExistQualifiedSet existUniqueSetForAElement(List<Integer> uList, Map<Integer,List<Integer>> map) {
+	public static ExistQualifiedSet existUniqueSetForAElement(List<Integer> uList, Map<Integer, List<Integer>> map) {
 		if (uList == null) {
 			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
 		if (map == null) {
 			return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 		}
-		 
-		
+
 		int uLen = uList.size();
 		for (int i = 0; i < uLen; i++) {
 			ExistQualifiedSet exist = existUniqueSetForAElement(uList.get(i), map);
@@ -189,7 +184,7 @@ public class Util {
 		}
 		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
-	
+
 	/**
 	 * check if there an unique set si containing an element u in an element
 	 * list
@@ -218,7 +213,7 @@ public class Util {
 		return new ExistQualifiedSet(false, ConstantValue.IMPOSSIBLE_VALUE);
 	}
 
-	public static <T> List<T> unionSets(Map<T,List<T>> map) {
+	public static <T> List<T> unionSets(Map<T, List<T>> map) {
 		if (map == null) {
 			return null;
 		}
@@ -226,22 +221,22 @@ public class Util {
 		if (mapLen == 0) {
 			return null;
 		}
-		Set<T> keySet=map.keySet();
-		
+		Set<T> keySet = map.keySet();
+
 		List<T> uList = new ArrayList<T>();
-		
-		for(T key:keySet){
-			List<T> l=map.get(key);
-			for(T u:l){
+
+		for (T key : keySet) {
+			List<T> l = map.get(key);
+			for (T u : l) {
 				if (!uList.contains(u)) {
 					uList.add(u);
 				}
 			}
 		}
-		
-		 
+
 		return uList;
 	}
+
 	/**
 	 * union all elements of the subsets of s
 	 * 
@@ -337,26 +332,28 @@ public class Util {
 		return mapCopy;
 	}
 
-	public static <T> Map<T,List<T>> deleteSet(Map<T,List<T>> map,List<T> r){
-		if(map==null){
+	public static <T> Map<T, List<T>> deleteSet(Map<T, List<T>> map, List<T> r) {
+		if (map == null) {
 			return null;
 		}
-		if(r==null){
+		if (r == null) {
 			return map;
 		}
 		List<T> rCopy = copyList(r);
-		
-		Set<T> keySet=map.keySet();
-		for(T key:keySet){
+
+		Set<T> keySet = map.keySet();
+		for (T key : keySet) {
 			List<T> l = map.get(key);
 			l = Util.set1Minus2(l, rCopy);
 			map.replace(key, l);
 		}
 		Collection<List<T>> values = map.values();
-		while (values.remove(null));
+		while (values.remove(null))
+			;
 		return map;
-		
+
 	}
+
 	/**
 	 * delete a set r from a list containing sets: {s' is not empty: s'=si\r, si
 	 * belongs s}
@@ -436,7 +433,7 @@ public class Util {
 
 		return rtnList;
 	}
-	
+
 	public static <T> int getMaxCardinalitySetIndex(List<List<T>> s) {
 		if (s == null) {
 			return ConstantValue.IMPOSSIBLE_VALUE;
@@ -455,28 +452,27 @@ public class Util {
 
 		return s.indexOf(rtnList);
 	}
-	
-	public static Integer getMaxCardinalitySetIndex(Map<Integer,List<Integer>> map) {
+
+	public static Integer getMaxCardinalitySetIndex(Map<Integer, List<Integer>> map) {
 		if (map == null) {
 			return ConstantValue.IMPOSSIBLE_VALUE;
 		}
 
 		int maxCardinality = 0;
-		int rtnIndex=ConstantValue.IMPOSSIBLE_VALUE;
+		int rtnIndex = ConstantValue.IMPOSSIBLE_VALUE;
 
-		Set<Integer> keySet=map.keySet();
-		
-		for(Integer key:keySet){
-			List<Integer> l=map.get(key);
+		Set<Integer> keySet = map.keySet();
+
+		for (Integer key : keySet) {
+			List<Integer> l = map.get(key);
 			int cardinality = l.size();
 			if (cardinality > maxCardinality) {
 				maxCardinality = cardinality;
-				rtnIndex=key;
+				rtnIndex = key;
 			}
 		}
-		
-		
-		 return rtnIndex;
+
+		return rtnIndex;
 	}
 
 	/**
@@ -525,20 +521,63 @@ public class Util {
 		}
 		return list;
 	}
-	
-	public static int getMaxIndex(int[] array){
+
+	public static int getMaxIndex(int[] array) {
 		int maxIndex = 0;
-		int arraySize=array.length;
-		int max=array[0];
-		
+		int arraySize = array.length;
+		int max = array[0];
+
 		for (int i = 1; i < arraySize; i++) {
-		    if (array[i] > max) {
-		        max = array[i];
-		        maxIndex = i;
-		    }
+			if (array[i] > max) {
+				max = array[i];
+				maxIndex = i;
+			}
 		}
 		return maxIndex;
 	}
-	
+
+	/**
+	 * if the set (with limited setSize) contains the element
+	 * 
+	 * @param set,
+	 *            the set
+	 * @param setSize,
+	 *            limit the set size
+	 * @param ele,
+	 *            the element
+	 * @return true: the set contains the element; false: otherwise
+	 */
+	public static boolean setContiansEle(int[] set, int setSize, int ele) {
+		for (int i = 0; i < setSize; i++) {
+			if (ele == set[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static <ET, ST> GlobalVariable<ET, ST> copyGlobalVariable(GlobalVariable<ET, ST> gv) {
+		GlobalVariable<ET, ST> gv1 = new GlobalVariable<ET, ST>();
+		gv1.setBestSolCount(gv.getBestSolCount());
+		gv1.setCard(gv.getCard());
+		gv1.seteActCount(gv.geteActCount());
+		gv1.seteAL(gv.geteAL());
+		gv1.seteIL(gv.geteIL());
+		gv1.seteIM(gv.geteIM());
+		gv1.seteL(gv.geteL());
+		gv1.seteLIL(gv.geteLIL());
+		gv1.setFreq(gv.getFreq());
+		gv1.setMate(gv.getMate());
+		gv1.setsActCount(gv.getsActCount());
+		gv1.setsAL(gv.getsAL());
+		gv1.setsIL(gv.getsIL());
+		gv1.setsIM(gv.getsIM());
+		gv1.setsL(gv.getsL());
+		gv1.setsLIL(gv.getsLIL());
+		gv1.setSol(gv.getSol());
+		gv1.setSolCount(gv.getSolCount());
+
+		return gv1;
+	}
 
 }

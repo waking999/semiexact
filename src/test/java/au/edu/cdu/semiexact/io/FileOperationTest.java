@@ -17,13 +17,36 @@ public class FileOperationTest {
 
 	@Test(expected = NoSuchFileException.class)
 	public void testRetriveProblemInfoByEdgePairFoundExp() throws IOException {
+<<<<<<< Updated upstream
 		String filePath = "./src/test/resources/sample.txt1";
+=======
+<<<<<<< HEAD
+		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/sample1.txt";
+
+ 
+=======
+		String filePath = "./src/test/resources/sample.txt1";
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		new FileOperation().readGraphByEdgePair(filePath);
 	}
 
+
+
 	@Test
 	public void testRetriveProblemInfoByEdgePairNormal() throws IOException {
+<<<<<<< Updated upstream
 		String filePath = "./src/test/resources/sample.txt";
+=======
+<<<<<<< HEAD
+	 
+		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/sample.txt";
+
+		
+=======
+		String filePath = "./src/test/resources/sample.txt";
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		GlobalVariable<String,String> gv = new FileOperation().readGraphByEdgePair(filePath);
 		TestUtil.printStatus(gv);
 

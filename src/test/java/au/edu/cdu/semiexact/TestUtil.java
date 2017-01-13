@@ -1,5 +1,6 @@
 package au.edu.cdu.semiexact;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,10 @@ import au.edu.cdu.semiexact.util.Util;
 public class TestUtil {
 	//private static Logger log = LogUtil.getLogger(TestUtil.class);
 
+	public static String getCurrentPath() {
+		return Paths.get(".").toAbsolutePath().normalize().toString();
+	}
+	
 	public static List<List<Integer>> simpleTestCase1() {
 		int[] l1 = { 1, 2, 3 };
 		int[] l2 = { 1, 2, 4 };

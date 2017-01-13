@@ -1,5 +1,7 @@
 package au.edu.cdu.semiexact.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class GlobalVariable<ET, ST> {
@@ -12,6 +14,25 @@ public class GlobalVariable<ET, ST> {
 	private int[] freq; // frequency
 	private int[][] eAL;// element adjacency
 	private int[][] eIM; // element incidence matrix
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+	private int sActCount; //set active count
+	private Map<ST, Integer> sLIL; // set label index list
+	private int[] sL; // set list
+	private int[] sIL;// set index list
+	private int[] card; // cardinality
+	private int[][] sAL;// set adjacency
+	private int[][] sIM; // set incidence matrix
+	
+	private int[] mate; //store mate of each vertex; 0: exposed
+ 
+	private int solCount;
+	private List<Integer> sol;
+	
+=======
+>>>>>>> Stashed changes
 
 	private int sActCount; //set active count
 	private Map<ST, Integer> sLIL; // set label index list
@@ -26,9 +47,16 @@ public class GlobalVariable<ET, ST> {
 //	private int[] labelValue;
 //	private int[] outer; //queue of outer vertices
 //	private int[] first; // first non-outer vertex in the path back to the start of the search;
+<<<<<<< Updated upstream
 
 
 	private int solCount;
+=======
+
+
+	private int solCount;
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 	private int bestSolCount;
 	
 	public Map<ET, Integer> geteLIL() {
@@ -135,6 +163,23 @@ public class GlobalVariable<ET, ST> {
 	public void setSolCount(int solCount) {
 		this.solCount = solCount;
 	}
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+	public List<Integer> getSol() {
+		if(sol==null){
+			sol=new ArrayList<Integer>();
+		}
+		return sol;
+	}
+	public void setSol(List<Integer> sol) {
+		this.sol = sol;
+	}
+	 
+	
+
+=======
+>>>>>>> Stashed changes
 //	public int[] getLabelType() {
 //		return labelType;
 //	}
@@ -159,4 +204,8 @@ public class GlobalVariable<ET, ST> {
 //	public void setFirst(int[] first) {
 //		this.first = first;
 //	}
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 }

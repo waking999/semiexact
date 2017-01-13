@@ -69,6 +69,11 @@ public class MSC4Test {
 		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
 	}
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 //	private GlobalVariable<String, String> getTestCase2() {
 //		int eActCount = 6;
 //
@@ -112,6 +117,10 @@ public class MSC4Test {
 //		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
 //	}
 	
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 	private GlobalVariable<String, String> getTestCase2() {
 		int eActCount = 7;
 
@@ -123,6 +132,24 @@ public class MSC4Test {
 		eLIL.put("e", 4);
 		eLIL.put("f", 5);
 		eLIL.put("g", 6);
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+		int[] eL = { 0, 1, 2, 3, 4, 5, 6 };
+		int[] eIL = { 0, 1, 2, 3, 4, 5, 6 };
+		int[] freq = { 3, 3, 2, 2, 1, 2, 1 };
+		int[][] eAL = { { 0, 1, 2 }, { 0, 3, 4 }, { 1, 3 }, { 2, 4 }, { 5 }, { 5, 6 }, { 6 } };
+
+		int[][] eIM = {
+				{ 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ 2, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, 2, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, 0, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0 } };
+=======
+>>>>>>> Stashed changes
 		int[] eL = { 0, 1, 2, 3, 4, 5 ,6};
 		int[] eIL = { 0, 1, 2, 3, 4, 5 ,6};
 		int[] freq = { 3, 3,2, 2, 1, 2 ,1};
@@ -135,6 +162,10 @@ public class MSC4Test {
 //				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
 //				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,1, IMPOSSIBLE_VALUE } ,
 //				{IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,1,IMPOSSIBLE_VALUE,1}};
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 
 		int sActCount = 7;
 		Map<String, Integer> sLIL = new HashMap<String, Integer>();
@@ -145,6 +176,25 @@ public class MSC4Test {
 		sLIL.put("Se", 4);
 		sLIL.put("Sf", 5);
 		sLIL.put("Sg", 5);
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+		int[] sL = { 0, 1, 2, 3, 4, 5, 6 };
+		int[] sIL = { 0, 1, 2, 3, 4, 5, 6 };
+		int[] card = { 2, 2, 2, 2, 2, 2, 2 };
+		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 0, 3 }, { 1, 2 }, { 1, 3 }, { 4, 5 }, { 5, 6 } };
+
+		int[][] sIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0,
+						IMPOSSIBLE_VALUE },
+				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0 },
+				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,
+						IMPOSSIBLE_VALUE, 1 } };
+=======
+>>>>>>> Stashed changes
 		int[] sL = { 0, 1, 2, 3, 4, 5,6 };
 		int[] sIL = { 0, 1, 2, 3, 4, 5 ,6};
 		int[] card = { 2, 2, 2, 2, 2, 2 ,2};
@@ -157,6 +207,10 @@ public class MSC4Test {
 //				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
 //				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,1, IMPOSSIBLE_VALUE } ,
 //				{IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,1,IMPOSSIBLE_VALUE,1}};
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 
 		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
 	}
@@ -184,6 +238,17 @@ public class MSC4Test {
 		gv.setSolCount(0);
 
 		int[] mate = new int[eActCount];
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+		for (int i = 0; i < eActCount; i++) {
+			mate[i] = ConstantValue.MATE_EXPOSE;
+		}
+		gv.setMate(mate);
+
+=======
+>>>>>>> Stashed changes
 //		int[] first=new int[eActCount];
 //		int[] labelType = new int[eActCount];
 //		int[] labelValue = new int[eActCount];
@@ -199,11 +264,15 @@ public class MSC4Test {
 //		gv.setLabelValue(labelValue);
 //		gv.setOuter(outer);
 //		gv.setFirst(first);
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 		return gv;
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testDecreaseElementFrequency() {
 		log.debug(FUNCTION_SEP);
@@ -263,7 +332,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testDeleteSet() {
 		log.debug(FUNCTION_SEP);
@@ -316,7 +385,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testDecreaseSetCardinality() {
 		log.debug(FUNCTION_SEP);
@@ -374,7 +443,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testDeleteElement() {
 		log.debug(FUNCTION_SEP);
@@ -433,7 +502,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testAddSetToCover() {
 		log.debug(FUNCTION_SEP);
@@ -460,7 +529,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testAProcessManuallyByPersonSimulation() {
 		log.debug(FUNCTION_SEP);
@@ -503,7 +572,7 @@ public class MSC4Test {
 		TestUtil.printStatus(gv);
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testSelectSet() {
 		log.debug(FUNCTION_SEP);
@@ -535,7 +604,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testGetSetOfFrequencyOneElement() {
 		log.debug(FUNCTION_SEP);
@@ -583,7 +652,7 @@ public class MSC4Test {
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testIs1Subset2() {
 		log.debug(FUNCTION_SEP);
@@ -621,7 +690,7 @@ public class MSC4Test {
 
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void testGetSubset() {
 		log.debug(FUNCTION_SEP);
@@ -677,16 +746,48 @@ public class MSC4Test {
 
 	}
 
+<<<<<<< Updated upstream
 	@Ignore
+=======
+<<<<<<< HEAD
+	//@Ignore
+=======
+	@Ignore
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 	@Test
 	public void testReadGraph() throws IOException {
-		String fileName = "/Users/kwang/Documents/git/semiexact/src/test/resources/sample.txt";
+
+		String fileName = TestUtil.getCurrentPath() + "/src/test/resources/sample.txt";
 
 		FileOperation fo = new FileOperation();
 
 		GlobalVariable<String, String> gv = fo.readGraphByEdgePair(fileName);
 		TestUtil.printStatus(gv);
 	}
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+	// //@Ignore
+	// @Test
+	// public void testFindEdge() {
+	// log.debug(FUNCTION_SEP);
+	// GlobalVariable<String, String> gv = getTestCase2();
+	//
+	// MSC4<String, String> msc = new MSC4<String, String>();
+	// int edge=msc.findEdge(gv, 0, 2);
+	// Assert.assertEquals(1, edge);
+	//
+	// edge=msc.findEdge(gv, 1, 3);
+	// Assert.assertEquals(4, edge);
+	// }
+
+	//@Ignore
+	@Test
+	public void testTransferGVIntoMMParam() {
+=======
+>>>>>>> Stashed changes
 //
 //	@Ignore
 //	@Test
@@ -708,10 +809,73 @@ public class MSC4Test {
 	@Ignore
 	@Test
 	public void testFindEdge() {
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
 		log.debug(FUNCTION_SEP);
 		GlobalVariable<String, String> gv = getTestCase2();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
+<<<<<<< HEAD
+		Map<Integer, List<Integer>> g = msc.transferGVIntoMMParam(gv);
+		Assert.assertTrue(g.get(0).contains(1));
+
+	}
+
+	//@Ignore
+	@Test
+	public void testBuildMaxMatching() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase2();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+		int size = msc.buildMaxMatching(gv);
+		Assert.assertEquals(3, size);
+
+	}
+
+	//@Ignore
+	@Test
+	public void testPreProcess() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+		msc.preProcess(gv);
+
+		Assert.assertEquals(2, gv.getSolCount());
+	}
+
+	 
+	@Test
+	public void testKHighest() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase1();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+		int maxCardSet = msc.selectSet(gv);
+		int[] card = gv.getCard();
+		int maxCard = card[maxCardSet];
+
+		int kMax = msc.kHighest(gv, maxCard);
+		Assert.assertEquals(16, kMax);
+
+	}
+
+	@Test
+	public void testBranch() {
+>>>>>>> Stashed changes
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase2();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+<<<<<<< Updated upstream
+=======
+
+		msc.branch(gv);
+		Assert.assertEquals(4, gv.getBestSolCount());
+=======
+>>>>>>> Stashed changes
 		int edge=msc.findEdge(gv, 0, 2);
 		Assert.assertEquals(1, edge);
 		
@@ -762,6 +926,10 @@ public class MSC4Test {
 		int size= msc.buildMaxMatching(gv);
 		Assert.assertEquals(3, size);
 	
+<<<<<<< Updated upstream
+=======
+>>>>>>> origin/master
+>>>>>>> Stashed changes
 	}
 
 }
