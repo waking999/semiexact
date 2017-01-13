@@ -1,5 +1,8 @@
 package au.edu.cdu.semiexact.util;
-
+/**
+ * 
+ *  some common constant values are stored here
+ */
 public class ConstantValue {
 	public static final int IMPOSSIBLE_VALUE = -1;
 	public static final String BLANK = " ";

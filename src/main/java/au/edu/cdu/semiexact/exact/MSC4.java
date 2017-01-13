@@ -1,13 +1,7 @@
 package au.edu.cdu.semiexact.exact;
 
 import java.util.ArrayList;
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 import java.util.Arrays;
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +13,12 @@ import au.edu.cdu.semiexact.util.Util;
 
 /**
  * 
- * @author kwang1 1. convert Faisal's c code into java format
+ * 1. convert Faisal's c code into java format, which also uses Faisal's graph
+ * representation data structure ;
+ * 
+ * 2. use existing Edmonds max matching algorithm
  */
-public class MSC4<ET, ST> {
+public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 	/**
 	 * delete the edge from a vertex of index u to a vertex of index v
@@ -239,38 +236,6 @@ public class MSC4<ET, ST> {
 	}
 
 	/**
-	 * select a set of the maximum cardinality
-	 * 
-	 * @param gv,
-	 *            global variables
-	 * @return the set index of the maximum cardinality
-	 */
-	protected int selectSet(GlobalVariable<ET, ST> gv) {
-
-		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
-		int index = ConstantValue.IMPOSSIBLE_VALUE;
-
-		int sActCount = gv.getsActCount();
-
-		int[] sL = gv.getsL();
-		int[] card = gv.getCard();
-
-		for (int i = 0; i < sActCount; i++) {
-			int j = sL[i];
-			if (card[j] > maxCard) {
-				index = j;
-				maxCard = card[j];
-			}
-			if (card[j] >= maxCard && j < index) {
-				index = j;
-				maxCard = card[j];
-			}
-		}
-
-		return index;
-	}
-
-	/**
 	 * get the set index which contains an element of frequency one
 	 * 
 	 * @param gv,
@@ -373,374 +338,6 @@ public class MSC4<ET, ST> {
 
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-
-	protected Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv) {
-
-		int[][] sAL = gv.getsAL();
-		int sActNum = gv.getsActCount();
-		int[] card = gv.getCard();
-
-		Map<Integer, List<Integer>> g = new HashMap<Integer, List<Integer>>();
-
-		for (int i = 0; i < sActNum; i++) {
-			if (card[i] > 0) {
-				int[] sEL = sAL[i];
-				int sELSize = sEL.length;
-				for (int j = 0; j < sELSize; j++) {
-					int sELj = sEL[j];
-					if (!g.containsKey(sELj)) {
-						List<Integer> tmpList = new ArrayList<Integer>();
-						g.put(sELj, tmpList);
-					}
-					List<Integer> tmpList = g.get(sELj);
-					for (int k = 0; k < sELSize; k++) {
-						if (j == k) {
-							continue;
-						}
-						int sELk = sEL[k];
-						if (!tmpList.contains(sELk)) {
-							tmpList.add(sELk);
-						}
-					}
-				}
-			}
-		}
-
-		return g;
-
-	}
-
-	/**
-	 * 
-	 * @param gv
-	 * @return
-	 */
-	protected int buildMaxMatching(GlobalVariable<ET, ST> gv) {
-		Map<Integer, List<Integer>> g = transferGVIntoMMParam(gv);
-		MM mm = new MM();
-		MMObj o = mm.maxMatching(g);
-
-		int[] eL = gv.geteL();
-		int eActCount = gv.geteActCount();
-		int[] mate = gv.getMate();
-		for (int i = 0; i < eActCount; i++) {
-			mate[eL[i]] = ConstantValue.MATE_EXPOSE;
-		}
-
-		int size = o.getMnum();
-		Map<Integer, Integer> matching = o.getMatching();
-		Set<Integer> keySet = matching.keySet();
-		for (int key : keySet) {
-			int val = matching.get(key);
-			mate[key] = val;
-		}
-		gv.setMate(mate);
-		
-		return size;
-
-	}
-
-	// protected int preProcess(GlobalVariable<ET,ST> gv){
-	//
-	// int k1=-1;
-	//
-	// return 0;
-	// }
-
-	// /**
-	// *
-	// * @param gv
-	// * @return
-	// */
-	// protected int greedyMatching(GlobalVariable<ET, ST> gv) {
-	// int size = 0;
-	//
-	// int eActNum = gv.geteActCount();
-	// int[] eL = gv.geteL();
-	//
-	// int[] mate = gv.getMate();
-	//
-	// int[] freq = gv.getFreq();
-	//
-	// int[][] eAL = gv.geteAL();
-	// int[][] sAL = gv.getsAL();
-	//
-	// int solCount = gv.getSolCount();
-	// int bestSolCount = gv.getBestSolCount();
-	//
-	// for (int i = 0; i < eActNum; i++) {
-	// int v1 = eL[i];
-	// if (mate[v1] != ConstantValue.IMPOSSIBLE_VALUE) {
-	// continue;
-	// }
-	//
-	// int v2;
-	//
-	// for (int j = 0; j < freq[v1]; j++) {
-	// int edge = eAL[v1][j];
-	//
-	// if (sAL[edge][0] == v1) {
-	// v2 = sAL[edge][1];
-	// } else {
-	// v2 = sAL[edge][0];
-	// }
-	//
-	// if (mate[v2] == ConstantValue.MATE_EXPOSE) {
-	// mate[v1] = v2;
-	// mate[v2] = v1;
-	// size++;
-	// if (size + solCount >= bestSolCount) {
-	// return ConstantValue.IMPOSSIBLE_VALUE;
-	// }
-	// break;
-	// }
-	// }
-	//
-	// }
-	// return size;
-	// }
-
-	// protected void augmentMatching(GlobalVariable<ET,ST> gv ,int v, int w){
-	// int[] mate=gv.getMate();
-	// int[] labelType=gv.getLabelType();
-	// int[] labelValue=gv.getLabelValue();
-	// int[][] sAL=gv.getsAL();
-	//
-	// int t=mate[v];
-	// mate[v]=w;
-	//
-	// if(mate[t]!=v){
-	// return;
-	// }
-	//
-	// if(labelType[v]==ConstantValue.LABEL_TYPE_VERTEX){
-	// mate[t]=labelValue[v];
-	// gv.setMate(mate);
-	// augmentMatching(gv, labelValue[v],t);
-	// return;
-	// }else if (labelType[v]==ConstantValue.LABEL_TYPE_EDGE){
-	// int x=sAL[labelValue[v]][0];
-	// int y=sAL[labelValue[v]][1];
-	// augmentMatching(gv,x,y);
-	// augmentMatching(gv,y,x);
-	// return;
-	// }
-	// }
-
-	protected int findEdge(GlobalVariable<ET, ST> gv, int v, int w) {
-		int[] freq = gv.getFreq();
-		int[][] eAL = gv.geteAL();
-		int[][] sAL = gv.getsAL();
-
-		for (int i = 0; i < freq[v]; i++) {
-			int edge = eAL[v][i];
-			if (sAL[edge][0] == w || sAL[edge][1] == w) {
-				return edge;
-			}
-		}
-		return ConstantValue.IMPOSSIBLE_VALUE;
-	}
-
-	// /**
-	// * @param gv
-	// * @param v
-	// * @param edge
-	// * @param join
-	// */
-	// protected void subLabel(GlobalVariable<ET,ST> gv, int v, int edge, int
-	// join){
-	// int[] labelType=gv.getLabelType();
-	// int[] labelValue=gv.getLabelValue();
-	// int[] first=gv.getFirst();
-	// int[] outer=gv.getOuter();
-	// int[] mate=gv.getMate();
-	//
-	// while(v!=join){
-	// labelType[v]=ConstantValue.LABEL_TYPE_EDGE;
-	// labelValue[v]=edge;
-	// first[v]=join;
-	// int qCount=outer.length;
-	// outer[qCount+1]=v;
-	// v=first[labelValue[mate[v]]];
-	//
-	// }
-	//
-	//
-	// gv.setLabelType(labelType);
-	// gv.setLabelValue(labelValue);
-	// gv.setFirst(first);
-	// gv.setOuter(outer);
-	// }
-	//
-	// /**
-	// * @param gv
-	// * @param x
-	// * @param y
-	// */
-	// protected void doLabel(GlobalVariable<ET,ST> gv,int x, int y){
-	// int[] first=gv.getFirst();
-	// int[] labelType=gv.getLabelType();
-	// int[] labelValue=gv.getLabelValue();
-	// int[] mate=gv.getMate();
-	// int[] outer=gv.getOuter();
-	//
-	// int edge=findEdge(gv,x,y);
-	// int flag=-edge;
-	// int r=first[x];
-	// int s=first[y];
-	//
-	// if(r==s){
-	// return;
-	// }
-	//
-	// labelValue[r]=flag;
-	// labelValue[s]=flag;
-	//
-	// if(s!=ConstantValue.IMPOSSIBLE_VALUE){
-	// int tmp=r;
-	// r=s;
-	// s=tmp;
-	// }
-	//
-	// r=first[labelValue[mate[r]]];
-	// while(labelValue[r]!=flag){
-	// labelValue[r]=flag;
-	// if(s!=ConstantValue.IMPOSSIBLE_VALUE){
-	// int tmp=r;
-	// r=s;
-	// s=tmp;
-	// }
-	// r=first[labelValue[mate[r]]];
-	// }
-	// int join=r;
-	//
-	// gv.setLabelType(labelType);
-	// gv.setLabelValue(labelValue);
-	//
-	// subLabel(gv,first[x], edge, join);
-	// subLabel(gv,first[y], edge, join);
-	//
-	// int qCount=outer.length;
-	//
-	// for(int i=0;i<qCount;i++){
-	// if(labelValue[first[outer[i]]]>=0){
-	// first[outer[i]]=join;
-	// }
-	// }
-	// }
-	//
-	// /**
-	// * @param gv
-	// * @return
-	// */
-	// protected int buldMaxMatching(GlobalVariable<ET,ST> gv) {
-	//
-	//
-	// int[] mate=gv.getMate();
-	// int[] labelValue=gv.getLabelValue();
-	// int[] labelType=gv.getLabelType();
-	// int[] outer=gv.getOuter();
-	// int[] first=gv.getFirst();
-	//
-	//
-	// int eActCount=gv.geteActCount();
-	// int[] eL=gv.geteL();
-	// int[] freq=gv.getFreq();
-	// int[][] eAL=gv.geteAL();
-	// int[][] sAL=gv.getsAL();
-	//
-	//
-	// int solCount=gv.getSolCount();
-	// int bestSolCount=gv.getBestSolCount();
-	//
-	// int qCount=0;
-	// int qPtr=-1;
-	//
-	//
-	//
-	// for(int i=0;i<eActCount;i++){
-	// labelValue[eL[i]]=ConstantValue.IMPOSSIBLE_VALUE;
-	// labelType[eL[i]]=ConstantValue.IMPOSSIBLE_VALUE;
-	// first[eL[i]]=ConstantValue.IMPOSSIBLE_VALUE;
-	// outer[eL[i]]=ConstantValue.IMPOSSIBLE_VALUE;
-	// mate[eL[i]]=ConstantValue.MATE_EXPOSE;
-	// }
-	//
-	// int size=greedyMatching(gv);
-	//
-	// if(size==ConstantValue.IMPOSSIBLE_VALUE){
-	// return ConstantValue.IMPOSSIBLE_VALUE;
-	// }
-	//
-	// for(int i=0;i<eActCount;i++){
-	// int v1=eL[i];
-	//
-	// if(mate[v1]!=ConstantValue.MATE_EXPOSE){
-	// continue;
-	// }
-	// labelValue[v1]=ConstantValue.LABEL_TYPE_START;
-	// labelType[v1]=ConstantValue.LABEL_TYPE_START;
-	// outer[qCount]=v1;
-	// qCount++;
-	// while(qCount!=qPtr){
-	// qPtr++;
-	// int v2=outer[qPtr];
-	// for(int j=0;j<freq[v2];j++){
-	// int edge=eAL[v2][j];
-	// int v3;
-	// if(sAL[edge][0]==v2){
-	// v3=sAL[edge][1];
-	// }else{
-	// v3=sAL[edge][0];
-	// }
-	//
-	// if(mate[v3]==ConstantValue.MATE_EXPOSE&&v3!=v1){
-	// mate[v3]=v2;
-	// gv.setMate(mate);
-	// augmentMatching(gv,v2,v3);
-	// size++;
-	// qPtr=qCount;
-	// if(size+solCount>=bestSolCount){
-	// return ConstantValue.IMPOSSIBLE_VALUE;
-	// }
-	// break;
-	// }else if(labelType[v3]>=ConstantValue.LABEL_TYPE_START){
-	// doLabel(gv,v2,v3);
-	// }else{
-	// int v4=mate[v3];
-	// if(labelType[v4]<ConstantValue.LABEL_TYPE_START){
-	// labelType[v4]=ConstantValue.LABEL_TYPE_VERTEX;
-	// labelValue[v4]=v2;
-	// first[v4]=v3;
-	//
-	// outer[qCount]=v4;
-	// qCount++;
-	//
-	// gv.setLabelType(labelType);
-	// gv.setLabelValue(labelValue);
-	// gv.setFirst(first);
-	// gv.setOuter(outer);
-	// }
-	// }
-	// }
-	// }
-	// for(int k=0;k<eActCount;k++){
-	// labelType[eL[k]]=ConstantValue.IMPOSSIBLE_VALUE;
-	// labelValue[eL[k]]=ConstantValue.IMPOSSIBLE_VALUE;
-	// }
-	// qCount=0;
-	// qPtr=0;
-	// }
-	// return size;
-	// }
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
 
 	protected Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv) {
 
@@ -845,7 +442,7 @@ public class MSC4<ET, ST> {
 				}
 				sol.add(freqOneSet);
 				solCount++;
-				int tmpCard=card[freqOneSet];
+				int tmpCard = card[freqOneSet];
 				this.addSetToCover(gv, freqOneSet);
 				eActCount = eActCount - tmpCard;
 				gv.seteActCount(eActCount);
@@ -866,20 +463,6 @@ public class MSC4<ET, ST> {
 
 		return false;
 	}
-
-	// protected int findEdge(GlobalVariable<ET, ST> gv, int v, int w) {
-	// int[] freq = gv.getFreq();
-	// int[][] eAL = gv.geteAL();
-	// int[][] sAL = gv.getsAL();
-	//
-	// for (int i = 0; i < freq[v]; i++) {
-	// int edge = eAL[v][i];
-	// if (sAL[edge][0] == w || sAL[edge][1] == w) {
-	// return edge;
-	// }
-	// }
-	// return ConstantValue.IMPOSSIBLE_VALUE;
-	// }
 
 	protected int kHighest(GlobalVariable<ET, ST> gv, int maxCard) {
 		int bestSolCount = gv.getBestSolCount();
@@ -915,13 +498,12 @@ public class MSC4<ET, ST> {
 			}
 
 		}
->>>>>>> Stashed changes
 
 		return kMax;
 
 	}
 
-	protected int branch(GlobalVariable<ET, ST> gv) {
+	public int branch(GlobalVariable<ET, ST> gv) {
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
 
@@ -930,7 +512,7 @@ public class MSC4<ET, ST> {
 		}
 		int eActCount = gv.geteActCount();
 		if (eActCount == 0) {
-			solCount=gv.getSolCount();
+			solCount = gv.getSolCount();
 			bestSolCount = solCount;
 			gv.setBestSolCount(bestSolCount);
 			return bestSolCount;
@@ -947,7 +529,7 @@ public class MSC4<ET, ST> {
 
 			eActCount = gv.geteActCount();
 			if (eActCount == 0) {
-				solCount=gv.getSolCount();
+				solCount = gv.getSolCount();
 				bestSolCount = solCount;
 				gv.setBestSolCount(bestSolCount);
 				return bestSolCount;
@@ -964,7 +546,7 @@ public class MSC4<ET, ST> {
 
 		eActCount = gv.geteActCount();
 		if (eActCount == 0) {
-			solCount=gv.getSolCount();
+			solCount = gv.getSolCount();
 			bestSolCount = solCount;
 			gv.setBestSolCount(bestSolCount);
 			return bestSolCount;
@@ -974,8 +556,8 @@ public class MSC4<ET, ST> {
 			return bestSolCount;
 		}
 
-		int set = this.selectSet(gv);
-		if(set==ConstantValue.IMPOSSIBLE_VALUE){
+		int set = Util.getMaxCardinalitySetIndex(gv);
+		if (set == ConstantValue.IMPOSSIBLE_VALUE) {
 			return bestSolCount;
 		}
 		int[] card = gv.getCard();
@@ -1032,38 +614,33 @@ public class MSC4<ET, ST> {
 			}
 
 		}
-		GlobalVariable<ET,ST> copyGv=Util.copyGlobalVariable(gv);
-		eActCount=gv.geteActCount();
-		int[] copyMate=Arrays.copyOf(gv.getMate(), eActCount);
+		GlobalVariable<ET, ST> copyGv = Util.copyGlobalVariable(gv);
+		eActCount = gv.geteActCount();
+		int[] copyMate = Arrays.copyOf(gv.getMate(), eActCount);
 		copyGv.setMate(copyMate);
-		List<Integer> copySol=new ArrayList<Integer>( gv.getSol()); 
+		List<Integer> copySol = new ArrayList<Integer>(gv.getSol());
 		copyGv.setSol(copySol);
-		int[] copyCard=Arrays.copyOf(gv.getCard(), gv.getsActCount());
+		int[] copyCard = Arrays.copyOf(gv.getCard(), gv.getsActCount());
 		copyGv.setCard(copyCard);
-		int[] copyFreq=Arrays.copyOf(gv.getFreq(),eActCount);
+		int[] copyFreq = Arrays.copyOf(gv.getFreq(), eActCount);
 		copyGv.setFreq(copyFreq);
-		
-		
+
 		copySol.add(set);
-		int copySolCount=copyGv.getSolCount();
-		copyGv.setBestSolCount(copySolCount+1);
+		int copySolCount = copyGv.getSolCount();
+		copyGv.setBestSolCount(copySolCount + 1);
 		copyGv.setSol(copySol);
 		this.addSetToCover(copyGv, set);
-		int res1=branch(copyGv);
-	 
-		
+		int res1 = branch(copyGv);
+
 		this.deleteSet(gv, set);
-		int res2=branch(gv);
-		
-		if(res1<res2){
-			gv=copyGv;
+		int res2 = branch(gv);
+
+		if (res1 < res2) {
+			gv = copyGv;
 			return res1;
-		}else{
+		} else {
 			return res2;
 		}
 
-		 
-		
-		 
 	}
 }

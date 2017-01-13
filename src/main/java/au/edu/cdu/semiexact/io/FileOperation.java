@@ -12,9 +12,20 @@ import java.util.Map;
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 
+/**
+ * implement operation system file operations
+ */
 public class FileOperation {
 	private static final String BLANK = " ";
 
+	/**
+	 * read edge pair information from a file to generate graph representations
+	 * 
+	 * @param filePath,
+	 *            file path and name
+	 * @return graph representation
+	 * @throws IOException
+	 */
 	public GlobalVariable<String, String> readGraphByEdgePair(String filePath) throws IOException {
 
 		GlobalVariable<String, String> gv = new GlobalVariable<String, String>();
@@ -109,7 +120,7 @@ public class FileOperation {
 			}
 		}
 
-		// TODO: labelvalue, labeltype, first
+		 
 		int[] mate = new int[numOfVer];
 		for (int i = 0; i < numOfVer; i++) {
 			mate[i] = 0;
@@ -135,7 +146,7 @@ public class FileOperation {
 		gv.setBestSolCount(numOfVer);
 		gv.setSolCount(0);
 		gv.setMate(mate);
-		
+
 		return gv;
 
 	}

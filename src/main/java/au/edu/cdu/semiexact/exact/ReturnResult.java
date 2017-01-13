@@ -1,7 +1,10 @@
 package au.edu.cdu.semiexact.exact;
 
 import java.util.List;
-
+/**
+ * a java bean to encapsulate results.
+ *  
+ */
 public class ReturnResult<T> {
 	int resultSize;
 

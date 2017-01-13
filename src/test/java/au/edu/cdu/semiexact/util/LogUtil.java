@@ -4,9 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger; 
 
 /**
- * a util for log
- * 
- * @author Kai Wang
+ * an util for log
+ *  
  * 
  */
 public class LogUtil {

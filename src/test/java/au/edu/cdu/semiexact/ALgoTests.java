@@ -10,6 +10,9 @@ import au.edu.cdu.semiexact.exact.MSC2Test;
 import au.edu.cdu.semiexact.exact.MSC3Test;
 import au.edu.cdu.semiexact.exact.MSC4Test;
 
+/**
+ * a test suit for algorithms
+ */
 @RunWith(Suite.class)
 @SuiteClasses({ MSC1Test.class, MSC2Test.class, MSC3Test.class, MMTest.class, MSC4Test.class })
 public class ALgoTests {

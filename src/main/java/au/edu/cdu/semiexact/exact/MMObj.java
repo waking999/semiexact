@@ -3,7 +3,9 @@ package au.edu.cdu.semiexact.exact;
 import java.util.Map;
 
 public class MMObj {
+	//maximum matching number
 	private int mnum;
+	//maximum matching
 	private Map<Integer,Integer> matching;
 	public int getMnum() {
 		return mnum;

@@ -8,6 +8,11 @@ import java.util.Set;
 
 import au.edu.cdu.semiexact.util.ConstantValue;
 
+/**
+ * 
+ * use existing Edmonds max matching algorithm
+ *
+ */
 public class MM {
 	private int lca(Map<Integer, Integer> match, int[] base, int[] p, int a, int b) {
 		boolean[] used = new boolean[match.size()];
@@ -53,7 +58,8 @@ public class MM {
 			for (int to : graph.get(v)) {
 				if (base[v] == base[to] || match.get(v) == to)
 					continue;
-				if (to == root || match.get(to) != ConstantValue.IMPOSSIBLE_VALUE && p[match.get(to)] != ConstantValue.IMPOSSIBLE_VALUE) {
+				if (to == root || match.get(to) != ConstantValue.IMPOSSIBLE_VALUE
+						&& p[match.get(to)] != ConstantValue.IMPOSSIBLE_VALUE) {
 					int curbase = lca(match, base, p, v, to);
 					boolean[] blossom = new boolean[n];
 					markPath(match, base, blossom, p, v, curbase, to);
@@ -68,7 +74,7 @@ public class MM {
 						}
 				} else if (p[to] == ConstantValue.IMPOSSIBLE_VALUE) {
 					p[to] = v;
-					if (match.get(to) ==ConstantValue.IMPOSSIBLE_VALUE)
+					if (match.get(to) == ConstantValue.IMPOSSIBLE_VALUE)
 						return to;
 					to = match.get(to);
 					used[to] = true;
@@ -79,6 +85,12 @@ public class MM {
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
 
+	/**
+	 * 
+	 * @param graph,
+	 *            vertex adjacency list
+	 * @return, matching number and max matching 
+	 */
 	public MMObj maxMatching(Map<Integer, List<Integer>> graph) {
 		int n = graph.size();
 		Map<Integer, Integer> match = new HashMap<Integer, Integer>(n);
@@ -103,14 +115,14 @@ public class MM {
 			}
 		}
 		int matches = 0;
-		
+
 		for (int i : keySet)
 			if (match.get(i) != ConstantValue.IMPOSSIBLE_VALUE)
 				++matches;
 
-		int mNum=ConstantValue.IMPOSSIBLE_VALUE;
-		if(matches>0){
-			mNum=matches / 2;
+		int mNum = ConstantValue.IMPOSSIBLE_VALUE;
+		if (matches > 0) {
+			mNum = matches / 2;
 		}
 		return new MMObj(mNum, match);
 	}

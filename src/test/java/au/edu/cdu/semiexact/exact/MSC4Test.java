@@ -1,283 +1,35 @@
 package au.edu.cdu.semiexact.exact;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
 import au.edu.cdu.semiexact.io.FileOperation;
-import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
+import au.edu.cdu.semiexact.util.Util;
 
 /**
- * 
- * @author kwang1 1. convert Faisal's c code into java format
+ * test class for msc4 
+ *
  */
 public class MSC4Test {
 	private static Logger log = LogUtil.getLogger(MSC4Test.class);
 
-	private static final String FUNCTION_SEP = "***********************************************************";
-	private static final int IMPOSSIBLE_VALUE = ConstantValue.IMPOSSIBLE_VALUE;
-
-	private GlobalVariable<String, String> getTestCase1() {
-		int eActCount = 6;
-
-		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		eLIL.put("a", 0);
-		eLIL.put("b", 1);
-		eLIL.put("c", 2);
-		eLIL.put("d", 3);
-		eLIL.put("e", 4);
-		eLIL.put("f", 5);
-		int[] eL = { 0, 1, 2, 3, 4, 5 };
-		int[] eIL = { 0, 1, 2, 3, 4, 5 };
-		int[] freq = { 3, 3, 3, 4, 3, 2 };
-		int[][] eAL = { { 0, 1, 2 }, { 0, 1, 3 }, { 0, 2, 3 }, { 1, 2, 3, 4 }, { 3, 4, 5 }, { 4, 5 } };
-		int[][] eIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 2, IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 2, 2, 2, 0, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
-
-		int sActCount = 6;
-		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		sLIL.put("Sa", 0);
-		sLIL.put("Sb", 1);
-		sLIL.put("Sc", 2);
-		sLIL.put("Sd", 3);
-		sLIL.put("Se", 4);
-		sLIL.put("Sf", 5);
-		int[] sL = { 0, 1, 2, 3, 4, 5 };
-		int[] sIL = { 0, 1, 2, 3, 4, 5 };
-		int[] card = { 3, 3, 3, 4, 3, 2 };
-		int[][] sAL = { { 0, 1, 2 }, { 0, 1, 3 }, { 0, 2, 3 }, { 1, 2, 3, 4 }, { 3, 4, 5 }, { 4, 5 } };
-		int[][] sIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 2, IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 2, 2, 2, 0, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
-
-		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
-	}
-
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
-//	private GlobalVariable<String, String> getTestCase2() {
-//		int eActCount = 6;
-//
-//		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-//		eLIL.put("a", 0);
-//		eLIL.put("b", 1);
-//		eLIL.put("c", 2);
-//		eLIL.put("d", 3);
-//		eLIL.put("e", 4);
-//		eLIL.put("f", 5);
-//		int[] eL = { 0, 1, 2, 3, 4, 5 };
-//		int[] eIL = { 0, 1, 2, 3, 4, 5 };
-//		int[] freq = { 2, 2, 2, 2, 2, 2 };
-//		int[][] eAL = { { 0, 1 }, { 0, 2 }, { 2, 3 }, { 3, 4 }, { 4, 5 }, { 3, 5 } };
-//		int[][] eIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, 0 },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 1 } };
-//
-//		int sActCount = 6;
-//		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-//		sLIL.put("Sa", 0);
-//		sLIL.put("Sb", 1);
-//		sLIL.put("Sc", 2);
-//		sLIL.put("Sd", 3);
-//		sLIL.put("Se", 4);
-//		sLIL.put("Sf", 5);
-//		int[] sL = { 0, 1, 2, 3, 4, 5 };
-//		int[] sIL = { 0, 1, 2, 3, 4, 5 };
-//		int[] card = { 2, 2, 2, 2, 2, 2 };
-//		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 2, 3 }, { 3, 4 }, { 4, 5 }, { 3, 5 } };
-//		int[][] sIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, 0 },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 1 } };
-//
-//		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
-//	}
 	
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
-	private GlobalVariable<String, String> getTestCase2() {
-		int eActCount = 7;
-
-		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		eLIL.put("a", 0);
-		eLIL.put("b", 1);
-		eLIL.put("c", 2);
-		eLIL.put("d", 3);
-		eLIL.put("e", 4);
-		eLIL.put("f", 5);
-		eLIL.put("g", 6);
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-		int[] eL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] eIL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] freq = { 3, 3, 2, 2, 1, 2, 1 };
-		int[][] eAL = { { 0, 1, 2 }, { 0, 3, 4 }, { 1, 3 }, { 2, 4 }, { 5 }, { 5, 6 }, { 6 } };
-
-		int[][] eIM = {
-				{ 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 2, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 2, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, 0, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0 } };
-=======
->>>>>>> Stashed changes
-		int[] eL = { 0, 1, 2, 3, 4, 5 ,6};
-		int[] eIL = { 0, 1, 2, 3, 4, 5 ,6};
-		int[] freq = { 3, 3,2, 2, 1, 2 ,1};
-		int[][] eAL = { { 0, 1 ,2}, { 0,3,4 }, { 1, 3 }, { 2, 4 }, { 5}, { 5,6 }, {5} };
-		int[][] eIM=null;
-//		int[][] eIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
-//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE,1, 0, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE, 0 },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0,0,0, IMPOSSIBLE_VALUE  },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,1, IMPOSSIBLE_VALUE } ,
-//				{IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,1,IMPOSSIBLE_VALUE,1}};
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
-
-		int sActCount = 7;
-		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		sLIL.put("Sa", 0);
-		sLIL.put("Sb", 1);
-		sLIL.put("Sc", 2);
-		sLIL.put("Sd", 3);
-		sLIL.put("Se", 4);
-		sLIL.put("Sf", 5);
-		sLIL.put("Sg", 5);
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-		int[] sL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] sIL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] card = { 2, 2, 2, 2, 2, 2, 2 };
-		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 0, 3 }, { 1, 2 }, { 1, 3 }, { 4, 5 }, { 5, 6 } };
-
-		int[][] sIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0,
-						IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0 },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,
-						IMPOSSIBLE_VALUE, 1 } };
-=======
->>>>>>> Stashed changes
-		int[] sL = { 0, 1, 2, 3, 4, 5,6 };
-		int[] sIL = { 0, 1, 2, 3, 4, 5 ,6};
-		int[] card = { 2, 2, 2, 2, 2, 2 ,2};
-		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 0, 3 }, { 1, 2 }, {1, 3 }, { 4, 5 }, {5,6} };
-		int[][] sIM=null;
-//		int[][] sIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
-//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE,1, 0, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE, 0 },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0,0,0, IMPOSSIBLE_VALUE  },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
-//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,1, IMPOSSIBLE_VALUE } ,
-//				{IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,1,IMPOSSIBLE_VALUE,1}};
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
-
-		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
-	}
-
-	private GlobalVariable<String, String> setGlobalVariable(int eActCount, Map<String, Integer> eLIL, int[] eL,
-			int[] eIL, int[] freq, int[][] eAL, int[][] eIM, int sActCount, Map<String, Integer> sLIL, int[] sL,
-			int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
-		GlobalVariable<String, String> gv = new GlobalVariable<String, String>();
-		gv.setCard(card);
-		gv.seteAL(eAL);
-		gv.seteIL(eIL);
-		gv.seteIM(eIM);
-		gv.seteLIL(eLIL);
-		gv.setFreq(freq);
-		gv.setsAL(sAL);
-		gv.setsIL(sIL);
-		gv.setsIM(sIM);
-		gv.setsLIL(sLIL);
-		gv.seteActCount(eActCount);
-		gv.setsActCount(sActCount);
-		gv.setsL(sL);
-		gv.seteL(eL);
-
-		gv.setBestSolCount(sActCount);
-		gv.setSolCount(0);
-
-		int[] mate = new int[eActCount];
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-
-		for (int i = 0; i < eActCount; i++) {
-			mate[i] = ConstantValue.MATE_EXPOSE;
-		}
-		gv.setMate(mate);
-
-=======
->>>>>>> Stashed changes
-//		int[] first=new int[eActCount];
-//		int[] labelType = new int[eActCount];
-//		int[] labelValue = new int[eActCount];
-//		int[] outer = new int[eActCount];
-
-		for (int i = 0; i < eActCount; i++) {
-			mate[i] = ConstantValue.MATE_EXPOSE;
-//			labelType[i] = ConstantValue.IMPOSSIBLE_VALUE;
-//			labelValue[i] = ConstantValue.IMPOSSIBLE_VALUE;
-		}
-		gv.setMate(mate);
-//		gv.setLabelType(labelType);
-//		gv.setLabelValue(labelValue);
-//		gv.setOuter(outer);
-//		gv.setFirst(first);
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
-		return gv;
-
-	}
+	
 
 	//@Ignore
 	@Test
 	public void testDecreaseElementFrequency() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Map<String, Integer> eLIL = gv.geteLIL();
 		int[][] eAL = gv.geteAL();
@@ -302,7 +54,7 @@ public class MSC4Test {
 		int eIMCell2B4 = eIM[eAL[eToDecIdx][freqB4 - 1]][eToDecIdx];
 
 		msc.decreaseElementFrequency(gv, eToDecIdx, sToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Assert.assertEquals(eAL[eToDecIdx][eIMSToDelCellValB4], sToExchIdx);
 		Assert.assertEquals(eAL[eToDecIdx][freqB4 - 1], sToDelIdx);
@@ -322,7 +74,7 @@ public class MSC4Test {
 
 		eIMCell2B4 = eIM[eAL[eToDecIdx][freqB4 - 1]][eToDecIdx];
 		msc.decreaseElementFrequency(gv, eToDecIdx, sToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Assert.assertEquals(gv.geteAL()[eToDecIdx][eIMSToDelCellValB4], sToExchIdx);
 		Assert.assertEquals(gv.geteAL()[eToDecIdx][freqB4 - 1], sToDelIdx);
@@ -335,9 +87,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testDeleteSet() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -350,7 +102,7 @@ public class MSC4Test {
 		int sToExchIdx = sIL[sActCount - 1];
 
 		msc.deleteSet(gv, sToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
@@ -371,7 +123,7 @@ public class MSC4Test {
 		sToExchIdx = sIL[sActCount - 1];
 
 		msc.deleteSet(gv, sToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
@@ -388,9 +140,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testDecreaseSetCardinality() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Map<String, Integer> sLIL = gv.getsLIL();
 		int[][] sAL = gv.getsAL();
@@ -415,7 +167,7 @@ public class MSC4Test {
 		int sIMCell2B4 = sIM[sAL[sToDecIdx][cardB4 - 1]][sToDecIdx];
 
 		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		Assert.assertEquals(sAL[sToDecIdx][sIMEToDelCellValB4], eToExchIdx);
 		Assert.assertEquals(sAL[sToDecIdx][cardB4 - 1], eToDelIdx);
 		Assert.assertEquals(sIM[eToExchIdx][sToDecIdx], sIMEToDelCellValB4);
@@ -434,7 +186,7 @@ public class MSC4Test {
 
 		sIMCell2B4 = sIM[sAL[sToDecIdx][cardB4 - 1]][sToDecIdx];
 		msc.decreaseSetCardinality(gv, sToDecIdx, eToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		Assert.assertEquals(gv.getsAL()[sToDecIdx][sIMEToDelCellValB4], eToExchIdx);
 		Assert.assertEquals(gv.getsAL()[sToDecIdx][cardB4 - 1], eToDelIdx);
 		Assert.assertEquals(gv.getsIM()[eToExchIdx][sToDecIdx], sIMEToDelCellValB4);
@@ -446,9 +198,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testDeleteElement() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -463,7 +215,7 @@ public class MSC4Test {
 		int eToExchIdx = eIL[eActCount - 1];
 
 		msc.deleteElement(gv, eToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Assert.assertEquals(eActCount - 1, gv.geteActCount());
 
@@ -486,7 +238,7 @@ public class MSC4Test {
 		eToExchIdx = eIL[eActCount - 1];
 
 		msc.deleteElement(gv, eToDelIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Assert.assertEquals(eActCount - 1, gv.geteActCount());
 
@@ -505,9 +257,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testAddSetToCover() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -517,14 +269,14 @@ public class MSC4Test {
 		int sActCount = gv.getsActCount();
 		int sToAddIdx = sLIL.get(sToAdd);
 		msc.addSetToCover(gv, sToAddIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
 		sToAdd = "Sa";
 		sActCount = gv.getsActCount();
 		sToAddIdx = sLIL.get(sToAdd);
 		msc.addSetToCover(gv, sToAddIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		Assert.assertEquals(sActCount - 1, gv.getsActCount());
 
 	}
@@ -532,9 +284,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testAProcessManuallyByPersonSimulation() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -544,62 +296,62 @@ public class MSC4Test {
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// 2. add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// 3. delete sb
 		s = "Sb";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// 4. delete sc
 		s = "Sc";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// 5. delete sd
 		s = "Sd";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// 6. add sa
 		s = "Sa";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 	}
 
 	//@Ignore
 	@Test
-	public void testSelectSet() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+	public void testDeleteSet1() {
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Map<String, Integer> sLIL = gv.getsLIL();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
 		int sIdx = sLIL.get("Sd");
-		int selectSetIdx = msc.selectSet(gv);
+		int selectSetIdx = Util.getMaxCardinalitySetIndex(gv);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
 		// delete sf
 		String s = "Sf";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		sIdx = sLIL.get("Sa");
-		selectSetIdx = msc.selectSet(gv);
+		selectSetIdx = Util.getMaxCardinalitySetIndex(gv);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
 	}
@@ -607,9 +359,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testGetSetOfFrequencyOneElement() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		Map<String, Integer> sLIL = gv.getsLIL();
 
@@ -619,7 +371,7 @@ public class MSC4Test {
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		sIdx = sLIL.get("Se");
 		int selectSetIdx = msc.getSetOfFrequencyOneElement(gv);
@@ -629,23 +381,23 @@ public class MSC4Test {
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		// delete sb
 		s = "Sb";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// delete sc
 		s = "Sc";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 		// delete sd
 		s = "Sd";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		sIdx = sLIL.get("Sa");
 		selectSetIdx = msc.getSetOfFrequencyOneElement(gv);
@@ -655,9 +407,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testIs1Subset2() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 		Map<String, Integer> sLIL = gv.getsLIL();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
@@ -673,13 +425,13 @@ public class MSC4Test {
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		s1 = "Sb";
 		s2 = "Sa";
@@ -693,9 +445,9 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testGetSubset() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
-		TestUtil.printStatus(gv);
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		TestUtil.printGlobalVariableStatus(gv);
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 
@@ -709,13 +461,13 @@ public class MSC4Test {
 		String s = "Sf";
 		int sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		// add se
 		s = "Se";
 		sIdx = sLIL.get(s);
 		msc.addSetToCover(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		s1 = "Sb";
 		s1Idx = sLIL.get(s1);
@@ -726,7 +478,7 @@ public class MSC4Test {
 		s = "Sb";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		s1 = "Sd";
 		s1Idx = sLIL.get(s1);
@@ -737,7 +489,7 @@ public class MSC4Test {
 		s = "Sd";
 		sIdx = sLIL.get(s);
 		msc.deleteSet(gv, sIdx);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 
 		s1 = "Sc";
 		s1Idx = sLIL.get(s1);
@@ -746,15 +498,7 @@ public class MSC4Test {
 
 	}
 
-<<<<<<< Updated upstream
-	@Ignore
-=======
-<<<<<<< HEAD
 	//@Ignore
-=======
-	@Ignore
->>>>>>> origin/master
->>>>>>> Stashed changes
 	@Test
 	public void testReadGraph() throws IOException {
 
@@ -763,60 +507,17 @@ public class MSC4Test {
 		FileOperation fo = new FileOperation();
 
 		GlobalVariable<String, String> gv = fo.readGraphByEdgePair(fileName);
-		TestUtil.printStatus(gv);
+		TestUtil.printGlobalVariableStatus(gv);
 	}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 
-	// //@Ignore
-	// @Test
-	// public void testFindEdge() {
-	// log.debug(FUNCTION_SEP);
-	// GlobalVariable<String, String> gv = getTestCase2();
-	//
-	// MSC4<String, String> msc = new MSC4<String, String>();
-	// int edge=msc.findEdge(gv, 0, 2);
-	// Assert.assertEquals(1, edge);
-	//
-	// edge=msc.findEdge(gv, 1, 3);
-	// Assert.assertEquals(4, edge);
-	// }
-
+	
 	//@Ignore
 	@Test
 	public void testTransferGVIntoMMParam() {
-=======
->>>>>>> Stashed changes
-//
-//	@Ignore
-//	@Test
-//	public void testGreedyMatching() {
-//		log.debug(FUNCTION_SEP);
-//		GlobalVariable<String, String> gv = getTestCase2();
-//
-//		MSC4<String, String> msc = new MSC4<String, String>();
-//		int size = msc.greedyMatching(gv);
-//		Assert.assertEquals(3, size);
-//	}
-
-//    @Ignore
-//	@Test
-//	public void testAugmentMatching() {
-//		//TODO
-//	}
-
-	@Ignore
-	@Test
-	public void testFindEdge() {
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase2();
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase2ForGraphRepresentation();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
-<<<<<<< HEAD
 		Map<Integer, List<Integer>> g = msc.transferGVIntoMMParam(gv);
 		Assert.assertTrue(g.get(0).contains(1));
 
@@ -825,8 +526,8 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testBuildMaxMatching() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase2();
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase2ForGraphRepresentation();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 		int size = msc.buildMaxMatching(gv);
@@ -837,8 +538,8 @@ public class MSC4Test {
 	//@Ignore
 	@Test
 	public void testPreProcess() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
 		msc.preProcess(gv);
@@ -849,11 +550,11 @@ public class MSC4Test {
 	 
 	@Test
 	public void testKHighest() {
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase1();
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
-		int maxCardSet = msc.selectSet(gv);
+		int maxCardSet = Util.getMaxCardinalitySetIndex(gv);
 		int[] card = gv.getCard();
 		int maxCard = card[maxCardSet];
 
@@ -864,72 +565,13 @@ public class MSC4Test {
 
 	@Test
 	public void testBranch() {
->>>>>>> Stashed changes
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase2();
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTestCase2ForGraphRepresentation();
 
 		MSC4<String, String> msc = new MSC4<String, String>();
-<<<<<<< Updated upstream
-=======
 
 		msc.branch(gv);
 		Assert.assertEquals(4, gv.getBestSolCount());
-=======
->>>>>>> Stashed changes
-		int edge=msc.findEdge(gv, 0, 2);
-		Assert.assertEquals(1, edge);
-		
-		edge=msc.findEdge(gv, 1, 3);
-		Assert.assertEquals(4, edge);
-	}
-
-//	@Ignore
-//	@Test
-//	public void testSubLabel() {
-//		// TODO
-//	}
-
-//	@Ignore
-//	@Test
-//	public void testDoLabel() {
-//		// TODO
-//	}
-//
-//	@Ignore
-//	@Test
-//	public void testBuildMaxMatching() {
-//		log.debug(FUNCTION_SEP);
-//		GlobalVariable<String, String> gv = getTestCase3();
-//
-//		MSC4<String, String> msc = new MSC4<String, String>();
-//		int size = msc.buldMaxMatching(gv);
-//		Assert.assertEquals(4, size);
-//		 
-//	}
-	@Test
-	public void testTransferGVIntoMMParam(){
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase2();
-		
-		MSC4<String, String> msc = new MSC4<String, String>();
-		Map<Integer,List<Integer>> g=msc.transferGVIntoMMParam(gv);
-		Assert.assertTrue( g.get(0).contains(1));
-	
-	}
-	
-	@Test
-	public void testBuildMaxMatching(){
-		log.debug(FUNCTION_SEP);
-		GlobalVariable<String, String> gv = getTestCase2();
-		
-		MSC4<String, String> msc = new MSC4<String, String>();
-		int size= msc.buildMaxMatching(gv);
-		Assert.assertEquals(3, size);
-	
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
 	}
 
 }

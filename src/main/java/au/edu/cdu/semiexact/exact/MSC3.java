@@ -34,11 +34,13 @@ public class MSC3 {
 		return branch(map,rr);
 	}
 
-	public ReturnResult<Integer> branch(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) {
+	private ReturnResult<Integer> branch(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) {
 
 		if (map == null || map.size() == 0) {
 			return rr;
 		}
+		
+		//subset rule
 		ExistQualifiedSet exist = Util.existSubset(map);
 		if (exist.isExist()) {
 			do {
@@ -51,6 +53,8 @@ public class MSC3 {
 			return branch(mapCopy, rr);
 		}
 		List<Integer> uList = Util.unionSets(map);
+		
+		////unique set for an element
 		exist = Util.existUniqueSetForAElement(uList, map);
 		if (exist.isExist()) {
 			int setIndex = exist.getSetIndex();
@@ -76,11 +80,13 @@ public class MSC3 {
 		int siIndex = Util.getMaxCardinalitySetIndex(map);
 		List<Integer> si = map.get(siIndex);
 
+		//base rule
 		int siLen = si.size();
 		if (siLen <= 2) {
 			return polyMsc(map, rr);
 		}
 
+		//branch
 		Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
 		mapCopy.remove(siIndex);
 		ReturnResult<Integer> rr1 = branch(mapCopy, rr);
