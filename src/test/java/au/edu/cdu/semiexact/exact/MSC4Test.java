@@ -2,6 +2,7 @@ package au.edu.cdu.semiexact.exact;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
@@ -65,6 +66,104 @@ public class MSC4Test {
 				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
 				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
 
+		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
+	}
+
+//	private GlobalVariable<String, String> getTestCase2() {
+//		int eActCount = 6;
+//
+//		Map<String, Integer> eLIL = new HashMap<String, Integer>();
+//		eLIL.put("a", 0);
+//		eLIL.put("b", 1);
+//		eLIL.put("c", 2);
+//		eLIL.put("d", 3);
+//		eLIL.put("e", 4);
+//		eLIL.put("f", 5);
+//		int[] eL = { 0, 1, 2, 3, 4, 5 };
+//		int[] eIL = { 0, 1, 2, 3, 4, 5 };
+//		int[] freq = { 2, 2, 2, 2, 2, 2 };
+//		int[][] eAL = { { 0, 1 }, { 0, 2 }, { 2, 3 }, { 3, 4 }, { 4, 5 }, { 3, 5 } };
+//		int[][] eIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, 0 },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 1 } };
+//
+//		int sActCount = 6;
+//		Map<String, Integer> sLIL = new HashMap<String, Integer>();
+//		sLIL.put("Sa", 0);
+//		sLIL.put("Sb", 1);
+//		sLIL.put("Sc", 2);
+//		sLIL.put("Sd", 3);
+//		sLIL.put("Se", 4);
+//		sLIL.put("Sf", 5);
+//		int[] sL = { 0, 1, 2, 3, 4, 5 };
+//		int[] sIL = { 0, 1, 2, 3, 4, 5 };
+//		int[] card = { 2, 2, 2, 2, 2, 2 };
+//		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 2, 3 }, { 3, 4 }, { 4, 5 }, { 3, 5 } };
+//		int[][] sIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE, 0 },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0, IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 1 } };
+//
+//		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
+//	}
+	
+	private GlobalVariable<String, String> getTestCase2() {
+		int eActCount = 7;
+
+		Map<String, Integer> eLIL = new HashMap<String, Integer>();
+		eLIL.put("a", 0);
+		eLIL.put("b", 1);
+		eLIL.put("c", 2);
+		eLIL.put("d", 3);
+		eLIL.put("e", 4);
+		eLIL.put("f", 5);
+		eLIL.put("g", 6);
+		int[] eL = { 0, 1, 2, 3, 4, 5 ,6};
+		int[] eIL = { 0, 1, 2, 3, 4, 5 ,6};
+		int[] freq = { 3, 3,2, 2, 1, 2 ,1};
+		int[][] eAL = { { 0, 1 ,2}, { 0,3,4 }, { 1, 3 }, { 2, 4 }, { 5}, { 5,6 }, {5} };
+		int[][] eIM=null;
+//		int[][] eIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
+//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE,1, 0, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE, 0 },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0,0,0, IMPOSSIBLE_VALUE  },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,1, IMPOSSIBLE_VALUE } ,
+//				{IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,1,IMPOSSIBLE_VALUE,1}};
+
+		int sActCount = 7;
+		Map<String, Integer> sLIL = new HashMap<String, Integer>();
+		sLIL.put("Sa", 0);
+		sLIL.put("Sb", 1);
+		sLIL.put("Sc", 2);
+		sLIL.put("Sd", 3);
+		sLIL.put("Se", 4);
+		sLIL.put("Sf", 5);
+		sLIL.put("Sg", 5);
+		int[] sL = { 0, 1, 2, 3, 4, 5,6 };
+		int[] sIL = { 0, 1, 2, 3, 4, 5 ,6};
+		int[] card = { 2, 2, 2, 2, 2, 2 ,2};
+		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 0, 3 }, { 1, 2 }, {1, 3 }, { 4, 5 }, {5,6} };
+		int[][] sIM=null;
+//		int[][] sIM = { { 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
+//				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE,1, 0, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE, 0 },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0,0,0, IMPOSSIBLE_VALUE  },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE },
+//				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,1, IMPOSSIBLE_VALUE } ,
+//				{IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,IMPOSSIBLE_VALUE,1,IMPOSSIBLE_VALUE,1}};
+
+		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
+	}
+
+	private GlobalVariable<String, String> setGlobalVariable(int eActCount, Map<String, Integer> eLIL, int[] eL,
+			int[] eIL, int[] freq, int[][] eAL, int[][] eIM, int sActCount, Map<String, Integer> sLIL, int[] sL,
+			int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
 		GlobalVariable<String, String> gv = new GlobalVariable<String, String>();
 		gv.setCard(card);
 		gv.seteAL(eAL);
@@ -81,7 +180,27 @@ public class MSC4Test {
 		gv.setsL(sL);
 		gv.seteL(eL);
 
+		gv.setBestSolCount(sActCount);
+		gv.setSolCount(0);
+
+		int[] mate = new int[eActCount];
+//		int[] first=new int[eActCount];
+//		int[] labelType = new int[eActCount];
+//		int[] labelValue = new int[eActCount];
+//		int[] outer = new int[eActCount];
+
+		for (int i = 0; i < eActCount; i++) {
+			mate[i] = ConstantValue.MATE_EXPOSE;
+//			labelType[i] = ConstantValue.IMPOSSIBLE_VALUE;
+//			labelValue[i] = ConstantValue.IMPOSSIBLE_VALUE;
+		}
+		gv.setMate(mate);
+//		gv.setLabelType(labelType);
+//		gv.setLabelValue(labelValue);
+//		gv.setOuter(outer);
+//		gv.setFirst(first);
 		return gv;
+
 	}
 
 	@Ignore
@@ -558,6 +677,7 @@ public class MSC4Test {
 
 	}
 
+	@Ignore
 	@Test
 	public void testReadGraph() throws IOException {
 		String fileName = "/Users/kwang/Documents/git/semiexact/src/test/resources/sample.txt";
@@ -567,4 +687,81 @@ public class MSC4Test {
 		GlobalVariable<String, String> gv = fo.readGraphByEdgePair(fileName);
 		TestUtil.printStatus(gv);
 	}
+//
+//	@Ignore
+//	@Test
+//	public void testGreedyMatching() {
+//		log.debug(FUNCTION_SEP);
+//		GlobalVariable<String, String> gv = getTestCase2();
+//
+//		MSC4<String, String> msc = new MSC4<String, String>();
+//		int size = msc.greedyMatching(gv);
+//		Assert.assertEquals(3, size);
+//	}
+
+//    @Ignore
+//	@Test
+//	public void testAugmentMatching() {
+//		//TODO
+//	}
+
+	@Ignore
+	@Test
+	public void testFindEdge() {
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase2();
+
+		MSC4<String, String> msc = new MSC4<String, String>();
+		int edge=msc.findEdge(gv, 0, 2);
+		Assert.assertEquals(1, edge);
+		
+		edge=msc.findEdge(gv, 1, 3);
+		Assert.assertEquals(4, edge);
+	}
+
+//	@Ignore
+//	@Test
+//	public void testSubLabel() {
+//		// TODO
+//	}
+
+//	@Ignore
+//	@Test
+//	public void testDoLabel() {
+//		// TODO
+//	}
+//
+//	@Ignore
+//	@Test
+//	public void testBuildMaxMatching() {
+//		log.debug(FUNCTION_SEP);
+//		GlobalVariable<String, String> gv = getTestCase3();
+//
+//		MSC4<String, String> msc = new MSC4<String, String>();
+//		int size = msc.buldMaxMatching(gv);
+//		Assert.assertEquals(4, size);
+//		 
+//	}
+	@Test
+	public void testTransferGVIntoMMParam(){
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase2();
+		
+		MSC4<String, String> msc = new MSC4<String, String>();
+		Map<Integer,List<Integer>> g=msc.transferGVIntoMMParam(gv);
+		Assert.assertTrue( g.get(0).contains(1));
+	
+	}
+	
+	@Test
+	public void testBuildMaxMatching(){
+		log.debug(FUNCTION_SEP);
+		GlobalVariable<String, String> gv = getTestCase2();
+		
+		MSC4<String, String> msc = new MSC4<String, String>();
+		int size= msc.buildMaxMatching(gv);
+		Assert.assertEquals(3, size);
+	
+	}
+
 }

@@ -17,13 +17,13 @@ public class FileOperationTest {
 
 	@Test(expected = NoSuchFileException.class)
 	public void testRetriveProblemInfoByEdgePairFoundExp() throws IOException {
-		String filePath = "/Users/kwang/Documents/git/semiexact/src/test/resources/sample.txt1";
+		String filePath = "./src/test/resources/sample.txt1";
 		new FileOperation().readGraphByEdgePair(filePath);
 	}
 
 	@Test
 	public void testRetriveProblemInfoByEdgePairNormal() throws IOException {
-		String filePath = "/Users/kwang/Documents/git/semiexact/src/test/resources/sample.txt";
+		String filePath = "./src/test/resources/sample.txt";
 		GlobalVariable<String,String> gv = new FileOperation().readGraphByEdgePair(filePath);
 		TestUtil.printStatus(gv);
 

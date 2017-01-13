@@ -11,7 +11,6 @@ import java.util.Map;
 
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
-import au.edu.cdu.semiexact.util.Util;
 
 public class FileOperation {
 	private static final String BLANK = " ";
@@ -25,8 +24,6 @@ public class FileOperation {
 		String line0 = lines.get(0);
 		String[] line0Array = line0.split(BLANK);
 		String numOfVerStr = line0Array[0];
-
-		// String numOfEdStr = line0Array[1];
 
 		int numOfVer = Integer.parseInt(numOfVerStr);
 
@@ -62,8 +59,6 @@ public class FileOperation {
 			}
 		}
 
-		
-
 		int linesSize = lines.size();
 		String tmpLine = null;
 		for (int i = 1; i < linesSize; i++) {
@@ -86,20 +81,18 @@ public class FileOperation {
 			freq[v]++;
 		}
 
-
 		for (int i = 0; i < numOfVer; i++) {
 			sIM[i][i] = 1;
 			eIM[i][i] = 1;
 		}
-		
-		int maxCardIdx=Util.getMaxIndex(card);
-		int maxFreqIdx=Util.getMaxIndex(freq);
 
-		int[][] sAL = new int[numOfVer][card[maxCardIdx]];
-		int[][] eAL = new int[numOfVer][freq[maxFreqIdx]];
+		int[][] sAL = new int[numOfVer][];
+		int[][] eAL = new int[numOfVer][];
 
 		for (int i = 0; i < numOfVer; i++) {
-		 
+			sAL[i] = new int[card[i]];
+			eAL[i] = new int[freq[i]];
+
 			int sCur = 0;
 			int eCur = 0;
 			for (int j = 0; j < numOfVer; j++) {
@@ -116,8 +109,11 @@ public class FileOperation {
 			}
 		}
 
-		// TODO: mate, labelvalue, labeltype, first
-
+		// TODO: labelvalue, labeltype, first
+		int[] mate = new int[numOfVer];
+		for (int i = 0; i < numOfVer; i++) {
+			mate[i] = 0;
+		}
 		gv.setsActCount(numOfVer);
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
@@ -137,7 +133,9 @@ public class FileOperation {
 		gv.setFreq(freq);
 
 		gv.setBestSolCount(numOfVer);
-
+		gv.setSolCount(0);
+		gv.setMate(mate);
+		
 		return gv;
 
 	}

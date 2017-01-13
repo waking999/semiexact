@@ -3,22 +3,34 @@ package au.edu.cdu.semiexact.util;
 import java.util.Map;
 
 public class GlobalVariable<ET, ST> {
-	int eActCount; //element active count
-	Map<ET, Integer> eLIL; // element label index list
-	int[] eL; // element list
-	int[] eIL;// element index list
+	private int eActCount; //element active count
 	
-	int[] freq; // frequency
-	int[][] eAL;// element adjacency
-	int[][] eIM; // element incidence matrix
+	private Map<ET, Integer> eLIL; // element label index list
+	private int[] eL; // element list
+	private int[] eIL;// element index list
+	
+	private int[] freq; // frequency
+	private int[][] eAL;// element adjacency
+	private int[][] eIM; // element incidence matrix
 
-	int sActCount; //set active count
-	Map<ST, Integer> sLIL; // set label index list
-	int[] sL; // set list
-	int[] sIL;// set index list
-	int[] card; // cardinality
-	int[][] sAL;// set adjacency
-	int[][] sIM; // set incidence matrix
+	private int sActCount; //set active count
+	private Map<ST, Integer> sLIL; // set label index list
+	private int[] sL; // set list
+	private int[] sIL;// set index list
+	private int[] card; // cardinality
+	private int[][] sAL;// set adjacency
+	private int[][] sIM; // set incidence matrix
+	
+	private int[] mate; //store mate of each vertex; 0: exposed
+//	private int[] labelType; //0:start;1:vertex;2:edge;-1:non-outer
+//	private int[] labelValue;
+//	private int[] outer; //queue of outer vertices
+//	private int[] first; // first non-outer vertex in the path back to the start of the search;
+
+
+	private int solCount;
+	private int bestSolCount;
+	
 	public Map<ET, Integer> geteLIL() {
 		return eLIL;
 	}
@@ -104,13 +116,47 @@ public class GlobalVariable<ET, ST> {
 		this.sL = sL;
 	}
 
-	private int bestSolCount;
+	
 	public int getBestSolCount() {
 		return bestSolCount;
 	}
 	public void setBestSolCount(int bestSolCount) {
 		this.bestSolCount = bestSolCount;
+	}
+	public int[] getMate() {
+		return mate;
+	}
+	public void setMate(int[] mate) {
+		this.mate = mate;
 	} 
-	
-	
+	public int getSolCount() {
+		return solCount;
+	}
+	public void setSolCount(int solCount) {
+		this.solCount = solCount;
+	}
+//	public int[] getLabelType() {
+//		return labelType;
+//	}
+//	public void setLabelType(int[] labelType) {
+//		this.labelType = labelType;
+//	}
+//	public int[] getLabelValue() {
+//		return labelValue;
+//	}
+//	public void setLabelValue(int[] labelValue) {
+//		this.labelValue = labelValue;
+//	}
+//	public int[] getOuter() {
+//		return outer;
+//	}
+//	public void setOuter(int[] outer) {
+//		this.outer = outer;
+//	}
+//	public int[] getFirst() {
+//		return first;
+//	}
+//	public void setFirst(int[] first) {
+//		this.first = first;
+//	}
 }
