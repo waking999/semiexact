@@ -19,7 +19,7 @@ public class FileOperationTest {
 
 	@Test(expected = NoSuchFileException.class)
 	public void testRetriveProblemInfoByEdgePairFoundExp() throws IOException {
-		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/sample1.txt";
+		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/samplea.txt";
 
  
 		new FileOperation().readGraphByEdgePair(filePath);
@@ -30,7 +30,7 @@ public class FileOperationTest {
 	@Test
 	public void testRetriveProblemInfoByEdgePairNormal() throws IOException {
 	 
-		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/sample.txt";
+		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/sample1.txt";
 
 		
 		GlobalVariable<String,String> gv = new FileOperation().readGraphByEdgePair(filePath);

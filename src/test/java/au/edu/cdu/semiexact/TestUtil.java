@@ -1,11 +1,13 @@
 package au.edu.cdu.semiexact;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import au.edu.cdu.semiexact.io.FileOperation;
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.Util;
@@ -15,11 +17,9 @@ import au.edu.cdu.semiexact.util.Util;
  */
 public class TestUtil {
 	// private static Logger log = LogUtil.getLogger(TestUtil.class);
-	private static final int IMPOSSIBLE_VALUE = ConstantValue.IMPOSSIBLE_VALUE;
+	private static final int IV = ConstantValue.IMPOSSIBLE_VALUE;
 	public static final String FUNCTION_SEP = "***********************************************************";
-	
 
-	
 	public static String getCurrentPath() {
 		return Paths.get(".").toAbsolutePath().normalize().toString();
 	}
@@ -81,132 +81,139 @@ public class TestUtil {
 		return map;
 	}
 
-	private static GlobalVariable<String, String> setGlobalVariable(int eActCount, Map<String, Integer> eLIL, int[] eL,
-			int[] eIL, int[] freq, int[][] eAL, int[][] eIM, int sActCount, Map<String, Integer> sLIL, int[] sL,
-			int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
+	private static GlobalVariable<String, String> setGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq,
+			int[][] eAL, int[][] eIM, int sCount, int[] sL, int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
 		GlobalVariable<String, String> gv = new GlobalVariable<String, String>();
 		gv.setCard(card);
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
 		gv.seteIM(eIM);
-		gv.seteLIL(eLIL);
+		// gv.seteLIL(eLIL);
 		gv.setFreq(freq);
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
 		gv.setsIM(sIM);
-		gv.setsLIL(sLIL);
-		gv.seteActCount(eActCount);
-		gv.setsActCount(sActCount);
+		// gv.setsLIL(sLIL);
+		gv.seteCount(eCount);
+		gv.setsCount(sCount);
+//		gv.seteActCount(eCount);
+//		gv.setsActCount(sCount);
 		gv.setsL(sL);
 		gv.seteL(eL);
 
-		gv.setBestSolCount(sActCount);
+		gv.setBestSolCount(sCount);
 		gv.setSolCount(0);
 
-		int[] mate = new int[eActCount];
+		int[] mate = new int[eCount+1];
 
-		for (int i = 0; i < eActCount; i++) {
+		for (int i = 0; i <= eCount; i++) {
 			mate[i] = ConstantValue.MATE_EXPOSE;
 		}
 		gv.setMate(mate);
+
+		int[] sol = new int[sCount];
+		int[] bestSol = new int[sCount];
+		for (int i = 0; i < sCount; i++) {
+			sol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+			bestSol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+		}
+		gv.setSol(sol);
+		gv.setBestSol(bestSol);
+		gv.setSolPtr(1);
 
 		return gv;
 
 	}
 
-	public static GlobalVariable<String, String> getTestCase1ForGraphRepresentation() {
-		int eActCount = 6;
+	public static GlobalVariable<String, String> getTC1RepFile() throws IOException {
+		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/sample1.txt";
 
-		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		eLIL.put("a", 0);
-		eLIL.put("b", 1);
-		eLIL.put("c", 2);
-		eLIL.put("d", 3);
-		eLIL.put("e", 4);
-		eLIL.put("f", 5);
-		int[] eL = { 0, 1, 2, 3, 4, 5 };
-		int[] eIL = { 0, 1, 2, 3, 4, 5 };
-		int[] freq = { 3, 3, 3, 4, 3, 2 };
-		int[][] eAL = { { 0, 1, 2 }, { 0, 1, 3 }, { 0, 2, 3 }, { 1, 2, 3, 4 }, { 3, 4, 5 }, { 4, 5 } };
-		int[][] eIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 2, IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 2, 2, 2, 0, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
+		GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
+		return gv;
 
-		int sActCount = 6;
-		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		sLIL.put("Sa", 0);
-		sLIL.put("Sb", 1);
-		sLIL.put("Sc", 2);
-		sLIL.put("Sd", 3);
-		sLIL.put("Se", 4);
-		sLIL.put("Sf", 5);
-		int[] sL = { 0, 1, 2, 3, 4, 5 };
-		int[] sIL = { 0, 1, 2, 3, 4, 5 };
-		int[] card = { 3, 3, 3, 4, 3, 2 };
-		int[][] sAL = { { 0, 1, 2 }, { 0, 1, 3 }, { 0, 2, 3 }, { 1, 2, 3, 4 }, { 3, 4, 5 }, { 4, 5 } };
-		int[][] sIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 2, IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 2, 2, 2, 0, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 3, 1, 0 },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 2, 1 } };
-
-		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
 	}
 
-	public static GlobalVariable<String, String> getTestCase2ForGraphRepresentation() {
-		int eActCount = 7;
+	public static GlobalVariable<String, String> getTC1Rep() {
+		int eCount = 6;
 
-		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		eLIL.put("a", 0);
-		eLIL.put("b", 1);
-		eLIL.put("c", 2);
-		eLIL.put("d", 3);
-		eLIL.put("e", 4);
-		eLIL.put("f", 5);
-		eLIL.put("g", 6);
-		int[] eL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] eIL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] freq = { 3, 3, 2, 2, 1, 2, 1 };
-		int[][] eAL = { { 0, 1, 2 }, { 0, 3, 4 }, { 1, 3 }, { 2, 4 }, { 5 }, { 5, 6 }, { 6 } };
+		// Map<String, Integer> eLIL = new HashMap<String, Integer>();
+		// eLIL.put("a", 1);
+		// eLIL.put("b", 2);
+		// eLIL.put("c", 3);
+		// eLIL.put("d", 4);
+		// eLIL.put("e", 5);
+		// eLIL.put("f", 6);
+		int[] eL = { IV, 1, 2, 3, 4, 5, 6 };
+		int[] eIL = { IV, 1, 2, 3, 4, 5, 6 };
+		int[] freq = { eCount, 3, 3, 3, 4, 3, 2 };
+		int[][] eAL = { {}, { IV, 1, 2, 3 }, { IV, 1, 2, 4 }, { IV, 1, 3, 4 }, { IV, 2, 3, 4, 5 }, { IV, 4, 5, 6 },
+				{ IV, 5, 6 } };
+		int[][] eIM = { { IV, IV, IV, IV, IV, IV, IV, }, { IV, 1, 1, 1, IV, IV, IV }, { IV, 2, 2, IV, 1, IV, IV },
+				{ IV, 3, IV, 2, 2, IV, IV }, { IV, IV, 3, 3, 3, 1, IV }, { IV, IV, IV, IV, 4, 2, 1 },
+				{ IV, IV, IV, IV, IV, 3, 2 } };
 
-		int[][] eIM = {
-				{ 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, IMPOSSIBLE_VALUE, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 2, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 1, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 2, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, 0, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0 } };
+		int sCount = 6;
+		// Map<String, Integer> sLIL = new HashMap<String, Integer>();
+		// sLIL.put("Sa", 1);
+		// sLIL.put("Sb", 2);
+		// sLIL.put("Sc", 3);
+		// sLIL.put("Sd", 4);
+		// sLIL.put("Se", 5);
+		// sLIL.put("Sf", 6);
+		int[] sL = { IV, 1, 2, 3, 4, 5, 6 };
+		int[] sIL = { IV, 1, 2, 3, 4, 5, 6 };
+		int[] card = { sCount, 3, 3, 3, 4, 3, 2 };
+		int[][] sAL = { {}, { IV, 1, 2, 3 }, { IV, 1, 2, 4 }, { IV, 1, 3, 4 }, { IV, 2, 3, 4, 5 }, { IV, 4, 5, 6 },
+				{ IV, 5, 6 } };
+		int[][] sIM = { { IV, IV, IV, IV, IV, IV, IV, }, { IV, 1, 1, 1, IV, IV, IV }, { IV, 2, 2, IV, 1, IV, IV },
+				{ IV, 3, IV, 2, 2, IV, IV }, { IV, IV, 3, 3, 3, 1, IV }, { IV, IV, IV, IV, 4, 2, 1 },
+				{ IV, IV, IV, IV, IV, 3, 2 } };
+		return setGlobalVariable(eCount, eL, eIL, freq, eAL, eIM, sCount, sL, sIL, card, sAL, sIM);
 
-		int sActCount = 7;
-		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		sLIL.put("Sa", 0);
-		sLIL.put("Sb", 1);
-		sLIL.put("Sc", 2);
-		sLIL.put("Sd", 3);
-		sLIL.put("Se", 4);
-		sLIL.put("Sf", 5);
-		sLIL.put("Sg", 5);
-		int[] sL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] sIL = { 0, 1, 2, 3, 4, 5, 6 };
-		int[] card = { 2, 2, 2, 2, 2, 2, 2 };
-		int[][] sAL = { { 0, 1 }, { 0, 2 }, { 0, 3 }, { 1, 2 }, { 1, 3 }, { 4, 5 }, { 5, 6 } };
+	}
 
-		int[][] sIM = { { 0, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0, 0, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, 1, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 0,
-						IMPOSSIBLE_VALUE },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, 1, 0 },
-				{ IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE, IMPOSSIBLE_VALUE,
-						IMPOSSIBLE_VALUE, 1 } };
+	public static GlobalVariable<String, String> getTC2Rep() {
+		int eCount = 7;
 
-		return setGlobalVariable(eActCount, eLIL, eL, eIL, freq, eAL, eIM, sActCount, sLIL, sL, sIL, card, sAL, sIM);
+//		Map<String, Integer> eLIL = new HashMap<String, Integer>();
+//		eLIL.put("a", 1);
+//		eLIL.put("b", 2);
+//		eLIL.put("c", 3);
+//		eLIL.put("d", 4);
+//		eLIL.put("e", 5);
+//		eLIL.put("f", 6);
+//		eLIL.put("g", 7);
+		int[] eL = { IV, 1, 2, 3, 4, 5, 6, 7 };
+		int[] eIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
+		int[] freq = { eCount, 3, 3, 2, 2, 1, 2, 1 };
+		int[][] eAL = { {}, { IV, 1, 2, 3 }, { IV, 1, 4, 5 }, { IV, 2, 4 }, { IV, 3, 5 }, { IV, 6 }, { IV, 6, 7 },
+				{ IV, 7 } };
+
+		int[][] eIM = { { IV, IV, IV, IV, IV, IV, IV, IV, }, { IV, 1, 1, IV, IV, IV, IV, IV },
+				{ IV, 2, IV, 1, IV, IV, IV, IV }, { IV, 3, IV, IV, 2, IV, IV, IV }, { IV, IV, 2, 2, IV, IV, IV, IV },
+				{ IV, IV, 3, IV, 2, IV, IV, IV }, { IV, IV, IV, IV, IV, 1, 1, IV }, { IV, IV, IV, IV, IV, IV, 2, 1 } };
+
+		int sCount = 7;
+//		Map<String, Integer> sLIL = new HashMap<String, Integer>();
+//		sLIL.put("Sa", 1);
+//		sLIL.put("Sb", 2);
+//		sLIL.put("Sc", 3);
+//		sLIL.put("Sd", 4);
+//		sLIL.put("Se", 5);
+//		sLIL.put("Sf", 6);
+//		sLIL.put("Sg", 7);
+		int[] sL = { IV, 1, 2, 3, 4, 5, 6, 7 };
+		int[] sIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
+		int[] card = { sCount, 2, 2, 2, 2, 2, 2, 2 };
+		int[][] sAL = { {}, { IV, 1, 2 }, { IV, 1, 3 }, { IV, 1, 4 }, { IV, 2, 3 }, { IV, 2, 4 }, { IV, 5, 6 },
+				{ IV, 6, 7 } };
+
+		int[][] sIM = { { IV, IV, IV, IV, IV, IV, IV, IV }, { IV, 1, 1, 1, IV, IV, IV, IV },
+				{ IV, 2, IV, IV, 1, 1, IV, IV }, { IV, IV, 2, IV, 2, IV, IV, IV }, { IV, IV, IV, 2, IV, 2, IV, IV },
+				{ IV, IV, IV, IV, IV, IV, 1, IV }, { IV, IV, IV, IV, IV, IV, 2, 1 },
+				{ IV, IV, IV, IV, IV, IV, IV, 2 } };
+
+		return setGlobalVariable(eCount, eL, eIL, freq, eAL, eIM, sCount, sL, sIL, card, sAL, sIM);
 	}
 
 	public static Map<Integer, List<Integer>> getTestCase1ForMaxMatching() {
@@ -296,22 +303,22 @@ public class TestUtil {
 		String styleStr = "%-6s %-6s %-6s %-20s %-20s";
 
 		int[] sIL = gv.getsIL();
-		int sLen = sIL.length;
+		int sLen = sIL.length - 1;
 		int[] card = gv.getCard();
 		int[][] sAL = gv.getsAL();
 		int[][] sIM = gv.getsIM();
-		int sActCount = gv.getsActCount();
+		int sActCount = gv.getsCount();
 		int[] sL = gv.getsL();
 
 		printStatus(styleStr, sLen, "sActCount", sActCount, "sL", sL, "sIL", sIL, "card", card, "sAL", sAL, "sIM", sIM);
 
 		System.out.println();
 		int[] eIL = gv.geteIL();
-		int eLen = eIL.length;
+		int eLen = eIL.length - 1;
 		int[] freq = gv.getFreq();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
-		int eActCount = gv.geteActCount();
+		int eActCount = gv.geteCount();
 		int[] eL = gv.geteL();
 
 		printStatus(styleStr, eLen, "eActCount", eActCount, "eL", eL, "eIL", eIL, "freq", freq, "eAL", eAL, "eIM", eIM);
@@ -325,7 +332,7 @@ public class TestUtil {
 		System.out.println(actCountName + ":" + actCount);
 		System.out.printf(styleStr, lName, ilName, degName, alName, imName);
 		System.out.println();
-		for (int i = 0; i < len; i++) {
+		for (int i = 1; i <= len; i++) {
 			sb.setLength(0);
 
 			System.out.printf(styleStr, i + " " + l[i], i + " " + il[i], i + " " + deg[i],
@@ -337,7 +344,7 @@ public class TestUtil {
 	private static String arrayToString(int[] array) {
 		StringBuffer sb = new StringBuffer();
 		int arrayLen = array.length;
-		for (int i = 0; i < arrayLen; i++) {
+		for (int i = 1; i < arrayLen; i++) {
 			if (array[i] == -1) {
 				sb.append("N").append(",");
 			} else {

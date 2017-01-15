@@ -1,9 +1,5 @@
 package au.edu.cdu.semiexact.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
  * a java bean to store graph representations of Faisal's data structure
  * 
@@ -13,9 +9,9 @@ import java.util.Map;
  *            set type
  */
 public class GlobalVariable<ET, ST> {
-	private int eActCount; // element active count
+	private int eCount; // element  count
 
-	private Map<ET, Integer> eLIL; // element label index list
+//	private Map<ET, Integer> eLIL; // element label index list
 	private int[] eL; // element list
 	private int[] eIL;// element index list
 
@@ -23,8 +19,8 @@ public class GlobalVariable<ET, ST> {
 	private int[][] eAL;// element adjacency
 	private int[][] eIM; // element incidence matrix
 
-	private int sActCount; // set active count
-	private Map<ST, Integer> sLIL; // set label index list
+	private int sCount; // set count
+	//private Map<ST, Integer> sLIL; // set label index list
 	private int[] sL; // set list
 	private int[] sIL;// set index list
 	private int[] card; // cardinality
@@ -34,17 +30,39 @@ public class GlobalVariable<ET, ST> {
 	private int[] mate; // store mate of each vertex; 0: exposed
 
 	private int solCount;
-	private List<Integer> sol;
+	private int[] sol;
+	private int solPtr;
 
 	private int bestSolCount;
+	private int[] bestSol;
+	
+//	private int sActCount;
+//	private int eActCount;
+	
 
-	public Map<ET, Integer> geteLIL() {
-		return eLIL;
-	}
+//	public Map<ET, Integer> geteLIL() {
+//		return eLIL;
+//	}
+//
+//	public void seteLIL(Map<ET, Integer> eLIL) {
+//		this.eLIL = eLIL;
+//	}
 
-	public void seteLIL(Map<ET, Integer> eLIL) {
-		this.eLIL = eLIL;
-	}
+//	public int getsActCount() {
+//		return sActCount;
+//	}
+//
+//	public void setsActCount(int sActCount) {
+//		this.sActCount = sActCount;
+//	}
+//
+//	public int geteActCount() {
+//		return eActCount;
+//	}
+//
+//	public void seteActCount(int eActCount) {
+//		this.eActCount = eActCount;
+//	}
 
 	public int[] geteIL() {
 		return eIL;
@@ -78,13 +96,13 @@ public class GlobalVariable<ET, ST> {
 		this.eIM = eIM;
 	}
 
-	public Map<ST, Integer> getsLIL() {
-		return sLIL;
-	}
-
-	public void setsLIL(Map<ST, Integer> sLIL) {
-		this.sLIL = sLIL;
-	}
+//	public Map<ST, Integer> getsLIL() {
+//		return sLIL;
+//	}
+//
+//	public void setsLIL(Map<ST, Integer> sLIL) {
+//		this.sLIL = sLIL;
+//	}
 
 	public int[] getsIL() {
 		return sIL;
@@ -118,20 +136,20 @@ public class GlobalVariable<ET, ST> {
 		this.sIM = sIM;
 	}
 
-	public int geteActCount() {
-		return eActCount;
+	public int geteCount() {
+		return eCount;
 	}
 
-	public void seteActCount(int eActCount) {
-		this.eActCount = eActCount;
+	public void seteCount(int eCount) {
+		this.eCount = eCount;
 	}
 
-	public int getsActCount() {
-		return sActCount;
+	public int getsCount() {
+		return sCount;
 	}
 
-	public void setsActCount(int sActCount) {
-		this.sActCount = sActCount;
+	public void setsCount(int sCount) {
+		this.sCount = sCount;
 	}
 
 	public int[] geteL() {
@@ -174,15 +192,28 @@ public class GlobalVariable<ET, ST> {
 		this.solCount = solCount;
 	}
 
-	public List<Integer> getSol() {
-		if (sol == null) {
-			sol = new ArrayList<Integer>();
-		}
+	public int[] getSol() {
 		return sol;
 	}
 
-	public void setSol(List<Integer> sol) {
+	public void setSol(int[] sol) {
 		this.sol = sol;
+	}
+
+	public int getSolPtr() {
+		return solPtr;
+	}
+
+	public void setSolPtr(int solPtr) {
+		this.solPtr = solPtr;
+	}
+
+	public int[] getBestSol() {
+		return bestSol;
+	}
+
+	public void setBestSol(int[] bestSol) {
+		this.bestSol = bestSol;
 	}
 
 }

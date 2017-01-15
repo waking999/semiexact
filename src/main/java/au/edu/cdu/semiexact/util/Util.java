@@ -539,7 +539,6 @@ public class Util {
 		return rtnIndex;
 	}
 
-
 	/**
 	 * get the max cardinality set index in the list s containing sets
 	 * 
@@ -547,18 +546,21 @@ public class Util {
 	 *            global variables
 	 * @return the max cardinality set index in the list s
 	 */
-	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv) {
+	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv,int sCount) {
 
 		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
 		int index = ConstantValue.IMPOSSIBLE_VALUE;
 
-		int sActCount = gv.getsActCount();
+		 
 
 		int[] sL = gv.getsL();
 		int[] card = gv.getCard();
 
-		for (int i = 0; i < sActCount; i++) {
+		for (int i = 1; i <= sCount; i++) {
 			int j = sL[i];
+			if(card[j]<=0){
+				continue;
+			}
 			if (card[j] > maxCard) {
 				index = j;
 				maxCard = card[j];
@@ -571,6 +573,40 @@ public class Util {
 
 		return index;
 	}
+//	/**
+//	 * get the max cardinality set index in the list s containing sets
+//	 * 
+//	 * @param gv,
+//	 *            global variables
+//	 * @return the max cardinality set index in the list s
+//	 */
+//	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv) {
+//
+//		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
+//		int index = ConstantValue.IMPOSSIBLE_VALUE;
+//
+//		int sActCount = gv.getsActCount();
+//
+//		int[] sL = gv.getsL();
+//		int[] card = gv.getCard();
+//
+//		for (int i = 1; i <= sActCount; i++) {
+//			int j = sL[i];
+//			if(card[j]<=0){
+//				continue;
+//			}
+//			if (card[j] > maxCard) {
+//				index = j;
+//				maxCard = card[j];
+//			}
+//			if (card[j] >= maxCard && j < index) {
+//				index = j;
+//				maxCard = card[j];
+//			}
+//		}
+//
+//		return index;
+//	}
 
 	/**
 	 * remove a set r from a list containing sets: s\{r}
@@ -651,7 +687,7 @@ public class Util {
 	 * @return true: the set contains the element; false: otherwise
 	 */
 	public static boolean setContiansEle(int[] set, int setSize, int ele) {
-		for (int i = 0; i < setSize; i++) {
+		for (int i = 1; i <= setSize; i++) {
 			if (ele == set[i]) {
 				return true;
 			}
@@ -659,37 +695,38 @@ public class Util {
 		return false;
 	}
 
-	/**
-	 * generate a shallow copy of global variable (only memory id is different,
-	 * the content are the same).
-	 * 
-	 * @param gv,
-	 *            global variable
-	 * @return a copy of the global variable
-	 */
-	public static <ET, ST> GlobalVariable<ET, ST> copyGlobalVariable(GlobalVariable<ET, ST> gv) {
-		GlobalVariable<ET, ST> gv1 = new GlobalVariable<ET, ST>();
-		gv1.setBestSolCount(gv.getBestSolCount());
-		gv1.setCard(gv.getCard());
-		gv1.seteActCount(gv.geteActCount());
-		gv1.seteAL(gv.geteAL());
-		gv1.seteIL(gv.geteIL());
-		gv1.seteIM(gv.geteIM());
-		gv1.seteL(gv.geteL());
-		gv1.seteLIL(gv.geteLIL());
-		gv1.setFreq(gv.getFreq());
-		gv1.setMate(gv.getMate());
-		gv1.setsActCount(gv.getsActCount());
-		gv1.setsAL(gv.getsAL());
-		gv1.setsIL(gv.getsIL());
-		gv1.setsIM(gv.getsIM());
-		gv1.setsL(gv.getsL());
-		gv1.setsLIL(gv.getsLIL());
-		gv1.setSol(gv.getSol());
-		gv1.setSolCount(gv.getSolCount());
-
-		return gv1;
-	}
+//	/**
+//	 * generate a shallow copy of global variable (only memory id is different,
+//	 * the content are the same).
+//	 * 
+//	 * @param gv,
+//	 *            global variable
+//	 * @return a copy of the global variable
+//	 */
+//	public static <ET, ST> GlobalVariable<ET, ST> copyGlobalVariable(GlobalVariable<ET, ST> gv) {
+//		GlobalVariable<ET, ST> gv1 = new GlobalVariable<ET, ST>();
+//		gv1.setBestSolCount(gv.getBestSolCount());
+//		gv1.setCard(gv.getCard());
+//		gv1.seteActCount(gv.geteActCount());
+//		gv1.seteAL(gv.geteAL());
+//		gv1.seteIL(gv.geteIL());
+//		gv1.seteIM(gv.geteIM());
+//		gv1.seteL(gv.geteL());
+//		//gv1.seteLIL(gv.geteLIL());
+//		gv1.setFreq(gv.getFreq());
+//		gv1.setMate(gv.getMate());
+//		gv1.setsActCount(gv.getsActCount());
+//		gv1.setsAL(gv.getsAL());
+//		gv1.setsIL(gv.getsIL());
+//		gv1.setsIM(gv.getsIM());
+//		gv1.setsL(gv.getsL());
+//		//gv1.setsLIL(gv.getsLIL());
+//		gv1.setSol(gv.getSol());
+//		gv1.setSolPtr(gv.getSolPtr());
+//		gv1.setSolCount(gv.getSolCount());
+//
+//		return gv1;
+//	}
 
 //	/**
 //	 * get the set(containing only 2 elements) including element v and w

@@ -321,15 +321,17 @@ public class UtilTest {
 	@Test
 	public void testGetMaxCardinalitySetIndex() {
 		 
-		GlobalVariable<String, String> gv = TestUtil.getTestCase1ForGraphRepresentation();
+		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		TestUtil.printGlobalVariableStatus(gv);
 
-		Map<String, Integer> sLIL = gv.getsLIL();
+		//Map<String, Integer> sLIL = gv.getsLIL();
 
 		 
 
-		int sIdx = sLIL.get("Sd");
-		int selectSetIdx = Util.getMaxCardinalitySetIndex(gv);
+		//int sIdx = sLIL.get("Sd");
+		int sIdx=4;
+		
+		int selectSetIdx = Util.getMaxCardinalitySetIndex(gv, gv.getsCount());
 		Assert.assertEquals(sIdx, selectSetIdx);
  
 

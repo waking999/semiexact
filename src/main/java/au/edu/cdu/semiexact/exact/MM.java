@@ -42,15 +42,15 @@ public class MM {
 
 	private int findPath(Map<Integer, List<Integer>> graph, Map<Integer, Integer> match, int[] p, int root) {
 		int n = graph.size();
-		boolean[] used = new boolean[n];
+		boolean[] used = new boolean[n+1];
 		Arrays.fill(p, ConstantValue.IMPOSSIBLE_VALUE);
-		int[] base = new int[n];
-		for (int i = 0; i < n; ++i)
+		int[] base = new int[n+1];
+		for (int i = 1; i <=n; ++i)
 			base[i] = i;
 		used[root] = true;
-		int qh = 0;
-		int qt = 0;
-		int[] q = new int[n];
+		int qh = 1;
+		int qt = 1;
+		int[] q = new int[n+1];
 		q[qt++] = root;
 		while (qh < qt) {
 			int v = q[qh++];
@@ -97,10 +97,10 @@ public class MM {
 
 		Set<Integer> keySet = graph.keySet();
 		for (int key : keySet) {
-			match.put(key, ConstantValue.IMPOSSIBLE_VALUE);
+			match.put(key, ConstantValue.MATE_EXPOSE);
 		}
 
-		int[] p = new int[n];
+		int[] p = new int[n+1];
 		for (int key : keySet) {
 			if (match.get(key) == ConstantValue.IMPOSSIBLE_VALUE) {
 				int v = findPath(graph, match, p, key);
