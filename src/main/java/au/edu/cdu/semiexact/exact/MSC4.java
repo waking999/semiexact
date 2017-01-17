@@ -18,8 +18,6 @@ import au.edu.cdu.semiexact.util.Util;
  */
 public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
-	
-
 	/**
 	 * 
 	 * @param gv
@@ -64,8 +62,6 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		int e1 = freq[0];
 
 		int[] sol = gv.getSol();
-		// int eActCount = gv.geteActCount();
-		// int[] card = gv.getCard();
 		int solPtr = gv.getSolPtr();
 
 		int k1 = -1;
@@ -98,7 +94,6 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 				Util.addSetToCover(gv, card, freq, freqOneSet);
 				e1 = e1 - tmpCard;
 				s1--;
-				// gv.seteCount(eActCount);
 
 				count++;
 				freqOneSet = Util.getSetOfFrequencyOneElement(gv, freq);
@@ -106,7 +101,6 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			// TODO: other rules
 
 		}
-		// gv.seteCount(eActCount);
 		gv.setSol(sol);
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
@@ -121,13 +115,12 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 	}
 
 	protected int kHighest(GlobalVariable<ET, ST> gv, int[] card, int maxCard) {
-		// TODO: make sure the sum of cardinalityies of the k sets of highest card is greater than number of elements
+		// TODO: make sure the sum of cardinalityies of the k sets of highest
+		// card is greater than number of elements
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
-		// int sActCount = gv.getsCount();
 		int sActCount = card[0];
 		int[] sL = gv.getsL();
-		// int[] card = gv.getCard();
 
 		int k = bestSolCount - solCount - 1;
 		int count = 0;
@@ -169,16 +162,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
 
-		// int s1 = card[0];
-		// int e1 = freq[0];
-		// int s2;
-		// int e2;
-
 		if (bestSolCount <= solCount) {
 			return bestSolCount;
 		}
 
-		// if (e1 == 0) {
 		if (freq[0] == 0) {
 			solCount = gv.getSolCount();
 			bestSolCount = solCount;
@@ -198,7 +185,6 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 				return bestSolCount;
 			}
 
-			// if (eActCount == 0) {
 			if (freq[0] == 0) {
 				solCount = gv.getSolCount();
 				bestSolCount = solCount;
@@ -213,14 +199,11 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 				return bestSolCount;
 			}
 		}
-		// s1 = sActCount;
-		// e1 = eActCount;
 
 		if (bestSolCount <= solCount) {
 			return bestSolCount;
 		}
 
-		// if (e1 == 0) {
 		if (freq[0] == 0) {
 			solCount = gv.getSolCount();
 			bestSolCount = solCount;
@@ -235,18 +218,14 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
-		// int set = Util.getMaxCardinalitySetIndex(gv, s1);
 		int set = Util.getMaxCardinalitySetIndex(gv, card);
 
 		if (set == ConstantValue.IMPOSSIBLE_VALUE) {
 			return bestSolCount;
 		}
-		// int[] card = gv.getCard();
-		// eActCount = gv.geteActCount();
 
 		int kMax = kHighest(gv, card, card[set]);
 
-		// if (kMax < e1) {
 		if (kMax < freq[0]) {
 			return bestSolCount;
 		}
@@ -259,19 +238,15 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			if (size == ConstantValue.IMPOSSIBLE_VALUE) {
 				return bestSolCount;
 			} else {
-				// if ((size + solCount + (eActCount - 2 * size)) >=
-				// bestSolCount) {
 				if ((size + solCount + (freq[0] - 2 * size)) >= bestSolCount) {
 					return bestSolCount;
-				}else{
-					// int sActCount = gv.getsActCount();
+				} else {
 					int[] mate = gv.getMate();
 					int[][] sAL = gv.getsAL();
 					int[] sL = gv.getsL();
 					int[] sol = gv.getSol();
 					int solPtr = gv.getSolPtr();
 
-					// for (int i = 1; i <= sActCount; i++) {
 					for (int i = 1; i <= card[0]; i++) {
 						if ((mate[sAL[sL[i]][1]] == sAL[sL[i]][2]) && (mate[sAL[sL[i]][2]] == sAL[sL[i]][1])) {
 
@@ -293,8 +268,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 							continue;
 						}
 					}
-					 
-					
+
 					bestSolCount = solCount;
 					int[] bestSol = Arrays.copyOf(sol, solCount + 1);
 					gv.setBestSol(bestSol);
@@ -309,16 +283,9 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 		}
 
-		// GlobalVariable<ET, ST> copyGv1 = Util.copyGlobalVariable(gv);
-		// int[] mate = gv.getMate();
-		// int[] copyMate = Arrays.copyOf(mate, mate.length);
-		// copyGv.setMate(copyMate);
-		// card = gv.getCard();
 		int[] copyCard = Arrays.copyOf(card, card.length);
-		// copyGv1.setCard(copyCard);
-		// int[] freq = gv.getFreq();
+
 		int[] copyFreq = Arrays.copyOf(freq, freq.length);
-		// copyGv1.setFreq(copyFreq);
 
 		int tmpSolCount = gv.getSolCount();
 		int tmpSolPtr = gv.getSolPtr();
@@ -329,16 +296,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		sol[solPtr++] = set;
 		solCount++;
 
-		// int tmpCard = copyCard[set];
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
 		Util.addSetToCover(gv, copyCard, copyFreq, set);
-
-		// e2 = e1 - tmpCard;
-		// s2 = s1 - 1;
-		// copyFreq[0] = copyFreq[0] - tmpCard;
-		// copyCard[0] = copyCard[0] - 1;
 
 		int res1 = branch(gv, copyCard, copyFreq);
 
@@ -351,11 +312,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		// card[0] = s1;
-		// freq[0] = e1;
-
 		Util.deleteSet(gv, card, freq, set);
-		// s1--;
 
 		int res2 = branch(gv, card, freq);
 

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
 import au.edu.cdu.semiexact.util.GlobalVariable;
+
 /**
  * a test class for file operation class
  */
@@ -19,21 +20,17 @@ public class FileOperationTest {
 
 	@Test(expected = NoSuchFileException.class)
 	public void testRetriveProblemInfoByEdgePairFoundExp() throws IOException {
-		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/samplea.txt";
+		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/samplea.txt";
 
- 
 		new FileOperation().readGraphByEdgePair(filePath);
 	}
 
-	 
-
 	@Test
 	public void testRetriveProblemInfoByEdgePairNormal() throws IOException {
-	 
-		String filePath = TestUtil.getCurrentPath()+"/src/test/resources/sample1.txt";
 
-		
-		GlobalVariable<String,String> gv = new FileOperation().readGraphByEdgePair(filePath);
+		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/sample1.txt";
+
+		GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
 		TestUtil.printGlobalVariableStatus(gv);
 
 	}

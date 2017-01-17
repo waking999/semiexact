@@ -6,8 +6,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+
 /**
- * test class for msc1 
+ * test class for msc1
  *
  */
 public class MSC1Test {
@@ -19,9 +20,7 @@ public class MSC1Test {
 		MSC1 msc = new MSC1();
 		msc.setS(list);
 		int result = msc.run();
-		Assert.assertEquals(2, result); 
+		Assert.assertEquals(2, result);
 	}
-
-	
 
 }

@@ -1,4 +1,5 @@
 package au.edu.cdu.semiexact.exact;
+
 /**
  * 1. the exactly same as the basic algorithm
  * 2. apply the reduction rule exhaustedly 
@@ -22,7 +23,7 @@ public class MSC2 {
 	private int branch(List<List<Integer>> s) {
 		if (s == null || s.size() == 0)
 			return 0;
-		//subset rule
+		// subset rule
 		ExistQualifiedSet exist = Util.existSubset(s);
 		if (exist.isExist()) {
 			do {
@@ -34,7 +35,7 @@ public class MSC2 {
 			List<List<Integer>> sCopy = Util.copyList(s);
 			return branch(sCopy);
 		}
-		//unique set for an element
+		// unique set for an element
 		List<Integer> uList = Util.unionSets(s);
 		exist = Util.existUniqueSetForAElement(uList, s);
 		if (exist.isExist()) {
@@ -55,18 +56,19 @@ public class MSC2 {
 
 			return 1 + branch(sCopy);
 		}
-		//base rule
+		// base rule
 		List<Integer> si = Util.getMaxCardinalitySet(s);
 		int siLen = si.size();
 		if (siLen <= 2) {
 			return polyMsc(s);
 		}
-		//branch
+		// branch
 		return Math.min(branch(Util.removeSet(Util.copyList(s), si)), 1 + branch(Util.deleteSet(Util.copyList(s), si)));
 
 	}
 
 	private int polyMsc(List<List<Integer>> s) {
+		// TODO: this is not really right, need to be revised.
 		return s.size();
 	}
 }

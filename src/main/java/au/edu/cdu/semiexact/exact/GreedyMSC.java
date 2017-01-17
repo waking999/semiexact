@@ -8,17 +8,17 @@ public class GreedyMSC {
 		int solCount = gv.getSolCount();
 		int[] sol = gv.getSol();
 		int solPtr = gv.getSolPtr();
-		
-		int crossLvlNum=1;
 
-		while (crossLvlNum <= allowCrossLvlNum && freq[0] >0) {
+		int crossLvlNum = 1;
+
+		while (crossLvlNum <= allowCrossLvlNum && freq[0] > 0) {
 			int set = Util.getMaxCardinalitySetIndex(gv, card);
 			Util.addSetToCover(gv, card, freq, set);
 			sol[solPtr++] = set;
 			solCount++;
 			crossLvlNum++;
 		}
-		
+
 		gv.setSol(sol);
 		gv.setSolCount(solCount);
 		gv.setSolPtr(solPtr);

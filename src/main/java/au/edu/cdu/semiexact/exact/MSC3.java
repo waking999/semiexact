@@ -6,32 +6,30 @@ import java.util.Set;
 
 import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
+
 /**
  * 
  * @author kwang1
  * 
- * 1. the exactly same as the basic algorithm
- * 2. apply the reduction rule exhaustedly 
- * 3. return not only solution size but also solutions
+ *         1. the exactly same as the basic algorithm 2. apply the reduction
+ *         rule exhaustedly 3. return not only solution size but also solutions
  *
  */
 public class MSC3 {
 	Map<Integer, List<Integer>> map;
-	 
+
 	public void setMap(Map<Integer, List<Integer>> map) {
 		this.map = map;
 	}
 
- 
 	public void setRr(ReturnResult<Integer> rr) {
 		this.rr = rr;
 	}
 
 	ReturnResult<Integer> rr;
-	
- 
+
 	public ReturnResult<Integer> run() {
-		return branch(map,rr);
+		return branch(map, rr);
 	}
 
 	private ReturnResult<Integer> branch(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) {
@@ -39,8 +37,8 @@ public class MSC3 {
 		if (map == null || map.size() == 0) {
 			return rr;
 		}
-		
-		//subset rule
+
+		// subset rule
 		ExistQualifiedSet exist = Util.existSubset(map);
 		if (exist.isExist()) {
 			do {
@@ -53,8 +51,8 @@ public class MSC3 {
 			return branch(mapCopy, rr);
 		}
 		List<Integer> uList = Util.unionSets(map);
-		
-		////unique set for an element
+
+		// unique set for an element
 		exist = Util.existUniqueSetForAElement(uList, map);
 		if (exist.isExist()) {
 			int setIndex = exist.getSetIndex();
@@ -80,13 +78,13 @@ public class MSC3 {
 		int siIndex = Util.getMaxCardinalitySetIndex(map);
 		List<Integer> si = map.get(siIndex);
 
-		//base rule
+		// base rule
 		int siLen = si.size();
 		if (siLen <= 2) {
 			return polyMsc(map, rr);
 		}
 
-		//branch
+		// branch
 		Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
 		mapCopy.remove(siIndex);
 		ReturnResult<Integer> rr1 = branch(mapCopy, rr);
@@ -106,6 +104,7 @@ public class MSC3 {
 	}
 
 	private ReturnResult<Integer> polyMsc(Map<Integer, List<Integer>> map, ReturnResult<Integer> rr) {
+		// TODO: this is not really right, need to be revised.
 		Set<Integer> keySet = map.keySet();
 
 		List<Integer> results = rr.getResults();

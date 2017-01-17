@@ -18,9 +18,7 @@ import au.edu.cdu.semiexact.util.Util;
 public class MSC5Test {
 	private static Logger log = LogUtil.getLogger(MSC5Test.class);
 
-	  
-
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testBranch3() {
 		log.debug(TestUtil.FUNCTION_SEP);
@@ -40,7 +38,7 @@ public class MSC5Test {
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
 		Assert.assertEquals(2, gv.getBestSolCount());
-		
+
 	}
 
 	// @Ignore

@@ -416,17 +416,6 @@ public class Util {
 
 		}
 
-		// for (List<T> l : s) {
-		// List<T> lCopy=copyList(l);
-		// lCopy = Util.set1Minus2(lCopy, rCopy);
-		// if (lCopy == null || lCopy.size() == 0) {
-		// s.remove(l);
-		// }else{
-		// int lIndex=s.indexOf(l);
-		// s.set(lIndex, lCopy);
-		// }
-		// }
-
 		return s;
 	}
 
@@ -548,6 +537,8 @@ public class Util {
 	 * 
 	 * @param gv,
 	 *            global variables
+	 * @param card,
+	 *            set cardinalities
 	 * @return the max cardinality set index in the list s
 	 */
 	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv, int[] card) {
@@ -556,7 +547,6 @@ public class Util {
 		int index = ConstantValue.IMPOSSIBLE_VALUE;
 
 		int[] sL = gv.getsL();
-		// int[] card = gv.getCard();
 		int sCount = card[0];
 
 		for (int i = 1; i <= sCount; i++) {
@@ -576,41 +566,6 @@ public class Util {
 
 		return index;
 	}
-	// /**
-	// * get the max cardinality set index in the list s containing sets
-	// *
-	// * @param gv,
-	// * global variables
-	// * @return the max cardinality set index in the list s
-	// */
-	// public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET,
-	// ST> gv) {
-	//
-	// int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
-	// int index = ConstantValue.IMPOSSIBLE_VALUE;
-	//
-	// int sActCount = gv.getsActCount();
-	//
-	// int[] sL = gv.getsL();
-	// int[] card = gv.getCard();
-	//
-	// for (int i = 1; i <= sActCount; i++) {
-	// int j = sL[i];
-	// if(card[j]<=0){
-	// continue;
-	// }
-	// if (card[j] > maxCard) {
-	// index = j;
-	// maxCard = card[j];
-	// }
-	// if (card[j] >= maxCard && j < index) {
-	// index = j;
-	// maxCard = card[j];
-	// }
-	// }
-	//
-	// return index;
-	// }
 
 	/**
 	 * remove a set r from a list containing sets: s\{r}
@@ -659,26 +614,6 @@ public class Util {
 		return list;
 	}
 
-	// /**
-	// * get the index of the max value in the array
-	// *
-	// * @param array
-	// * @return the index of the max value in the array
-	// */
-	// public static int getMaxIndex(int[] array) {
-	// int maxIndex = 0;
-	// int arraySize = array.length;
-	// int max = array[0];
-	//
-	// for (int i = 1; i < arraySize; i++) {
-	// if (array[i] > max) {
-	// max = array[i];
-	// maxIndex = i;
-	// }
-	// }
-	// return maxIndex;
-	// }
-
 	/**
 	 * if the set (with limited setSize) contains the element
 	 * 
@@ -700,6 +635,17 @@ public class Util {
 		}
 	}
 
+	/**
+	 * if a set contains an element, return the index of the element in the set
+	 * 
+	 * @param set,
+	 *            the set
+	 * @param setSize,
+	 *            limit the set size
+	 * @param ele,
+	 *            the element
+	 * @return the index of the element in the set
+	 */
 	private static int getContiansEleIdx(int[] set, int setSize, int ele) {
 		for (int i = 1; i <= setSize; i++) {
 			if (ele == set[i]) {
@@ -709,66 +655,6 @@ public class Util {
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
 
-	// /**
-	// * generate a shallow copy of global variable (only memory id is
-	// different,
-	// * the content are the same).
-	// *
-	// * @param gv,
-	// * global variable
-	// * @return a copy of the global variable
-	// */
-	// public static <ET, ST> GlobalVariable<ET, ST>
-	// copyGlobalVariable(GlobalVariable<ET, ST> gv) {
-	// GlobalVariable<ET, ST> gv1 = new GlobalVariable<ET, ST>();
-	// gv1.setBestSolCount(gv.getBestSolCount());
-	// gv1.setCard(gv.getCard());
-	// gv1.seteActCount(gv.geteActCount());
-	// gv1.seteAL(gv.geteAL());
-	// gv1.seteIL(gv.geteIL());
-	// gv1.seteIM(gv.geteIM());
-	// gv1.seteL(gv.geteL());
-	// //gv1.seteLIL(gv.geteLIL());
-	// gv1.setFreq(gv.getFreq());
-	// gv1.setMate(gv.getMate());
-	// gv1.setsActCount(gv.getsActCount());
-	// gv1.setsAL(gv.getsAL());
-	// gv1.setsIL(gv.getsIL());
-	// gv1.setsIM(gv.getsIM());
-	// gv1.setsL(gv.getsL());
-	// //gv1.setsLIL(gv.getsLIL());
-	// gv1.setSol(gv.getSol());
-	// gv1.setSolPtr(gv.getSolPtr());
-	// gv1.setSolCount(gv.getSolCount());
-	//
-	// return gv1;
-	// }
-
-	// /**
-	// * get the set(containing only 2 elements) including element v and w
-	// *
-	// * @param gv,
-	// * global variable
-	// * @param v,
-	// * an element
-	// * @param w,
-	// * another element
-	// * @return the set(containing only 2 elements) including element v and w
-	// */
-	// public static <ET, ST> int findSet(GlobalVariable<ET, ST> gv, int v, int
-	// w) {
-	// int[] freq = gv.getFreq();
-	// int[][] eAL = gv.geteAL();
-	// int[][] sAL = gv.getsAL();
-	//
-	// for (int i = 0; i < freq[v]; i++) {
-	// int edge = eAL[v][i];
-	// if (sAL[edge][0] == w || sAL[edge][1] == w) {
-	// return edge;
-	// }
-	// }
-	// return ConstantValue.IMPOSSIBLE_VALUE;
-	// }
 	/**
 	 * delete the edge from a vertex of index u to a vertex of index v
 	 * 
@@ -839,41 +725,18 @@ public class Util {
 
 	}
 
-	// /**
-	// * decrease element frequency
-	// *
-	// * @param gv,
-	// * global variables
-	// * @param eToDecIdx,
-	// * the index of the element to be decreased
-	// * @param sToDelIdx,
-	// * the index of the set to be deleted
-	// */
-	// protected void decreaseElementFrequency(GlobalVariable<ET, ST> gv,int[]
-	// freq, int eToDecIdx, int sToDelIdx) {
-	// //int[] freq = gv.getFreq();
-	// int[][] eAL = gv.geteAL();
-	// int[][] eIM = gv.geteIM();
-	//
-	// deleteEdge(freq, eAL, eIM, eToDecIdx, sToDelIdx);
-	//
-	// //gv.setFreq(freq);
-	// gv.seteAL(eAL);
-	// gv.seteIM(eIM);
-	//
-	// }
-
 	/**
 	 * delete a set
 	 * 
 	 * @param gv,
 	 *            global variables
-	 * @param sToDelIdx,
-	 *            the index of the set to be deleted
+	 * @param card,
+	 *            set cardinalities
+	 * @param freq,
+	 *            element frequency* @param sToDelIdx, the index of the set to
+	 *            be deleted
 	 */
 	public static <ET, ST> void deleteSet(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sToDelIdx) {
-		// int[] card = gv.getCard();
-		// int[] freq = gv.getFreq();
 
 		int[] sL = gv.getsL();
 		int[] sIL = gv.getsIL();
@@ -881,54 +744,30 @@ public class Util {
 		int[][] sAL = gv.getsAL();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
-		// int sActCount = gv.getsActCount();
 
 		deleteVertex(card, sL, sIL, sAL, freq, eAL, eIM, sToDelIdx);
 
-		// gv.setCard(card);
-		// gv.setFreq(freq);
 		gv.setsIL(sIL);
 		gv.setsAL(sAL);
 		gv.seteAL(eAL);
 		gv.seteIM(eIM);
 		gv.setsL(sL);
-		// gv.setsActCount(sActCount - 1);
-	}
 
-	// /**
-	// // * decrease the cardinality of a set
-	// // *
-	// // * @param gv,
-	// // * global variable
-	// // * @param sToDecIdx,
-	// // * the index of the set to be decreased
-	// // * @param eToDelIdx,
-	// // * the index of the element to be deleted
-	// // */
-	// protected void decreaseSetCardinality(GlobalVariable<ET, ST> gv, int[]
-	// card, int sToDecIdx, int eToDelIdx) {
-	// // int[] card = gv.getCard();
-	// int[][] sAL = gv.getsAL();
-	// int[][] sIM = gv.getsIM();
-	//
-	// deleteEdge(card, sAL, sIM, sToDecIdx, eToDelIdx);
-	//
-	// // gv.setCard(card);
-	// gv.setsAL(sAL);
-	// gv.setsIM(sIM);
-	// }
+	}
 
 	/**
 	 * delete element
 	 * 
 	 * @param gv,
 	 *            global variable
+	 * @param card,
+	 *            set cardinalities
+	 * @param freq,
+	 *            element frequency
 	 * @param eToDelIdx,
 	 *            the index of the element to be deleted
 	 */
 	protected static <ET, ST> void deleteElement(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int eToDelIdx) {
-		// int[] freq = gv.getFreq();
-		// int[] card = gv.getCard();
 
 		int[] eL = gv.geteL();
 		int[] eIL = gv.geteIL();
@@ -939,14 +778,11 @@ public class Util {
 
 		deleteVertex(freq, eL, eIL, eAL, card, sAL, sIM, eToDelIdx);
 
-		// gv.setCard(card);
-		// gv.setFreq(freq);
 		gv.seteIL(eIL);
 		gv.setsAL(sAL);
 		gv.seteAL(eAL);
 		gv.setsIM(sIM);
 		gv.seteL(eL);
-		// gv.seteActCount(eActCount - 1);
 	}
 
 	/**
@@ -954,11 +790,14 @@ public class Util {
 	 * 
 	 * @param gv,
 	 *            global variable
+	 * @param card,
+	 *            set cardinalities
+	 * @param freq,
+	 *            element frequency
 	 * @param sToAddIdx,
 	 *            the index of the set to be added
 	 */
 	public static <ET, ST> void addSetToCover(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sToAddIdx) {
-		// int[] card = gv.getCard();
 		int[] sL = gv.getsL();
 		int sActCount = card[0];
 
@@ -981,12 +820,10 @@ public class Util {
 		}
 		card[sToAddIdx] = 0;
 
-		// gv.setCard(card);
 		gv.setsL(sL);
 		gv.setsIL(sIL);
 		gv.setsAL(sAL);
 		card[0] = sActCount - 1;
-		// gv.setsActCount(sActCount - 1);
 	}
 
 	/**
@@ -994,11 +831,11 @@ public class Util {
 	 * 
 	 * @param gv,
 	 *            global variables
+	 * @param freq,
+	 *            element frequency
 	 * @return set index
 	 */
 	public static <ET, ST> int getSetOfFrequencyOneElement(GlobalVariable<ET, ST> gv, int[] freq) {
-		// int eActCount = gv.geteCount();
-		// int[] freq = gv.getFreq();
 		int eActCount = freq[0];
 
 		int[] eL = gv.geteL();
@@ -1020,18 +857,20 @@ public class Util {
 	 * 
 	 * @param gv,
 	 *            global variables
+	 * @param card,
+	 *            set cardinalities
 	 * @param s1Idx,
 	 *            set1 index
 	 * @param s2Idx,
 	 *            set2 index
 	 * @return true: set1 is a subset of set2; false: otherwise
 	 */
+
 	protected static <ET, ST> boolean is1Subset2(GlobalVariable<ET, ST> gv, int[] card, int s1Idx, int s2Idx) {
 		if (s1Idx == s2Idx) {
 			return false;
 		}
 
-		// int[] card = gv.getCard();
 		int s1Card = card[s1Idx];
 		int s2Card = card[s2Idx];
 
@@ -1064,12 +903,12 @@ public class Util {
 	 * 
 	 * @param gv,
 	 *            global variable
+	 * @param card,
+	 *            set cardinalities
 	 * @return a subset of another set
 	 */
 	public static <ET, ST> int getSubset(GlobalVariable<ET, ST> gv, int[] card) {
-		// int sActCount = gv.geteActCount();
 		int[] sL = gv.getsL();
-		// int[] card = gv.getCard();
 		int sActCount = card[0];
 
 		for (int i = 1; i <= sActCount - 1; i++) {
@@ -1096,11 +935,20 @@ public class Util {
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
 
+	/**
+	 * convert global variables into the format useful for calculating maximum
+	 * matching
+	 * 
+	 * @param gv,
+	 *            global variables
+	 * @param card,
+	 *            set cardinalities
+	 * @return an adjacency list of elements format
+	 */
 	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv, int[] card) {
 
 		int[][] sAL = gv.getsAL();
 		int sActNum = gv.getsCount();
-		// int[] card = gv.getCard();
 
 		Map<Integer, List<Integer>> g = new HashMap<Integer, List<Integer>>();
 
@@ -1132,32 +980,14 @@ public class Util {
 
 	}
 
+	/**
+	 * if a solution is valid
+	 * 
+	 * @param gv,
+	 *            global variables
+	 * @return true if it is valid, otherwise false
+	 */
 	public static <ET, ST> boolean isValidSolution(GlobalVariable<ET, ST> gv) {
-
-		// int count;
-		//
-		// int sCount = gv.getsCount();
-		// int bestSolCount = gv.getBestSolCount();
-		// int[] bestSol = gv.getBestSol();
-		// int[][] eIM = gv.geteIM();
-		//
-		// for (int i = 1; i <= sCount; i++) {
-		// count = 0;
-		//
-		// for (int j = 1; j <= bestSolCount; j++) {
-		// if (i == bestSol[j])
-		// break;
-		//
-		// if (eIM[i][bestSol[j]] > 0) // index of i in list of sol[j]
-		// break;
-		//
-		// count++;
-		// }
-		//
-		// if (count == bestSolCount) {
-		// return false;
-		// }
-		// }
 
 		int bestSolCount = gv.getBestSolCount();
 		int[] bestSol = gv.getBestSol();
@@ -1188,25 +1018,32 @@ public class Util {
 			return false;
 		}
 	}
-	
-	public static String getBatchNum(){
-		Date date = new Date();   // given date
-		Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-		calendar.setTime(date);   // assigns calendar to given date
-		int year=calendar.get(Calendar.YEAR);
-		int month=calendar.get(Calendar.MONTH);
-		int day=calendar.get(Calendar.DAY_OF_MONTH);
-		int hour=calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
-		int min=calendar.get(Calendar.MINUTE);
-		
-		StringBuffer sb=new StringBuffer();
-		String monthStr = String.format("%02d", month+1); 
-		String dayStr = String.format("%02d", day); 
-		
+
+	/**
+	 * generate a batch num by date and time
+	 * 
+	 * @return
+	 */
+	public static String getBatchNum() {
+		Date date = new Date(); // given date
+		Calendar calendar = GregorianCalendar.getInstance(); // creates a new
+																// calendar
+																// instance
+		calendar.setTime(date); // assigns calendar to given date
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h
+														// format
+		int min = calendar.get(Calendar.MINUTE);
+
+		StringBuffer sb = new StringBuffer();
+		String monthStr = String.format("%02d", month + 1);
+		String dayStr = String.format("%02d", day);
+
 		sb.append(year).append(monthStr).append(dayStr).append("-").append(hour).append(min);
 		return sb.toString();
-		
-		   
+
 	}
 
 }

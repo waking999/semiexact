@@ -1,11 +1,11 @@
 package au.edu.cdu.semiexact.util;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.Logger;
 
 /**
  * an util for log
- *  
+ * 
  * 
  */
 public class LogUtil {
@@ -44,5 +44,4 @@ public class LogUtil {
 		return log;
 	}
 
- 
 }

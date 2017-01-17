@@ -42,15 +42,15 @@ public class MM {
 
 	private int findPath(Map<Integer, List<Integer>> graph, Map<Integer, Integer> match, int[] p, int root) {
 		int n = graph.size();
-		boolean[] used = new boolean[n+1];
+		boolean[] used = new boolean[n + 1];
 		Arrays.fill(p, ConstantValue.IMPOSSIBLE_VALUE);
-		int[] base = new int[n+1];
-		for (int i = 1; i <=n; ++i)
+		int[] base = new int[n + 1];
+		for (int i = 1; i <= n; ++i)
 			base[i] = i;
 		used[root] = true;
 		int qh = 1;
 		int qt = 1;
-		int[] q = new int[n+1];
+		int[] q = new int[n + 1];
 		q[qt++] = root;
 		while (qh < qt) {
 			int v = q[qh++];
@@ -88,8 +88,8 @@ public class MM {
 	/**
 	 * 
 	 * @param graph,
-	 *            vertex adjacency list
-	 * @return, matching number and max matching 
+	 *            vertex adjacency list @return, matching number and max
+	 *            matching
 	 */
 	public MMObj maxMatching(Map<Integer, List<Integer>> graph) {
 		int n = graph.size();
@@ -100,7 +100,7 @@ public class MM {
 			match.put(key, ConstantValue.MATE_EXPOSE);
 		}
 
-		int[] p = new int[n+1];
+		int[] p = new int[n + 1];
 		for (int key : keySet) {
 			if (match.get(key) == ConstantValue.IMPOSSIBLE_VALUE) {
 				int v = findPath(graph, match, p, key);

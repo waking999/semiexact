@@ -34,7 +34,8 @@ public class MSC5TestDIMACS {
 
 			dbpIn = new DBParameter();
 			dbpIn.setTableName(ConstantValue.DB_VNAME_INS);
-			String[] colNamesIn = { ConstantValue.DB_COL_ID, ConstantValue.DB_COL_INS_NAME,ConstantValue.DB_COL_DATASET_PATH_NAME, ConstantValue.DB_COL_INS_PATH_NAME };
+			String[] colNamesIn = { ConstantValue.DB_COL_ID, ConstantValue.DB_COL_INS_NAME,
+					ConstantValue.DB_COL_DATASET_PATH_NAME, ConstantValue.DB_COL_INS_PATH_NAME };
 			String[] colPairNamesIn = { ConstantValue.DB_COL_INS_NAME };
 			String[] colPairOperatorsIn = { "=" };
 			String[] colPairValuesIn = { instanceName };
@@ -48,11 +49,11 @@ public class MSC5TestDIMACS {
 			for (int i = 0; i < lstLen; i++) {
 				Map<String, String> map = lst.get(i);
 				String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
-				String dPathName=map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
-				
+				String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
+
 				String id = map.get(ConstantValue.DB_COL_ID);
 
-				String filePath = baseFilePath +  dPathName+iPathName;
+				String filePath = baseFilePath + dPathName + iPathName;
 				GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
 				MSC5<String, String> msc = new MSC5<String, String>();
 				long start = System.nanoTime();
@@ -61,7 +62,8 @@ public class MSC5TestDIMACS {
 
 				dbpOut = new DBParameter();
 				dbpOut.setTableName(algTableName);
-				String[] colPairNamesOut = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_BATCH_NUM, ConstantValue.DB_COL_RESULT_COUNT, ConstantValue.DB_COL_RUNNING_TIME};
+				String[] colPairNamesOut = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_BATCH_NUM,
+						ConstantValue.DB_COL_RESULT_COUNT, ConstantValue.DB_COL_RUNNING_TIME };
 				String[] colPairValuesOut = { id, batchNum, Integer.toString(gv.getBestSolCount()),
 						Long.toString((end - start)) };
 				dbpOut.setColPairNames(colPairNamesOut);
@@ -86,8 +88,10 @@ public class MSC5TestDIMACS {
 	public void testDIMCS() throws IOException {
 		String algTableName = ConstantValue.DB_TBNAME_ALG1;
 
-		String[] instanceNames = { "brock200_2", "brock200_4", "brock400_2", "brock400_4", "brock800_2",
-				"brock800_4", };
+		String[] instanceNames = { "brock200_2", "brock200_4",
+				// "brock400_2", "brock400_4", "brock800_2",
+				// "brock800_4",
+		};
 
 		basicTest(instanceNames, algTableName);
 

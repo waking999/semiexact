@@ -9,9 +9,8 @@ package au.edu.cdu.semiexact.util;
  *            set type
  */
 public class GlobalVariable<ET, ST> {
-	private int eCount; // element  count
+	private int eCount; // element count
 
-//	private Map<ET, Integer> eLIL; // element label index list
 	private int[] eL; // element list
 	private int[] eIL;// element index list
 
@@ -20,7 +19,6 @@ public class GlobalVariable<ET, ST> {
 	private int[][] eIM; // element incidence matrix
 
 	private int sCount; // set count
-	//private Map<ST, Integer> sLIL; // set label index list
 	private int[] sL; // set list
 	private int[] sIL;// set index list
 	private int[] card; // cardinality
@@ -35,34 +33,6 @@ public class GlobalVariable<ET, ST> {
 
 	private int bestSolCount;
 	private int[] bestSol;
-	
-//	private int sActCount;
-//	private int eActCount;
-	
-
-//	public Map<ET, Integer> geteLIL() {
-//		return eLIL;
-//	}
-//
-//	public void seteLIL(Map<ET, Integer> eLIL) {
-//		this.eLIL = eLIL;
-//	}
-
-//	public int getsActCount() {
-//		return sActCount;
-//	}
-//
-//	public void setsActCount(int sActCount) {
-//		this.sActCount = sActCount;
-//	}
-//
-//	public int geteActCount() {
-//		return eActCount;
-//	}
-//
-//	public void seteActCount(int eActCount) {
-//		this.eActCount = eActCount;
-//	}
 
 	public int[] geteIL() {
 		return eIL;
@@ -95,14 +65,6 @@ public class GlobalVariable<ET, ST> {
 	public void seteIM(int[][] eIM) {
 		this.eIM = eIM;
 	}
-
-//	public Map<ST, Integer> getsLIL() {
-//		return sLIL;
-//	}
-//
-//	public void setsLIL(Map<ST, Integer> sLIL) {
-//		this.sLIL = sLIL;
-//	}
 
 	public int[] getsIL() {
 		return sIL;
