@@ -5,9 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
@@ -35,52 +33,65 @@ public class FileOperation {
 		String line0 = lines.get(0);
 		String[] line0Array = line0.split(BLANK);
 		String numOfVerStr = line0Array[0];
+		String numOfEdgStr = line0Array[1];
 
 		int numOfVer = Integer.parseInt(numOfVerStr);
+		int numOfEdg = Integer.parseInt(numOfEdgStr);
 
-		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		for (int i = 0; i < numOfVer; i++) {
-			sLIL.put(new Integer(i + 1).toString(), i);
-			eLIL.put(new Integer(i + 1).toString(), i);
-		}
+		// Map<String, Integer> sLIL = new HashMap<String, Integer>();
+		// Map<String, Integer> eLIL = new HashMap<String, Integer>();
+		// for (int i = 0; i < numOfVer; i++) {
+		// sLIL.put(new Integer(i + 1).toString(), i);
+		// eLIL.put(new Integer(i + 1).toString(), i);
+		// }
 
-		int[] card = new int[numOfVer];
-		int[] freq = new int[numOfVer];
-		int[] sL = new int[numOfVer];
-		int[] sIL = new int[numOfVer];
-		int[] eL = new int[numOfVer];
-		int[] eIL = new int[numOfVer];
-		int[][] sIM = new int[numOfVer][numOfVer];
-		int[][] eIM = new int[numOfVer][numOfVer];
+		int mallocsize = numOfVer + 1; //valid index starts from 1
 
-		for (int i = 0; i < numOfVer; i++) {
-			card[i] = 1;
-			freq[i] = 1;
+		int[] card = new int[mallocsize];
+		int[] freq = new int[mallocsize];
+		int[] sL = new int[mallocsize];
+		int[] sIL = new int[mallocsize];
+		int[] eL = new int[mallocsize];
+		int[] eIL = new int[mallocsize];
+		int[][] sIM = new int[mallocsize][mallocsize];
+		int[][] eIM = new int[mallocsize][mallocsize];
 
-			int val = i;
-			sL[i] = val;
-			sIL[i] = val;
-			eL[i] = val;
-			eIL[i] = val;
+		for (int i = 0; i <= numOfVer; i++) {
+			if (i > 0) {
+				card[i] = 1;
+				freq[i] = 1;
+			} else {
+				card[i] = numOfVer;
+				freq[i] = numOfVer;
+			}
 
-			for (int j = 0; j < numOfVer; j++) {
+			if (i > 0) {
+				sL[i] = i;
+				sIL[i] = i;
+				eL[i] = i;
+				eIL[i] = i;
+			} else {
+				sL[i] = ConstantValue.IMPOSSIBLE_VALUE;
+				sIL[i] = ConstantValue.IMPOSSIBLE_VALUE;
+				eL[i] = ConstantValue.IMPOSSIBLE_VALUE;
+				eIL[i] = ConstantValue.IMPOSSIBLE_VALUE;
+			}
+
+			for (int j = 0; j <= numOfVer; j++) {
 				sIM[i][j] = ConstantValue.IMPOSSIBLE_VALUE;
 				eIM[i][j] = ConstantValue.IMPOSSIBLE_VALUE;
 			}
 		}
 
-		int linesSize = lines.size();
 		String tmpLine = null;
-		for (int i = 1; i < linesSize; i++) {
+		for (int i = 1; i <= numOfEdg; i++) {
 			tmpLine = lines.get(i);
 			String[] tmpLineArray = tmpLine.split(BLANK);
 			String u1Str = tmpLineArray[0];
 			String v1Str = tmpLineArray[1];
-			int u1 = Integer.parseInt(u1Str);
-			int v1 = Integer.parseInt(v1Str);
-			int u = u1 - 1;
-			int v = v1 - 1;
+			int u = Integer.parseInt(u1Str);
+			int v = Integer.parseInt(v1Str);
+
 			sIM[u][v] = 1;
 			sIM[v][u] = 1;
 			eIM[u][v] = 1;
@@ -92,21 +103,25 @@ public class FileOperation {
 			freq[v]++;
 		}
 
-		for (int i = 0; i < numOfVer; i++) {
+		for (int i = 1; i <= numOfVer; i++) {
+
 			sIM[i][i] = 1;
 			eIM[i][i] = 1;
 		}
 
-		int[][] sAL = new int[numOfVer][];
-		int[][] eAL = new int[numOfVer][];
+		int[][] sAL = new int[mallocsize][];
+		int[][] eAL = new int[mallocsize][];
 
-		for (int i = 0; i < numOfVer; i++) {
-			sAL[i] = new int[card[i]];
-			eAL[i] = new int[freq[i]];
+		for (int i = 1; i <= numOfVer; i++) {
+			sAL[i] = new int[card[i] + 1];
+			eAL[i] = new int[freq[i] + 1];
 
-			int sCur = 0;
-			int eCur = 0;
-			for (int j = 0; j < numOfVer; j++) {
+			sAL[i][0] = ConstantValue.IMPOSSIBLE_VALUE;
+			eAL[i][0] = ConstantValue.IMPOSSIBLE_VALUE;
+
+			int sCur = 1;
+			int eCur = 1;
+			for (int j = 1; j <= numOfVer; j++) {
 				if (sIM[j][i] == 1) {
 					sIM[j][i] = sCur;
 					sAL[i][sCur] = j;
@@ -120,27 +135,39 @@ public class FileOperation {
 			}
 		}
 
-		 
-		int[] mate = new int[numOfVer];
-		for (int i = 0; i < numOfVer; i++) {
-			mate[i] = 0;
+		int[] mate = new int[mallocsize];
+		for (int i = 0; i <= numOfVer; i++) {
+			mate[i] = ConstantValue.IMPOSSIBLE_VALUE;
 		}
-		gv.setsActCount(numOfVer);
+
+		int[] sol = new int[mallocsize];
+		int[] bestSol = new int[mallocsize];
+		for (int i = 0; i <= numOfVer; i++) {
+			sol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+			bestSol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+		}
+		gv.setSol(sol);
+		gv.setBestSol(bestSol);
+		gv.setSolPtr(1); //valid index starts from 1;
+
+		gv.setsCount(numOfVer);
+		//gv.setsActCount(numOfVer);
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
 		gv.setsIM(sIM);
 		gv.setsL(sL);
 		gv.setsIL(sIL);
-		gv.setsLIL(sLIL);
+		// gv.setsLIL(sLIL);
 		gv.setCard(card);
 
-		gv.seteActCount(numOfVer);
+		gv.seteCount(numOfVer);
+		//gv.seteActCount(numOfVer);
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
 		gv.seteIM(eIM);
 		gv.seteL(eL);
 		gv.seteIL(eIL);
-		gv.seteLIL(eLIL);
+		// gv.seteLIL(eLIL);
 		gv.setFreq(freq);
 
 		gv.setBestSolCount(numOfVer);
