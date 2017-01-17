@@ -33,7 +33,8 @@ public class MSC4Test {
 		log.debug(TestUtil.FUNCTION_SEP);
 		MSC4<String, String> msc = new MSC4<String, String>();
 		int[] card = gv.getCard();
-		int size = msc.buildMaxMatching(gv, card);
+		int[] freq=gv.getFreq();
+		int size = msc.buildMaxMatching(gv, card, freq);
 		Assert.assertEquals(3, size);
 		int[] mate = gv.getMate();
 		Assert.assertEquals(3, mate[1]);

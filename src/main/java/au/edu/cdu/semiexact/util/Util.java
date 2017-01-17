@@ -945,38 +945,74 @@ public class Util {
 	 *            set cardinalities
 	 * @return an adjacency list of elements format
 	 */
-	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv, int[] card) {
-
+	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv, int[] card,
+			int[] freq) {
+		//TODO: sL is not right
+		int[] sL = gv.getsL();
+		int[] eL = gv.geteL();
 		int[][] sAL = gv.getsAL();
-		int sActNum = gv.getsCount();
+		int sActCount = gv.getsCount();
+		// int sActCount = card[0];
+		int eActCount = freq[0];
 
-		Map<Integer, List<Integer>> g = new HashMap<Integer, List<Integer>>();
+		Map<Integer, List<Integer>> eleG = new HashMap<Integer, List<Integer>>();
 
-		for (int i = 1; i <= sActNum; i++) {
-			if (card[i] > 0) {
-				int[] sEL = sAL[i];
+		Map<Integer, Integer> actEleIdxMap = new HashMap<Integer, Integer>(eActCount);
+		for (int i = 1; i <= eActCount; i++) {
+			actEleIdxMap.put(eL[i], i);
+		}
 
-				for (int j = 1; j <= card[i]; j++) {
+		for (int i = 1; i <= sActCount; i++) {
+			int sLi = sL[i];
+			if (card[sLi] > 0) {
+				int[] sEL = sAL[sLi];
+
+				for (int j = 1; j <= card[sLi]; j++) {
 					int sELj = sEL[j];
-					if (!g.containsKey(sELj)) {
+
+					if (!eleG.containsKey(sELj)) {
+
 						List<Integer> tmpList = new ArrayList<Integer>();
-						g.put(sELj, tmpList);
+						eleG.put(sELj, tmpList);
+
 					}
-					List<Integer> tmpList = g.get(sELj);
-					for (int k = 1; k <= card[i]; k++) {
+					List<Integer> tmpList = eleG.get(sELj);
+
+					for (int k = 1; k <= card[sLi]; k++) {
 						if (j == k) {
 							continue;
 						}
 						int sELk = sEL[k];
 						if (!tmpList.contains(sELk)) {
+
 							tmpList.add(sELk);
+							if (!eleG.containsKey(sELk)) {
+
+								List<Integer> tmpList2 = new ArrayList<Integer>();
+								eleG.put(sELk, tmpList2);
+
+							}
+
 						}
 					}
 				}
+
 			}
 		}
 
-		return g;
+		Map<Integer, List<Integer>> elePosG = new HashMap<Integer, List<Integer>>();
+
+		Set<Integer> gKeySet = eleG.keySet();
+		for (Integer key : gKeySet) {
+			List<Integer> vList = eleG.get(key);
+			List<Integer> v1List = new ArrayList<Integer>(vList.size());
+			for (Integer v : vList) {
+				v1List.add(actEleIdxMap.get(v));
+			}
+			elePosG.put(actEleIdxMap.get(key), v1List);
+		}
+
+		return elePosG;
 
 	}
 

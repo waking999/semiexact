@@ -9,9 +9,9 @@ package au.edu.cdu.semiexact.util;
  *            set type
  */
 public class GlobalVariable<ET, ST> {
-	private int eCount; // element count
+	private int eCount; // element  count
 
-	private int[] eL; // element list
+ 	private int[] eL; // element list
 	private int[] eIL;// element index list
 
 	private int[] freq; // frequency
@@ -33,6 +33,8 @@ public class GlobalVariable<ET, ST> {
 
 	private int bestSolCount;
 	private int[] bestSol;
+	
+ 
 
 	public int[] geteIL() {
 		return eIL;

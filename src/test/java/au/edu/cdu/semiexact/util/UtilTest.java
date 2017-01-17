@@ -299,23 +299,22 @@ public class UtilTest {
 		Assert.assertEquals(3, map1.size());
 
 	}
- 
-	
+
 	@Test
 	public void testGetMaxCardinalitySetIndex() {
-		 
+
 		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		TestUtil.printGlobalVariableStatus(gv);
- 
-		int sIdx=4;
-		int[] card=gv.getCard();
-		
-		int selectSetIdx = Util.getMaxCardinalitySetIndex(gv,card);
+
+		int sIdx = 4;
+		int[] card = gv.getCard();
+
+		int selectSetIdx = Util.getMaxCardinalitySetIndex(gv, card);
 		Assert.assertEquals(sIdx, selectSetIdx);
- 
 
 	}
-	//@Ignore
+
+	// @Ignore
 	@Test
 	public void testDeleteSeta1() {
 
@@ -325,7 +324,7 @@ public class UtilTest {
 
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testDeleteSeta2() throws IOException {
 
@@ -337,12 +336,12 @@ public class UtilTest {
 
 	private void testDeleteSeta(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		TestUtil.printGlobalVariableStatus(gv); 
+		TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		int sActCount = card[0]; 
-		int[] sIL = gv.getsIL(); 
+		int sActCount = card[0];
+		int[] sIL = gv.getsIL();
 		int sToDelIdx = 4;
 		int sToExchIdx = sIL[sActCount];
 
@@ -357,10 +356,10 @@ public class UtilTest {
 		Assert.assertEquals(sToDelIdx, sIL[sActCount]);
 		Assert.assertEquals(sToExchIdx, sIL[sToDelIdx]);
 		Assert.assertEquals(sActCount, sIL[sToDelIdx]);
-		Assert.assertEquals(sToDelIdx, sIL[sToExchIdx]); 
+		Assert.assertEquals(sToDelIdx, sIL[sToExchIdx]);
 
 		sActCount = card[0];
-		sIL = gv.getsIL(); 
+		sIL = gv.getsIL();
 		sToDelIdx = 1;
 		sToExchIdx = sIL[sActCount];
 
@@ -378,9 +377,7 @@ public class UtilTest {
 		Assert.assertEquals(sToDelIdx, sIL[sToExchIdx]);
 	}
 
-	 
-
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testDeleteElement1() {
 
@@ -389,7 +386,7 @@ public class UtilTest {
 
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testDeleteElement2() throws IOException {
 
@@ -402,14 +399,12 @@ public class UtilTest {
 		log.debug(TestUtil.FUNCTION_SEP);
 		TestUtil.printGlobalVariableStatus(gv);
 
-		 
-
 		int[] eIL = gv.geteIL();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
 		int eActCount = freq[0];
-		 
+
 		int eToDelIdx = 5;
 
 		int eToExchIdx = eIL[eActCount];
@@ -420,7 +415,7 @@ public class UtilTest {
 		Assert.assertEquals(eActCount - 1, freq[0]);
 
 		int[] eL = gv.geteL();
-		eIL = gv.geteIL(); 
+		eIL = gv.geteIL();
 
 		Assert.assertEquals(0, freq[eToDelIdx]);
 		Assert.assertEquals(eToDelIdx, eL[eActCount]);
@@ -428,10 +423,8 @@ public class UtilTest {
 		Assert.assertEquals(eActCount, eIL[eToDelIdx]);
 		Assert.assertEquals(eToDelIdx, eIL[eToExchIdx]);
 
-		 
-
-		eActCount = freq[0]; 
-		eIL = gv.geteIL(); 
+		eActCount = freq[0];
+		eIL = gv.geteIL();
 		eToDelIdx = 1;
 		eToExchIdx = eIL[eActCount];
 
@@ -441,7 +434,7 @@ public class UtilTest {
 		Assert.assertEquals(eActCount - 1, freq[0]);
 
 		eL = gv.geteL();
-		eIL = gv.geteIL(); 
+		eIL = gv.geteIL();
 
 		Assert.assertEquals(0, freq[eToDelIdx]);
 		Assert.assertEquals(eToDelIdx, eL[eActCount]);
@@ -450,7 +443,7 @@ public class UtilTest {
 		Assert.assertEquals(eToDelIdx, eIL[eToExchIdx]);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testAddSetToCover1() {
 
@@ -459,7 +452,7 @@ public class UtilTest {
 
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testAddSetToCover2() throws IOException {
 
@@ -470,15 +463,15 @@ public class UtilTest {
 
 	private void testAddSetToCover(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		TestUtil.printGlobalVariableStatus(gv); 
+		TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
-		int[] freq = gv.getFreq(); 
-		int sActCount = card[0]; 
+		int[] freq = gv.getFreq();
+		int sActCount = card[0];
 		int sToAddIdx = 5;
 		Util.addSetToCover(gv, card, freq, sToAddIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		Assert.assertEquals(sActCount - 1, card[0]); 
-		sActCount = card[0]; 
+		Assert.assertEquals(sActCount - 1, card[0]);
+		sActCount = card[0];
 		sToAddIdx = 1;
 
 		Util.addSetToCover(gv, card, freq, sToAddIdx);
@@ -486,7 +479,7 @@ public class UtilTest {
 		Assert.assertEquals(sActCount - 1, card[0]);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testAProcessManuallyByPersonSimulation1() {
 
@@ -494,7 +487,7 @@ public class UtilTest {
 		testAProcessManuallyByPersonSimulation(gv);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testAProcessManuallyByPersonSimulation2() throws IOException {
 
@@ -504,41 +497,41 @@ public class UtilTest {
 
 	private void testAProcessManuallyByPersonSimulation(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		TestUtil.printGlobalVariableStatus(gv); 
+		TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		// 1. delete sf 
+		// 1. delete sf
 		int sIdx = 6;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// 2. add se 
+		// 2. add se
 		sIdx = 5;
 
 		Util.addSetToCover(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// 3. delete sb 
+		// 3. delete sb
 		sIdx = 2;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// 4. delete sc 
+		// 4. delete sc
 		sIdx = 3;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// 5. delete sd 
+		// 5. delete sd
 		sIdx = 4;
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// 6. add sa 
+		// 6. add sa
 		sIdx = 1;
 		Util.addSetToCover(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testDeleteSetb1() {
 
@@ -547,7 +540,7 @@ public class UtilTest {
 
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testDeleteSetb2() throws IOException {
 
@@ -559,32 +552,32 @@ public class UtilTest {
 	private void testDeletsetb(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		TestUtil.printGlobalVariableStatus(gv);
- 
+
 		int[] card = gv.getCard();
-		int[] freq = gv.getFreq(); 
+		int[] freq = gv.getFreq();
 		int sIdx = 4;
 
 		int selectSetIdx = Util.getMaxCardinalitySetIndex(gv, card);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
-		// delete sf 
+		// delete sf
 		sIdx = 6;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// add se 
+		// add se
 		sIdx = 5;
 
 		Util.addSetToCover(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
- 
+
 		sIdx = 1;
 
 		selectSetIdx = Util.getMaxCardinalitySetIndex(gv, card);
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testGetSetOfFrequencyOneElement1() {
 
@@ -592,7 +585,7 @@ public class UtilTest {
 		testGetSetOfFrequencyOneElement(gv);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testGetSetOfFrequencyOneElement2() throws IOException {
 
@@ -602,46 +595,46 @@ public class UtilTest {
 
 	private void testGetSetOfFrequencyOneElement(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		TestUtil.printGlobalVariableStatus(gv); 
+		TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
-		int[] freq = gv.getFreq(); 
-		// delete sf 
+		int[] freq = gv.getFreq();
+		// delete sf
 		int sIdx = 6;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
- 
+
 		sIdx = 5;
 
 		int selectSetIdx = Util.getSetOfFrequencyOneElement(gv, freq);
 		Assert.assertEquals(sIdx, selectSetIdx);
 
-		// add se 
+		// add se
 		sIdx = 5;
 
 		Util.addSetToCover(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
 
-		// delete sb 
+		// delete sb
 		sIdx = 2;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// delete sc 
+		// delete sc
 		sIdx = 3;
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
-		// delete sd 
+		// delete sd
 		sIdx = 4;
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
- 
+
 		sIdx = 1;
 		selectSetIdx = Util.getSetOfFrequencyOneElement(gv, freq);
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testIs1Subset21() {
 
@@ -650,7 +643,7 @@ public class UtilTest {
 
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testIs1Subset22() throws IOException {
 
@@ -661,10 +654,9 @@ public class UtilTest {
 
 	private void testIs1Subset2(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		TestUtil.printGlobalVariableStatus(gv); 
+		TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
-		int[] freq = gv.getFreq(); 
-		 
+		int[] freq = gv.getFreq();
 
 		int s1Idx = 6;
 		int s2Idx = 5;
@@ -672,20 +664,20 @@ public class UtilTest {
 		Assert.assertTrue(Util.is1Subset2(gv, card, s1Idx, s2Idx));
 		Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
 
-		// delete sf 
+		// delete sf
 		int sIdx = 6;
 		Util.deleteSet(gv, card, freq, sIdx);
 
 		TestUtil.printGlobalVariableStatus(gv);
 
-		// add se 
+		// add se
 		sIdx = 5;
 
 		Util.addSetToCover(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
 
 		// s1 = "Sb";
-		// s2 = "Sa"; 
+		// s2 = "Sa";
 		s1Idx = 2;
 		s2Idx = 1;
 
@@ -693,7 +685,7 @@ public class UtilTest {
 		Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testGetSubset1() {
 
@@ -702,7 +694,7 @@ public class UtilTest {
 
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testGetSubset2() throws IOException {
 
@@ -715,7 +707,6 @@ public class UtilTest {
 		log.debug(TestUtil.FUNCTION_SEP);
 		TestUtil.printGlobalVariableStatus(gv);
 
-		 
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
@@ -724,55 +715,56 @@ public class UtilTest {
 		int subSetIdx = Util.getSubset(gv, card);
 		Assert.assertEquals(s1Idx, subSetIdx);
 
-		// delete sf 
+		// delete sf
 		int sIdx = 6;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
 
-		// add se 
+		// add se
 		sIdx = 5;
 
 		Util.addSetToCover(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
- 
+
 		s1Idx = 2;
 
 		subSetIdx = Util.getSubset(gv, card);
 		Assert.assertEquals(s1Idx, subSetIdx);
 
-		// delete sb 
+		// delete sb
 		sIdx = 2;
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
- 
+
 		s1Idx = 4;
 
 		subSetIdx = Util.getSubset(gv, card);
 		Assert.assertEquals(s1Idx, subSetIdx);
 
 		// delete sd
-		 
+
 		sIdx = 4;
 
 		Util.deleteSet(gv, card, freq, sIdx);
 		TestUtil.printGlobalVariableStatus(gv);
 
-		// s1 = "Sc"; 
+		// s1 = "Sc";
 		s1Idx = 3;
 		subSetIdx = Util.getSubset(gv, card);
 		Assert.assertEquals(s1Idx, subSetIdx);
 	}
 
-	//@Ignore
+	// @Ignore
 	@Test
 	public void testTransferGVIntoMMParam() {
 		log.debug(TestUtil.FUNCTION_SEP);
 		GlobalVariable<String, String> gv = TestUtil.getTC2Rep();
 
-		 
 		int[] card = gv.getCard();
-		Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card);
+		int[] freq = gv.getFreq();
+
+		Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card, freq);
 		Assert.assertTrue(g.get(1).contains(2));
 		Assert.assertTrue(g.get(1).contains(3));
 		Assert.assertTrue(g.get(1).contains(4));
@@ -789,10 +781,10 @@ public class UtilTest {
 		Assert.assertTrue(g.get(7).contains(6));
 
 	}
-	
+
 	@Test
-	public void testGetBatchNum(){
-		String batchNum=Util.getBatchNum();
+	public void testGetBatchNum() {
+		String batchNum = Util.getBatchNum();
 		System.out.println(batchNum);
 	}
 

@@ -15,7 +15,7 @@ import au.edu.cdu.semiexact.util.ConstantValue;
  */
 public class MM {
 	private int lca(Map<Integer, Integer> match, int[] base, int[] p, int a, int b) {
-		boolean[] used = new boolean[match.size()];
+		boolean[] used = new boolean[match.size()+1];
 		while (true) {
 			a = base[a];
 			used[a] = true;
@@ -42,15 +42,15 @@ public class MM {
 
 	private int findPath(Map<Integer, List<Integer>> graph, Map<Integer, Integer> match, int[] p, int root) {
 		int n = graph.size();
-		boolean[] used = new boolean[n + 1];
+		boolean[] used = new boolean[n+1];
 		Arrays.fill(p, ConstantValue.IMPOSSIBLE_VALUE);
-		int[] base = new int[n + 1];
-		for (int i = 1; i <= n; ++i)
+		int[] base = new int[n+1];
+		for (int i = 1; i <=n; ++i)
 			base[i] = i;
 		used[root] = true;
 		int qh = 1;
 		int qt = 1;
-		int[] q = new int[n + 1];
+		int[] q = new int[n+1];
 		q[qt++] = root;
 		while (qh < qt) {
 			int v = q[qh++];
@@ -61,10 +61,10 @@ public class MM {
 				if (to == root || match.get(to) != ConstantValue.IMPOSSIBLE_VALUE
 						&& p[match.get(to)] != ConstantValue.IMPOSSIBLE_VALUE) {
 					int curbase = lca(match, base, p, v, to);
-					boolean[] blossom = new boolean[n];
+					boolean[] blossom = new boolean[n+1];
 					markPath(match, base, blossom, p, v, curbase, to);
 					markPath(match, base, blossom, p, to, curbase, v);
-					for (int i = 0; i < n; ++i)
+					for (int i = 1; i <= n; ++i)
 						if (blossom[base[i]]) {
 							base[i] = curbase;
 							if (!used[i]) {
@@ -88,8 +88,8 @@ public class MM {
 	/**
 	 * 
 	 * @param graph,
-	 *            vertex adjacency list @return, matching number and max
-	 *            matching
+	 *            vertex adjacency list
+	 * @return, matching number and max matching 
 	 */
 	public MMObj maxMatching(Map<Integer, List<Integer>> graph) {
 		int n = graph.size();
@@ -100,7 +100,7 @@ public class MM {
 			match.put(key, ConstantValue.MATE_EXPOSE);
 		}
 
-		int[] p = new int[n + 1];
+		int[] p = new int[n+1];
 		for (int key : keySet) {
 			if (match.get(key) == ConstantValue.IMPOSSIBLE_VALUE) {
 				int v = findPath(graph, match, p, key);
