@@ -1,8 +1,6 @@
 package au.edu.cdu.semiexact.exact;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +19,7 @@ import au.edu.cdu.semiexact.util.Util;
 public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 	/**
+<<<<<<< HEAD
 	 * delete the edge from a vertex of index u to a vertex of index v
 	 * 
 	 * @param deg,
@@ -384,12 +383,19 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 	}
 
 	/**
+=======
+>>>>>>> origin/master
 	 * 
 	 * @param gv
 	 * @return
 	 */
+<<<<<<< HEAD
 	protected int buildMaxMatching(GlobalVariable<ET, ST> gv, int[] card) {
 		Map<Integer, List<Integer>> g = transferGVIntoMMParam(gv, card);
+=======
+	protected int buildMaxMatching(GlobalVariable<ET, ST> gv, int[] card, int[] freq) {
+		Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card, freq);
+>>>>>>> origin/master
 		MM mm = new MM();
 		MMObj o = mm.maxMatching(g);
 
@@ -405,7 +411,9 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		Set<Integer> keySet = matching.keySet();
 		for (int key : keySet) {
 			int val = matching.get(key);
-			mate[key] = val;
+			if (val != ConstantValue.MATE_EXPOSE) {
+				mate[eL[key]] = eL[val];
+			}
 		}
 		gv.setMate(mate);
 
@@ -427,8 +435,11 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		int e1 = freq[0];
 
 		int[] sol = gv.getSol();
+<<<<<<< HEAD
 		// int eActCount = gv.geteActCount();
 		// int[] card = gv.getCard();
+=======
+>>>>>>> origin/master
 		int solPtr = gv.getSolPtr();
 
 		int k1 = -1;
@@ -437,13 +448,18 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		while (k1 != (bestSolCount - solCount - 1)) {
 			// subset rule
 			k1 = bestSolCount - solCount - 1;
+<<<<<<< HEAD
 			int domSet = getSubset(gv, card);
+=======
+			int domSet = Util.getSubset(gv, card);
+>>>>>>> origin/master
 			while (domSet > ConstantValue.IMPOSSIBLE_VALUE) {
 				if (bestSolCount <= solCount + 1) {
 					card[0] = s1;
 					freq[0] = e1;
 					return true;
 				}
+<<<<<<< HEAD
 				deleteSet(gv, card, freq, domSet);
 				s1--;
 				count++;
@@ -451,6 +467,15 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			}
 			// frequency one rule
 			int freqOneSet = this.getSetOfFrequencyOneElement(gv, freq);
+=======
+				Util.deleteSet(gv, card, freq, domSet);
+				s1--;
+				count++;
+				domSet = Util.getSubset(gv, card);
+			}
+			// frequency one rule
+			int freqOneSet = Util.getSetOfFrequencyOneElement(gv, freq);
+>>>>>>> origin/master
 			while (freqOneSet > ConstantValue.IMPOSSIBLE_VALUE) {
 				if (bestSolCount <= solCount + 1) {
 					return true;
@@ -458,6 +483,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 				sol[solPtr++] = freqOneSet;
 				solCount++;
 				int tmpCard = card[freqOneSet];
+<<<<<<< HEAD
 				this.addSetToCover(gv, card, freq, freqOneSet);
 				e1 = e1 - tmpCard;
 				s1--;
@@ -465,11 +491,22 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 				count++;
 				freqOneSet = this.getSetOfFrequencyOneElement(gv, freq);
+=======
+				Util.addSetToCover(gv, card, freq, freqOneSet);
+				e1 = e1 - tmpCard;
+				s1--;
+
+				count++;
+				freqOneSet = Util.getSetOfFrequencyOneElement(gv, freq);
+>>>>>>> origin/master
 			}
 			// TODO: other rules
 
 		}
+<<<<<<< HEAD
 		// gv.seteCount(eActCount);
+=======
+>>>>>>> origin/master
 		gv.setSol(sol);
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
@@ -484,6 +521,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 	}
 
 	protected int kHighest(GlobalVariable<ET, ST> gv, int[] card, int maxCard) {
+<<<<<<< HEAD
 		// TODO: make sure the sum of cardinalityies of the k sets of highest card is greater than number of elements
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
@@ -491,6 +529,14 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		int sActCount = card[0];
 		int[] sL = gv.getsL();
 		// int[] card = gv.getCard();
+=======
+		// TODO: make sure the sum of cardinalityies of the k sets of highest
+		// card is greater than number of elements
+		int bestSolCount = gv.getBestSolCount();
+		int solCount = gv.getSolCount();
+		int sActCount = card[0];
+		int[] sL = gv.getsL();
+>>>>>>> origin/master
 
 		int k = bestSolCount - solCount - 1;
 		int count = 0;
@@ -541,7 +587,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
+<<<<<<< HEAD
 		// if (e1 == 0) {
+=======
+>>>>>>> origin/master
 		if (freq[0] == 0) {
 			solCount = gv.getSolCount();
 			bestSolCount = solCount;
@@ -561,7 +610,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 				return bestSolCount;
 			}
 
+<<<<<<< HEAD
 			// if (eActCount == 0) {
+=======
+>>>>>>> origin/master
 			if (freq[0] == 0) {
 				solCount = gv.getSolCount();
 				bestSolCount = solCount;
@@ -583,7 +635,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
+<<<<<<< HEAD
 		// if (e1 == 0) {
+=======
+>>>>>>> origin/master
 		if (freq[0] == 0) {
 			solCount = gv.getSolCount();
 			bestSolCount = solCount;
@@ -598,43 +653,66 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
+<<<<<<< HEAD
 		// int set = Util.getMaxCardinalitySetIndex(gv, s1);
 		int set = Util.getMaxCardinalitySetIndex(gv, card[0]);
+=======
+		int set = Util.getMaxCardinalitySetIndex(gv, card);
+>>>>>>> origin/master
 
 		if (set == ConstantValue.IMPOSSIBLE_VALUE) {
 			return bestSolCount;
 		}
+<<<<<<< HEAD
 		// int[] card = gv.getCard();
 		// eActCount = gv.geteActCount();
 
 		int kMax = kHighest(gv, card, card[set]);
 
 		// if (kMax < e1) {
+=======
+
+		int kMax = kHighest(gv, card, card[set]);
+
+>>>>>>> origin/master
 		if (kMax < freq[0]) {
 			return bestSolCount;
 		}
 
 		if (card[set] == 2) {
+<<<<<<< HEAD
 			int size = this.buildMaxMatching(gv, card);
+=======
+			int size = this.buildMaxMatching(gv, card, freq);
+>>>>>>> origin/master
 			solCount = gv.getSolCount();
 			bestSolCount = gv.getBestSolCount();
 
 			if (size == ConstantValue.IMPOSSIBLE_VALUE) {
 				return bestSolCount;
 			} else {
+<<<<<<< HEAD
 				// if ((size + solCount + (eActCount - 2 * size)) >=
 				// bestSolCount) {
 				if ((size + solCount + (freq[0] - 2 * size)) >= bestSolCount) {
 					return bestSolCount;
 				}else{
 					// int sActCount = gv.getsActCount();
+=======
+				if ((size + solCount + (freq[0] - 2 * size)) >= bestSolCount) {
+					return bestSolCount;
+				} else {
+>>>>>>> origin/master
 					int[] mate = gv.getMate();
 					int[][] sAL = gv.getsAL();
 					int[] sL = gv.getsL();
 					int[] sol = gv.getSol();
 					int solPtr = gv.getSolPtr();
 
+<<<<<<< HEAD
 					// for (int i = 1; i <= sActCount; i++) {
+=======
+>>>>>>> origin/master
 					for (int i = 1; i <= card[0]; i++) {
 						if ((mate[sAL[sL[i]][1]] == sAL[sL[i]][2]) && (mate[sAL[sL[i]][2]] == sAL[sL[i]][1])) {
 
@@ -656,7 +734,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 							continue;
 						}
 					}
+
 					bestSolCount = solCount;
+					int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+					gv.setBestSol(bestSol);
 					gv.setBestSolCount(bestSolCount);
 					gv.setSol(sol);
 					gv.setSolCount(solCount);
@@ -668,6 +749,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 		}
 
+<<<<<<< HEAD
 		// GlobalVariable<ET, ST> copyGv1 = Util.copyGlobalVariable(gv);
 		// int[] mate = gv.getMate();
 		// int[] copyMate = Arrays.copyOf(mate, mate.length);
@@ -678,6 +760,11 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		// int[] freq = gv.getFreq();
 		int[] copyFreq = Arrays.copyOf(freq, freq.length);
 		// copyGv1.setFreq(copyFreq);
+=======
+		int[] copyCard = Arrays.copyOf(card, card.length);
+
+		int[] copyFreq = Arrays.copyOf(freq, freq.length);
+>>>>>>> origin/master
 
 		int tmpSolCount = gv.getSolCount();
 		int tmpSolPtr = gv.getSolPtr();
@@ -688,6 +775,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		sol[solPtr++] = set;
 		solCount++;
 
+<<<<<<< HEAD
 		// int tmpCard = copyCard[set];
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
@@ -698,6 +786,12 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		// s2 = s1 - 1;
 		// copyFreq[0] = copyFreq[0] - tmpCard;
 		// copyCard[0] = copyCard[0] - 1;
+=======
+		gv.setSolPtr(solPtr);
+		gv.setSolCount(solCount);
+
+		Util.addSetToCover(gv, copyCard, copyFreq, set);
+>>>>>>> origin/master
 
 		int res1 = branch(gv, copyCard, copyFreq);
 
@@ -710,11 +804,15 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
+<<<<<<< HEAD
 		// card[0] = s1;
 		// freq[0] = e1;
 
 		this.deleteSet(gv, card, freq, set);
 		// s1--;
+=======
+		Util.deleteSet(gv, card, freq, set);
+>>>>>>> origin/master
 
 		int res2 = branch(gv, card, freq);
 

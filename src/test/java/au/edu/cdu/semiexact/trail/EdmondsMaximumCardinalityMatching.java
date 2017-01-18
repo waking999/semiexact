@@ -126,7 +126,7 @@ public class EdmondsMaximumCardinalityMatching {
 		g[4].add(3);
 		g[5].add(4);
 
-		int size=maxMatching(g);
+		int size = maxMatching(g);
 		System.out.println(size);
 	}
 }

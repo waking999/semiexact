@@ -11,8 +11,12 @@ package au.edu.cdu.semiexact.util;
 public class GlobalVariable<ET, ST> {
 	private int eCount; // element  count
 
+<<<<<<< HEAD
 //	private Map<ET, Integer> eLIL; // element label index list
 	private int[] eL; // element list
+=======
+ 	private int[] eL; // element list
+>>>>>>> origin/master
 	private int[] eIL;// element index list
 
 	private int[] freq; // frequency
@@ -20,7 +24,10 @@ public class GlobalVariable<ET, ST> {
 	private int[][] eIM; // element incidence matrix
 
 	private int sCount; // set count
+<<<<<<< HEAD
 	//private Map<ST, Integer> sLIL; // set label index list
+=======
+>>>>>>> origin/master
 	private int[] sL; // set list
 	private int[] sIL;// set index list
 	private int[] card; // cardinality
@@ -36,6 +43,7 @@ public class GlobalVariable<ET, ST> {
 	private int bestSolCount;
 	private int[] bestSol;
 	
+<<<<<<< HEAD
 //	private int sActCount;
 //	private int eActCount;
 	
@@ -63,6 +71,9 @@ public class GlobalVariable<ET, ST> {
 //	public void seteActCount(int eActCount) {
 //		this.eActCount = eActCount;
 //	}
+=======
+ 
+>>>>>>> origin/master
 
 	public int[] geteIL() {
 		return eIL;
@@ -96,6 +107,7 @@ public class GlobalVariable<ET, ST> {
 		this.eIM = eIM;
 	}
 
+<<<<<<< HEAD
 //	public Map<ST, Integer> getsLIL() {
 //		return sLIL;
 //	}
@@ -104,6 +116,8 @@ public class GlobalVariable<ET, ST> {
 //		this.sLIL = sLIL;
 //	}
 
+=======
+>>>>>>> origin/master
 	public int[] getsIL() {
 		return sIL;
 	}

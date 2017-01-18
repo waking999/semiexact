@@ -88,23 +88,35 @@ public class TestUtil {
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
 		gv.seteIM(eIM);
+<<<<<<< HEAD
 		// gv.seteLIL(eLIL);
+=======
+>>>>>>> origin/master
 		gv.setFreq(freq);
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
 		gv.setsIM(sIM);
+<<<<<<< HEAD
 		// gv.setsLIL(sLIL);
 		gv.seteCount(eCount);
 		gv.setsCount(sCount);
 //		gv.seteActCount(eCount);
 //		gv.setsActCount(sCount);
+=======
+		gv.seteCount(eCount);
+		gv.setsCount(sCount);
+>>>>>>> origin/master
 		gv.setsL(sL);
 		gv.seteL(eL);
 
 		gv.setBestSolCount(sCount);
 		gv.setSolCount(0);
 
+<<<<<<< HEAD
 		int[] mate = new int[eCount+1];
+=======
+		int[] mate = new int[eCount + 1];
+>>>>>>> origin/master
 
 		for (int i = 0; i <= eCount; i++) {
 			mate[i] = ConstantValue.MATE_EXPOSE;
@@ -136,6 +148,7 @@ public class TestUtil {
 	public static GlobalVariable<String, String> getTC1Rep() {
 		int eCount = 6;
 
+<<<<<<< HEAD
 		// Map<String, Integer> eLIL = new HashMap<String, Integer>();
 		// eLIL.put("a", 1);
 		// eLIL.put("b", 2);
@@ -143,6 +156,8 @@ public class TestUtil {
 		// eLIL.put("d", 4);
 		// eLIL.put("e", 5);
 		// eLIL.put("f", 6);
+=======
+>>>>>>> origin/master
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] eIL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] freq = { eCount, 3, 3, 3, 4, 3, 2 };
@@ -153,6 +168,7 @@ public class TestUtil {
 				{ IV, IV, IV, IV, IV, 3, 2 } };
 
 		int sCount = 6;
+<<<<<<< HEAD
 		// Map<String, Integer> sLIL = new HashMap<String, Integer>();
 		// sLIL.put("Sa", 1);
 		// sLIL.put("Sb", 2);
@@ -160,6 +176,9 @@ public class TestUtil {
 		// sLIL.put("Sd", 4);
 		// sLIL.put("Se", 5);
 		// sLIL.put("Sf", 6);
+=======
+
+>>>>>>> origin/master
 		int[] sL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] sIL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] card = { sCount, 3, 3, 3, 4, 3, 2 };
@@ -174,6 +193,7 @@ public class TestUtil {
 
 	public static GlobalVariable<String, String> getTC2Rep() {
 		int eCount = 7;
+<<<<<<< HEAD
 
 //		Map<String, Integer> eLIL = new HashMap<String, Integer>();
 //		eLIL.put("a", 1);
@@ -183,6 +203,8 @@ public class TestUtil {
 //		eLIL.put("e", 5);
 //		eLIL.put("f", 6);
 //		eLIL.put("g", 7);
+=======
+>>>>>>> origin/master
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] eIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] freq = { eCount, 3, 3, 2, 2, 1, 2, 1 };
@@ -194,6 +216,7 @@ public class TestUtil {
 				{ IV, IV, 3, IV, 2, IV, IV, IV }, { IV, IV, IV, IV, IV, 1, 1, IV }, { IV, IV, IV, IV, IV, IV, 2, 1 } };
 
 		int sCount = 7;
+<<<<<<< HEAD
 //		Map<String, Integer> sLIL = new HashMap<String, Integer>();
 //		sLIL.put("Sa", 1);
 //		sLIL.put("Sb", 2);
@@ -202,6 +225,8 @@ public class TestUtil {
 //		sLIL.put("Se", 5);
 //		sLIL.put("Sf", 6);
 //		sLIL.put("Sg", 7);
+=======
+>>>>>>> origin/master
 		int[] sL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] sIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] card = { sCount, 2, 2, 2, 2, 2, 2, 2 };

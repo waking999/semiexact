@@ -1,8 +1,6 @@
 package au.edu.cdu.semiexact.exact;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -10,7 +8,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+<<<<<<< HEAD
 import au.edu.cdu.semiexact.io.FileOperation;
+=======
+>>>>>>> origin/master
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
@@ -23,6 +24,7 @@ import au.edu.cdu.semiexact.util.Util;
 public class MSC4Test {
 	private static Logger log = LogUtil.getLogger(MSC4Test.class);
 
+<<<<<<< HEAD
 	// //@Ignore
 	// @Test
 	// public void testDecreaseElementFrequency1() {
@@ -402,9 +404,51 @@ public class MSC4Test {
 	private void testAProcessManuallyByPersonSimulation(GlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		TestUtil.printGlobalVariableStatus(gv);
+=======
+	// @Ignore
+	@Test
+	public void testBuildMaxMatching1() {
 
+		GlobalVariable<String, String> gv = TestUtil.getTC2Rep();
+
+		testBuildMaxMatching(gv);
+
+	}
+
+	private void testBuildMaxMatching(GlobalVariable<String, String> gv) {
+		log.debug(TestUtil.FUNCTION_SEP);
 		MSC4<String, String> msc = new MSC4<String, String>();
+		int[] card = gv.getCard();
+		int[] freq=gv.getFreq();
+		int size = msc.buildMaxMatching(gv, card, freq);
+		Assert.assertEquals(3, size);
+		int[] mate = gv.getMate();
+		Assert.assertEquals(3, mate[1]);
+		Assert.assertEquals(1, mate[3]);
+		Assert.assertEquals(4, mate[2]);
+		Assert.assertEquals(2, mate[4]);
+		Assert.assertEquals(6, mate[5]);
+		Assert.assertEquals(5, mate[6]);
+		Assert.assertEquals(ConstantValue.MATE_EXPOSE, mate[7]);
+	}
 
+	// @Ignore
+	@Test
+	public void testPreProcess1() {
+
+		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+
+		testPreProcess(gv);
+	}
+
+	// @Ignore
+	@Test
+	public void testPreProcess2() throws IOException {
+>>>>>>> origin/master
+
+		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+
+<<<<<<< HEAD
 		// Map<String, Integer> sLIL = gv.getsLIL();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
@@ -477,8 +521,19 @@ public class MSC4Test {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		MSC4<String, String> msc = new MSC4<String, String>();
+=======
+		testPreProcess(gv);
+	}
 
+	private void testPreProcess(GlobalVariable<String, String> gv) {
+		log.debug(TestUtil.FUNCTION_SEP);
+>>>>>>> origin/master
+		MSC4<String, String> msc = new MSC4<String, String>();
+		int[] card = gv.getCard();
+		int[] freq = gv.getFreq();
+		msc.preProcess(gv, card, freq);
+
+<<<<<<< HEAD
 		// int sIdx = sLIL.get("Sd");
 		int sIdx = 4;
 
@@ -530,9 +585,20 @@ public class MSC4Test {
 		// Map<String, Integer> sLIL = gv.getsLIL();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
+=======
+		Assert.assertEquals(2, gv.getSolCount());
+	}
 
-		MSC4<String, String> msc = new MSC4<String, String>();
+	// @Ignore
+	@Test
+	public void testKHighest1() {
 
+		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+>>>>>>> origin/master
+
+		testKHighest(gv);
+
+<<<<<<< HEAD
 		// delete sf
 		// String s = "Sf";
 		// int sIdx = sLIL.get(s);
@@ -640,11 +706,23 @@ public class MSC4Test {
 		// s2Idx = sLIL.get(s2);
 		s1Idx = 2;
 		s2Idx = 1;
+=======
+	}
+
+	// @Ignore
+	@Test
+	public void testKHighest2() throws IOException {
+
+		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+
+		testKHighest(gv);
+>>>>>>> origin/master
 
 		Assert.assertTrue(msc.is1Subset2(gv, card, s1Idx, s2Idx));
 		Assert.assertFalse(msc.is1Subset2(gv, card, s2Idx, s1Idx));
 	}
 
+<<<<<<< HEAD
 	@Ignore
 	@Test
 	public void testGetSubset1() {
@@ -667,8 +745,15 @@ public class MSC4Test {
 		log.debug(TestUtil.FUNCTION_SEP);
 		TestUtil.printGlobalVariableStatus(gv);
 
+=======
+	private void testKHighest(GlobalVariable<String, String> gv) {
+		log.debug(TestUtil.FUNCTION_SEP);
+>>>>>>> origin/master
 		MSC4<String, String> msc = new MSC4<String, String>();
+		int[] card = gv.getCard();
+		int maxCardSet = Util.getMaxCardinalitySetIndex(gv, card);
 
+<<<<<<< HEAD
 		// String s1 = "Sf";
 		// Map<String, Integer> sLIL = gv.getsLIL();
 		// int s1Idx = sLIL.get(s1);
@@ -767,9 +852,15 @@ public class MSC4Test {
 		Assert.assertTrue(g.get(6).contains(5));
 		Assert.assertTrue(g.get(6).contains(7));
 		Assert.assertTrue(g.get(7).contains(6));
+=======
+		int maxCard = card[maxCardSet];
+>>>>>>> origin/master
 
+		int kMax = msc.kHighest(gv, card, maxCard);
+		Assert.assertEquals(16, kMax);
 	}
 
+<<<<<<< HEAD
 	@Ignore
 	@Test
 	public void testBuildMaxMatching1() {
@@ -820,10 +911,31 @@ public class MSC4Test {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 		msc.preProcess(gv, card, freq);
+=======
+	// @Ignore
+	@Test
+	public void testBranch3() {
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTC2Rep();
 
-		Assert.assertEquals(2, gv.getSolCount());
+		testBranch(gv);
+		Assert.assertTrue(Util.isValidSolution(gv));
+		Assert.assertEquals(4, gv.getBestSolCount());
 	}
 
+	// @Ignore
+	@Test
+	public void testBranch1() {
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+>>>>>>> origin/master
+
+		testBranch(gv);
+		Assert.assertTrue(Util.isValidSolution(gv));
+		Assert.assertEquals(2, gv.getBestSolCount());
+	}
+
+<<<<<<< HEAD
 	@Ignore
 	@Test
 	public void testKHighest1() {
@@ -865,11 +977,24 @@ public class MSC4Test {
 		testBranch(gv);
 	}
 
+=======
+	// @Ignore
+	@Test
+	public void testBranch2() throws IOException {
+		log.debug(TestUtil.FUNCTION_SEP);
+		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+
+		testBranch(gv);
+		Assert.assertTrue(Util.isValidSolution(gv));
+		Assert.assertEquals(2, gv.getBestSolCount());
+	}
+
+>>>>>>> origin/master
 	private void testBranch(GlobalVariable<String, String> gv) {
 		MSC4<String, String> msc = new MSC4<String, String>();
 
 		msc.branch(gv);
-		Assert.assertEquals(4, gv.getBestSolCount());
+
 	}
 
 }

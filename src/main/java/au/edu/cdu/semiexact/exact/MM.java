@@ -15,7 +15,7 @@ import au.edu.cdu.semiexact.util.ConstantValue;
  */
 public class MM {
 	private int lca(Map<Integer, Integer> match, int[] base, int[] p, int a, int b) {
-		boolean[] used = new boolean[match.size()];
+		boolean[] used = new boolean[match.size()+1];
 		while (true) {
 			a = base[a];
 			used[a] = true;
@@ -61,10 +61,10 @@ public class MM {
 				if (to == root || match.get(to) != ConstantValue.IMPOSSIBLE_VALUE
 						&& p[match.get(to)] != ConstantValue.IMPOSSIBLE_VALUE) {
 					int curbase = lca(match, base, p, v, to);
-					boolean[] blossom = new boolean[n];
+					boolean[] blossom = new boolean[n+1];
 					markPath(match, base, blossom, p, v, curbase, to);
 					markPath(match, base, blossom, p, to, curbase, v);
-					for (int i = 0; i < n; ++i)
+					for (int i = 1; i <= n; ++i)
 						if (blossom[base[i]]) {
 							base[i] = curbase;
 							if (!used[i]) {
