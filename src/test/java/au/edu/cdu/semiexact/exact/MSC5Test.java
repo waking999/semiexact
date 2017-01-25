@@ -55,7 +55,7 @@ public class MSC5Test {
 	private void testBranch(GlobalVariable<String, String> gv) {
 		MSC5<String, String> msc = new MSC5<String, String>();
 
-		msc.branch(gv);
+		msc.branch(gv,null);
 
 	}
 

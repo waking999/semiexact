@@ -24,33 +24,34 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		msc = new MSC4<ET, ST>();
 	}
 
-	public int branch(GlobalVariable<ET, ST> gv) {
+	public int branch(GlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
 		long start = System.nanoTime();
+		int[] card = gv.getCard();
+		int[] freq = gv.getFreq();
 
-		return branch(gv, gv.getCard(), gv.getFreq(), start, ConstantValue.RUNNING_TIME_LIMIT);
+		return branch(gv, card, freq, start, ConstantValue.RUNNING_TIME_LIMIT, 0);
 	}
-	
-//	private boolean isMomentOfHurry(GlobalVariable<ET,ST> gv){
-//		return true;
-//	}
 
-	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long timeLimit) {
+	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long timeLimit, int level) {
+		// System.out.println(level+","+freq[0]+","+gv.getBestSolCount()+","+gv.getSolCount());
+
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
+
+		int s1 = card[0];
+		int e1 = freq[0];
 
 		// if the algorithm runs too long (longer than our patience), stop
 		long current = System.nanoTime();
 		if (current - start >= timeLimit) {
 			return bestSolCount;
 		}
-		
-		
 
 		if (bestSolCount <= solCount) {
 			return bestSolCount;
 		}
 
-		if (freq[0] == 0) {
+		if (e1 == 0) {
 			solCount = gv.getSolCount();
 			bestSolCount = solCount;
 			int[] sol = gv.getSol();
@@ -60,9 +61,9 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
-		if (bestSolCount <= solCount + 1) {
-			return bestSolCount;
-		}
+		// if (bestSolCount <= solCount + 1) {
+		// return bestSolCount;
+		// }
 
 		while (msc.preProcess(gv, card, freq)) {
 			if (bestSolCount <= solCount) {
@@ -79,16 +80,18 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 				return bestSolCount;
 			}
 
-			if (bestSolCount <= solCount + 1) {
-				return bestSolCount;
-			}
+			// if (bestSolCount <= solCount + 1) {
+			// return bestSolCount;
+			// }
 		}
+		s1 = card[0];
+		e1 = freq[0];
 
 		if (bestSolCount <= solCount) {
 			return bestSolCount;
 		}
 
-		if (freq[0] == 0) {
+		if (e1 == 0) {
 			solCount = gv.getSolCount();
 			bestSolCount = solCount;
 			int[] sol = gv.getSol();
@@ -98,37 +101,24 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
-		if (bestSolCount <= solCount + 1) {
-			return bestSolCount;
-		}
+		// if (bestSolCount <= solCount + 1) {
+		// return bestSolCount;
+		// }
 
-		
-//		if(isMomentOfHurry(gv)){
-//			int allowCrossLvlNum=2;
-//			GreedyMSC.run(gv,card,freq,allowCrossLvlNum);
-//			solCount = gv.getSolCount();
-//			bestSolCount = solCount;
-//			int[] sol = gv.getSol();
-//			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-//			gv.setBestSol(bestSol);
-//			gv.setBestSolCount(bestSolCount);
-//			
-//		}
-		
-		int set = Util.getMaxCardinalitySetIndex(gv, card);
+		int set = Util.getMaxCardinalitySetIndex(gv, card, s1);
 
 		if (set == ConstantValue.IMPOSSIBLE_VALUE) {
 			return bestSolCount;
 		}
 
-		int kMax = msc.kHighest(gv, card, card[set]);
+		int kMax = msc.kHighest(gv, card, card[set], s1);
 
-		if (kMax < freq[0]) {
+		if (kMax < e1) {
 			return bestSolCount;
 		}
 
 		if (card[set] == 2) {
-			int size = msc.buildMaxMatching(gv, card,freq);
+			int size = msc.buildMaxMatching(gv, card, freq);
 			solCount = gv.getSolCount();
 			bestSolCount = gv.getBestSolCount();
 
@@ -165,14 +155,16 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 							continue;
 						}
 					}
-					bestSolCount = solCount;
-					int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-					gv.setBestSol(bestSol);
-					gv.setBestSolCount(bestSolCount);
-					gv.setSol(sol);
-					gv.setSolCount(solCount);
-					gv.setSolPtr(solPtr);
-					gv.setMate(mate);
+					if (bestSolCount > solCount) {
+						bestSolCount = solCount;
+						int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+						gv.setBestSol(bestSol);
+						gv.setBestSolCount(bestSolCount);
+						gv.setSol(sol);
+						gv.setSolCount(solCount);
+						gv.setSolPtr(solPtr);
+						gv.setMate(mate);
+					}
 					return bestSolCount;
 				}
 			}
@@ -183,6 +175,7 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 
 		int[] copyFreq = Arrays.copyOf(freq, freq.length);
 
+		solCount = gv.getSolCount();
 		int tmpSolCount = gv.getSolCount();
 		int tmpSolPtr = gv.getSolPtr();
 
@@ -192,12 +185,19 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		sol[solPtr++] = set;
 		solCount++;
 
+		int tempCard = copyCard[set];
+
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.addSetToCover(gv, copyCard, copyFreq, set);
+		Util.addSetToCover(gv, copyCard, copyFreq, s1, e1, set);
+		int e2 = e1 - tempCard;
+		int s2 = s1 - 1;
 
-		int res1 = branch(gv, copyCard, copyFreq, start, timeLimit);
+		copyCard[0] = s2;
+		copyFreq[0] = e2;
+
+		int res1 = branch(gv, copyCard, copyFreq, start, timeLimit, level + 1);
 
 		copyCard = null;
 		copyFreq = null;
@@ -208,9 +208,13 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, set);
+		Util.deleteSet(gv, card, freq, s1, e1, set);
+		s1--;
 
-		int res2 = branch(gv, card, freq, start, timeLimit);
+		card[0] = s1;
+		freq[0] = e1;
+
+		int res2 = branch(gv, card, freq, start, timeLimit, level + 1);
 
 		if (res1 < res2) {
 

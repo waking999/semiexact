@@ -7,16 +7,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
+
+import au.edu.cdu.semiexact.exact.AlgorithmParameter;
+import au.edu.cdu.semiexact.exact.IMSC;
+import au.edu.cdu.semiexact.io.DBOperation;
+import au.edu.cdu.semiexact.io.DBParameter;
 import au.edu.cdu.semiexact.io.FileOperation;
 import au.edu.cdu.semiexact.util.ConstantValue;
 import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.LogUtil;
 import au.edu.cdu.semiexact.util.Util;
 
 /**
  * an util class for test purpose
  */
 public class TestUtil {
-	// private static Logger log = LogUtil.getLogger(TestUtil.class);
+	private static Logger log = LogUtil.getLogger(TestUtil.class);
 	private static final int IV = ConstantValue.IMPOSSIBLE_VALUE;
 	public static final String FUNCTION_SEP = "***********************************************************";
 
@@ -88,35 +96,19 @@ public class TestUtil {
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
 		gv.seteIM(eIM);
-<<<<<<< HEAD
-		// gv.seteLIL(eLIL);
-=======
->>>>>>> origin/master
 		gv.setFreq(freq);
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
 		gv.setsIM(sIM);
-<<<<<<< HEAD
-		// gv.setsLIL(sLIL);
 		gv.seteCount(eCount);
 		gv.setsCount(sCount);
-//		gv.seteActCount(eCount);
-//		gv.setsActCount(sCount);
-=======
-		gv.seteCount(eCount);
-		gv.setsCount(sCount);
->>>>>>> origin/master
 		gv.setsL(sL);
 		gv.seteL(eL);
 
 		gv.setBestSolCount(sCount);
 		gv.setSolCount(0);
 
-<<<<<<< HEAD
-		int[] mate = new int[eCount+1];
-=======
 		int[] mate = new int[eCount + 1];
->>>>>>> origin/master
 
 		for (int i = 0; i <= eCount; i++) {
 			mate[i] = ConstantValue.MATE_EXPOSE;
@@ -148,16 +140,6 @@ public class TestUtil {
 	public static GlobalVariable<String, String> getTC1Rep() {
 		int eCount = 6;
 
-<<<<<<< HEAD
-		// Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		// eLIL.put("a", 1);
-		// eLIL.put("b", 2);
-		// eLIL.put("c", 3);
-		// eLIL.put("d", 4);
-		// eLIL.put("e", 5);
-		// eLIL.put("f", 6);
-=======
->>>>>>> origin/master
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] eIL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] freq = { eCount, 3, 3, 3, 4, 3, 2 };
@@ -168,17 +150,7 @@ public class TestUtil {
 				{ IV, IV, IV, IV, IV, 3, 2 } };
 
 		int sCount = 6;
-<<<<<<< HEAD
-		// Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		// sLIL.put("Sa", 1);
-		// sLIL.put("Sb", 2);
-		// sLIL.put("Sc", 3);
-		// sLIL.put("Sd", 4);
-		// sLIL.put("Se", 5);
-		// sLIL.put("Sf", 6);
-=======
 
->>>>>>> origin/master
 		int[] sL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] sIL = { IV, 1, 2, 3, 4, 5, 6 };
 		int[] card = { sCount, 3, 3, 3, 4, 3, 2 };
@@ -193,18 +165,6 @@ public class TestUtil {
 
 	public static GlobalVariable<String, String> getTC2Rep() {
 		int eCount = 7;
-<<<<<<< HEAD
-
-//		Map<String, Integer> eLIL = new HashMap<String, Integer>();
-//		eLIL.put("a", 1);
-//		eLIL.put("b", 2);
-//		eLIL.put("c", 3);
-//		eLIL.put("d", 4);
-//		eLIL.put("e", 5);
-//		eLIL.put("f", 6);
-//		eLIL.put("g", 7);
-=======
->>>>>>> origin/master
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] eIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] freq = { eCount, 3, 3, 2, 2, 1, 2, 1 };
@@ -216,17 +176,6 @@ public class TestUtil {
 				{ IV, IV, 3, IV, 2, IV, IV, IV }, { IV, IV, IV, IV, IV, 1, 1, IV }, { IV, IV, IV, IV, IV, IV, 2, 1 } };
 
 		int sCount = 7;
-<<<<<<< HEAD
-//		Map<String, Integer> sLIL = new HashMap<String, Integer>();
-//		sLIL.put("Sa", 1);
-//		sLIL.put("Sb", 2);
-//		sLIL.put("Sc", 3);
-//		sLIL.put("Sd", 4);
-//		sLIL.put("Se", 5);
-//		sLIL.put("Sf", 6);
-//		sLIL.put("Sg", 7);
-=======
->>>>>>> origin/master
 		int[] sL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] sIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] card = { sCount, 2, 2, 2, 2, 2, 2, 2 };
@@ -377,5 +326,84 @@ public class TestUtil {
 			}
 		}
 		return sb.substring(0, sb.length() - 1);
+	}
+
+	public static void basicTest(String[] instanceCodes, String algTableName, IMSC<String, String> msc)
+			throws IOException {
+		String baseFilePath = TestUtil.getCurrentPath() + "/src/test/resources";
+		String batchNum = Util.getBatchNum();
+
+		DBOperation dbo = new DBOperation();
+		DBParameter dbpIn;
+		DBParameter dbpOut;
+
+		for (String instanceCode : instanceCodes) {
+
+			dbpIn = new DBParameter();
+			dbpIn.setTableName(ConstantValue.DB_VNAME_INS_OPT);
+			String[] colNamesIn = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_INS_NAME,
+					ConstantValue.DB_COL_DATASET_PATH_NAME, ConstantValue.DB_COL_INS_PATH_NAME,
+					ConstantValue.DB_COL_BEST_RESULT_SIZE, ConstantValue.DB_COL_ACCEPT_RESULT_SIZE,
+					ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE, ConstantValue.DB_COL_BEST_RUNNING_TIME };
+			String[] colPairNamesIn = { ConstantValue.DB_COL_INS_CODE };
+			String[] colPairOperatorsIn = { "=" };
+			String[] colPairValuesIn = { instanceCode };
+			dbpIn.setColNames(colNamesIn);
+			dbpIn.setColPairNames(colPairNamesIn);
+			dbpIn.setColPairOperators(colPairOperatorsIn);
+			dbpIn.setColPairValues(colPairValuesIn);
+
+			List<Map<String, String>> lst = dbo.executeQuery(dbpIn);
+			int lstLen = lst.size();
+			for (int i = 0; i < lstLen; i++) {
+				Map<String, String> map = lst.get(i);
+				String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
+				String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
+				String bestRunningTimeStr = map.get(ConstantValue.DB_COL_BEST_RUNNING_TIME);
+				long bestRunningTime = Long.parseLong(bestRunningTimeStr);
+				String bestResultSizeStr = map.get(ConstantValue.DB_COL_BEST_RESULT_SIZE);
+				int bestResultSize = Integer.parseInt(bestResultSizeStr);
+				String acceptedResultSizeStr = map.get(ConstantValue.DB_COL_ACCEPT_RESULT_SIZE);
+				int acceptedResultSize = Integer.parseInt(acceptedResultSizeStr);
+				String unacceptedResultSizeStr = map.get(ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE);
+				int unacceptedResultSize = Integer.parseInt(unacceptedResultSizeStr);
+				String id = map.get(ConstantValue.DB_COL_INS_ID);
+
+				String filePath = baseFilePath + dPathName + iPathName;
+				GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath); 
+				AlgorithmParameter ap = new AlgorithmParameter();
+				ap.setAcceptedResultSize(acceptedResultSize);
+				ap.setUnacceptedResultSize(unacceptedResultSize);
+				ap.setBestResultSize(bestResultSize);
+
+				ap.setBestRunningTime(bestRunningTime);
+
+				long start = System.nanoTime();
+				msc.branch(gv, ap);
+				long end = System.nanoTime();
+
+				Assert.assertTrue(Util.isValidSolution(gv));
+
+				dbpOut = new DBParameter();
+				dbpOut.setTableName(algTableName);
+				String[] colPairNamesOut = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_BATCH_NUM,
+						ConstantValue.DB_COL_RESULT_SIZE, ConstantValue.DB_COL_RUNNING_TIME };
+				String[] colPairValuesOut = { id, batchNum, Integer.toString(gv.getBestSolCount()),
+						Long.toString((end - start)) };
+				dbpOut.setColPairNames(colPairNamesOut);
+				dbpOut.setColPairValues(colPairValuesOut);
+				dbo.executeInsert(dbpOut);
+
+				dbpOut = null;
+
+				StringBuffer sb = new StringBuffer();
+				sb.append(iPathName).append(":").append(gv.getBestSolCount()).append(":")
+						.append(String.format("%.3f", ((end - start) / 1000000000.0))).append(" s.");
+				log.debug(sb.toString());
+
+			}
+			dbpIn = null;
+
+		}
 	}
 }

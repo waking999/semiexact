@@ -38,18 +38,7 @@ public class FileOperation {
 		int numOfVer = Integer.parseInt(numOfVerStr);
 		int numOfEdg = Integer.parseInt(numOfEdgStr);
 
-<<<<<<< HEAD
-		// Map<String, Integer> sLIL = new HashMap<String, Integer>();
-		// Map<String, Integer> eLIL = new HashMap<String, Integer>();
-		// for (int i = 0; i < numOfVer; i++) {
-		// sLIL.put(new Integer(i + 1).toString(), i);
-		// eLIL.put(new Integer(i + 1).toString(), i);
-		// }
-
-		int mallocsize = numOfVer + 1; //valid index starts from 1
-=======
 		int mallocsize = numOfVer + 1; // valid index starts from 1
->>>>>>> origin/master
 
 		int[] card = new int[mallocsize];
 		int[] freq = new int[mallocsize];
@@ -96,15 +85,17 @@ public class FileOperation {
 			int u = Integer.parseInt(u1Str);
 			int v = Integer.parseInt(v1Str);
 
-			sIM[u][v] = 1;
-			sIM[v][u] = 1;
-			eIM[u][v] = 1;
-			eIM[v][u] = 1;
+			if (u != v) {
+				sIM[u][v] = 1;
+				sIM[v][u] = 1;
+				eIM[u][v] = 1;
+				eIM[v][u] = 1;
 
-			card[u]++;
-			card[v]++;
-			freq[u]++;
-			freq[v]++;
+				card[u]++;
+				card[v]++;
+				freq[u]++;
+				freq[v]++;
+			}
 		}
 
 		for (int i = 1; i <= numOfVer; i++) {
@@ -152,41 +143,22 @@ public class FileOperation {
 		}
 		gv.setSol(sol);
 		gv.setBestSol(bestSol);
-<<<<<<< HEAD
-		gv.setSolPtr(1); //valid index starts from 1;
-
-		gv.setsCount(numOfVer);
-		//gv.setsActCount(numOfVer);
-=======
 		gv.setSolPtr(1); // valid index starts from 1;
 
 		gv.setsCount(numOfVer);
->>>>>>> origin/master
 		gv.setsAL(sAL);
 		gv.setsIL(sIL);
 		gv.setsIM(sIM);
 		gv.setsL(sL);
 		gv.setsIL(sIL);
-<<<<<<< HEAD
-		// gv.setsLIL(sLIL);
 		gv.setCard(card);
 
 		gv.seteCount(numOfVer);
-		//gv.seteActCount(numOfVer);
-=======
-		gv.setCard(card);
-
-		gv.seteCount(numOfVer);
->>>>>>> origin/master
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
 		gv.seteIM(eIM);
 		gv.seteL(eL);
 		gv.seteIL(eIL);
-<<<<<<< HEAD
-		// gv.seteLIL(eLIL);
-=======
->>>>>>> origin/master
 		gv.setFreq(freq);
 
 		gv.setBestSolCount(numOfVer);

@@ -541,30 +541,18 @@ public class Util {
 	 *            set cardinalities
 	 * @return the max cardinality set index in the list s
 	 */
-<<<<<<< HEAD
-	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv,int sCount) {
-=======
-	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv, int[] card) {
->>>>>>> origin/master
+	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv, int[] card, int sActCount) {
 
 		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
 		int index = ConstantValue.IMPOSSIBLE_VALUE;
 
-<<<<<<< HEAD
-		 
-
-=======
->>>>>>> origin/master
 		int[] sL = gv.getsL();
-		int sCount = card[0];
+		// int sCount = card[0];
+		// int sCount=gv.getsCount();
 
-		for (int i = 1; i <= sCount; i++) {
+		for (int i = 1; i <= sActCount; i++) {
 			int j = sL[i];
-<<<<<<< HEAD
-			if(card[j]<=0){
-=======
 			if (card[j] <= 0) {
->>>>>>> origin/master
 				continue;
 			}
 			if (card[j] > maxCard) {
@@ -579,40 +567,6 @@ public class Util {
 
 		return index;
 	}
-//	/**
-//	 * get the max cardinality set index in the list s containing sets
-//	 * 
-//	 * @param gv,
-//	 *            global variables
-//	 * @return the max cardinality set index in the list s
-//	 */
-//	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv) {
-//
-//		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
-//		int index = ConstantValue.IMPOSSIBLE_VALUE;
-//
-//		int sActCount = gv.getsActCount();
-//
-//		int[] sL = gv.getsL();
-//		int[] card = gv.getCard();
-//
-//		for (int i = 1; i <= sActCount; i++) {
-//			int j = sL[i];
-//			if(card[j]<=0){
-//				continue;
-//			}
-//			if (card[j] > maxCard) {
-//				index = j;
-//				maxCard = card[j];
-//			}
-//			if (card[j] >= maxCard && j < index) {
-//				index = j;
-//				maxCard = card[j];
-//			}
-//		}
-//
-//		return index;
-//	}
 
 	/**
 	 * remove a set r from a list containing sets: s\{r}
@@ -673,8 +627,6 @@ public class Util {
 	 * @return true: the set contains the element; false: otherwise
 	 */
 	public static boolean setContiansEle(int[] set, int setSize, int ele) {
-<<<<<<< HEAD
-=======
 		int rtnIdx = getContiansEleIdx(set, setSize, ele);
 		if (rtnIdx != ConstantValue.IMPOSSIBLE_VALUE) {
 			return true;
@@ -696,7 +648,6 @@ public class Util {
 	 * @return the index of the element in the set
 	 */
 	private static int getContiansEleIdx(int[] set, int setSize, int ele) {
->>>>>>> origin/master
 		for (int i = 1; i <= setSize; i++) {
 			if (ele == set[i]) {
 				return i;
@@ -705,75 +656,77 @@ public class Util {
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
 
-	/**
-	 * delete the edge from a vertex of index u to a vertex of index v
-	 * 
-	 * @param deg,
-	 *            degree list in u side
-	 * @param al,
-	 *            adjacency list in u side
-	 * @param im,
-	 *            incidence matrix in u side
-	 * @param u,
-	 *            vertex index u
-	 * @param v,
-	 *            vertex index v
-	 */
-	private static void deleteEdge(int[] deg, int[][] al, int[][] im, int u, int v) {
-		int i = im[v][u];
-		int j = deg[u];
-		int x = al[u][j];
-
-		al[u][i] = x;
-		al[u][j] = v;
-
-		im[x][u] = i;
-		im[v][u] = j;
-
-		deg[u]--;
-
-	}
-
-	/**
-	 * delete a vertex of index v
-	 * 
-	 * @param deg1,
-	 *            the degree list of vertices in v side
-	 * @param deg2,
-	 *            the degree list of vertices in the other side
-	 * @param il1,
-	 *            the index list of vertices in v side
-	 * @param al1,
-	 *            the adjacency list of vertices in v side
-	 * @param al2,
-	 *            the adjacency list of vertices in the other side
-	 * @param im2,
-	 *            the incidence matrix of vertices in the other side
-	 * @param v,
-	 *            vertex index
-	 * @param n,
-	 *            number of active vertices in v side
-	 */
-	private static void deleteVertex(int[] deg1, int[] l1, int[] il1, int[][] al1, int[] deg2, int[][] al2, int[][] im2,
-			int v) {
-		int n = deg1[0];
-		int d = deg1[v];
-		int last = l1[n];
-		int i = il1[v];
-		l1[i] = last;
-		l1[n] = v;
-		il1[last] = i;
-		il1[v] = n;
-
-		for (int j = d; j >= 1; j--) {
-			int u = al1[v][j];
-			deleteEdge(deg2, al2, im2, u, v);
-
-		}
-		deg1[v] = 0;
-		deg1[0] = n - 1;
-
-	}
+	// /**
+	// * delete the edge from a vertex of index u to a vertex of index v
+	// *
+	// * @param deg,
+	// * degree list in u side
+	// * @param al,
+	// * adjacency list in u side
+	// * @param im,
+	// * incidence matrix in u side
+	// * @param u,
+	// * vertex index u
+	// * @param v,
+	// * vertex index v
+	// */
+	// private static void deleteEdge(int[] deg, int[][] al, int[][] im, int u,
+	// int v) {
+	// int i = im[v][u];
+	// int j = deg[u];
+	// int x = al[u][j];
+	//
+	// al[u][i] = x;
+	// al[u][j] = v;
+	//
+	// im[x][u] = i;
+	// im[v][u] = j;
+	//
+	// deg[u]--;
+	//
+	// }
+	//
+	// /**
+	// * delete a vertex of index v
+	// *
+	// * @param deg1,
+	// * the degree list of vertices in v side
+	// * @param deg2,
+	// * the degree list of vertices in the other side
+	// * @param il1,
+	// * the index list of vertices in v side
+	// * @param al1,
+	// * the adjacency list of vertices in v side
+	// * @param al2,
+	// * the adjacency list of vertices in the other side
+	// * @param im2,
+	// * the incidence matrix of vertices in the other side
+	// * @param v,
+	// * vertex index
+	// * @param n,
+	// * number of active vertices in v side
+	// */
+	// private static void deleteVertex(int[] deg1, int[] l1, int[] il1, int[][]
+	// al1, int[] deg2, int[][] al2, int[][] im2,
+	// int v) {
+	// int n = deg1[0];
+	// int d = deg1[v];
+	// int last = l1[n];
+	// int i = il1[v];
+	// l1[i] = last;
+	// l1[n] = v;
+	// il1[last] = i;
+	// il1[v] = n;
+	//
+	// for (int j = d; j >= 1; j--) {
+	// int u = al1[v][j];
+	// deleteEdge(deg2, al2, im2, u, v);
+	//
+	// }
+	// deg1[v] = 0;
+	// deg1[0] = n - 1;
+	//
+	// }
 
 	/**
 	 * delete a set
@@ -786,23 +739,98 @@ public class Util {
 	 *            element frequency* @param sToDelIdx, the index of the set to
 	 *            be deleted
 	 */
-	public static <ET, ST> void deleteSet(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sToDelIdx) {
-
+	public static <ET, ST> void deleteSet(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
+			int eActCount, int s) {
 		int[] sL = gv.getsL();
 		int[] sIL = gv.getsIL();
-
 		int[][] sAL = gv.getsAL();
-		int[][] eAL = gv.geteAL();
-		int[][] eIM = gv.geteIM();
+		// int[][] eAL = gv.geteAL();
+		// int[][] eIM = gv.geteIM();
 
-		deleteVertex(card, sL, sIL, sAL, freq, eAL, eIM, sToDelIdx);
+		// deleteVertex(card, sL, sIL, sAL, freq, eAL, eIM, sToDelIdx);
+		int last = sL[sActCount];
+		int currentIdx = sIL[s];
+		sL[currentIdx] = last;
+		sL[sActCount] = s;
+		sIL[last] = currentIdx;
+		sIL[s] = sActCount;
+
+		int d = card[s];
+		for (int i = 1; i <= d; i++) {
+			int e = sAL[s][i];
+			decreaseElementFrequency(gv, freq, eActCount, e, s);
+		}
+
+		card[s] = 0;
 
 		gv.setsIL(sIL);
 		gv.setsAL(sAL);
+		// gv.seteAL(eAL);
+		// gv.seteIM(eIM);
+		gv.setsL(sL);
+		gv.setCard(card);
+
+	}
+
+	/**
+	 * decrease element frequency
+	 *
+	 * @param gv,
+	 *            global variables
+	 * @param eToDecIdx,
+	 *            the index of the element to be decreased
+	 * @param sToDelIdx,
+	 *            the index of the set to be deleted
+	 */
+	private static <ET, ST> void decreaseElementFrequency(GlobalVariable<ET, ST> gv, int[] freq, int eActCount, int e,
+			int s) {
+		// int[] freq = gv.getFreq();
+		int[][] eAL = gv.geteAL();
+		int[][] eIM = gv.geteIM();
+
+		// deleteEdge(freq, eAL, eIM, eToDecIdx, sToDelIdx);
+		int i = eIM[s][e];
+		int j = freq[e];
+		int x = eAL[e][j];
+		eAL[e][i] = x;
+		eIM[x][e] = i;
+		eAL[e][j] = s;
+		eIM[s][e] = j;
+		freq[e]--;
+
+		// gv.setFreq(freq);
 		gv.seteAL(eAL);
 		gv.seteIM(eIM);
-		gv.setsL(sL);
+		gv.setFreq(freq);
 
+	}
+
+	/**
+	 * // * decrease the cardinality of a set // * // * @param gv, // * global
+	 * variable // * @param sToDecIdx, // * the index of the set to be decreased
+	 * // * @param eToDelIdx, // * the index of the element to be deleted //
+	 */
+	private static <ET, ST> void decreaseSetCardinality(GlobalVariable<ET, ST> gv, int[] card, int sActCount, int s,
+			int e) {
+		// int[] card = gv.getCard();
+		int[][] sAL = gv.getsAL();
+		int[][] sIM = gv.getsIM();
+
+		// deleteEdge(card, sAL, sIM, s, e);
+
+		int i = sIM[e][s];
+		int j = card[s];
+		int x = sAL[s][j];
+		sAL[s][i] = x;
+		sIM[x][s] = i;
+		sAL[s][j] = e;
+		sIM[e][s] = j;
+		card[s]--;
+
+		// gv.setCard(card);
+		gv.setsAL(sAL);
+		gv.setsIM(sIM);
+		gv.setCard(card);
 	}
 
 	/**
@@ -817,21 +845,38 @@ public class Util {
 	 * @param eToDelIdx,
 	 *            the index of the element to be deleted
 	 */
-	protected static <ET, ST> void deleteElement(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int eToDelIdx) {
-
+	protected static <ET, ST> void deleteElement(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
+			int eActCount, int e, int source) {
 		int[] eL = gv.geteL();
 		int[] eIL = gv.geteIL();
-
 		int[][] eAL = gv.geteAL();
-		int[][] sAL = gv.getsAL();
-		int[][] sIM = gv.getsIM();
+		// int[][] sAL = gv.getsAL();
+		// int[][] sIM = gv.getsIM();
 
-		deleteVertex(freq, eL, eIL, eAL, card, sAL, sIM, eToDelIdx);
+		// deleteVertex(freq, eL, eIL, eAL, card, sAL, sIM, e);
+
+		int last = eL[eActCount];
+		int currentIdx = eIL[e];
+		eL[currentIdx] = last;
+		eL[eActCount] = e;
+		eIL[last] = currentIdx;
+		eIL[e] = eActCount;
+
+		int d = freq[e];
+		for (int i = 1; i <= d; i++) {
+			int s = eAL[e][i];
+			if (s == source) {
+				continue;
+			}
+			decreaseSetCardinality(gv, card, sActCount, s, e);
+		}
+
+		freq[e] = 0;
 
 		gv.seteIL(eIL);
-		gv.setsAL(sAL);
+		// gv.setsAL(sAL);
 		gv.seteAL(eAL);
-		gv.setsIM(sIM);
+		// gv.setsIM(sIM);
 		gv.seteL(eL);
 	}
 
@@ -847,28 +892,34 @@ public class Util {
 	 * @param sToAddIdx,
 	 *            the index of the set to be added
 	 */
-	public static <ET, ST> void addSetToCover(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sToAddIdx) {
+	public static <ET, ST> void addSetToCover(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
+			int eActCount, int s) {
 		int[] sL = gv.getsL();
-		int sActCount = card[0];
-
+		// int sActCount = card[0];
 		int[] sIL = gv.getsIL();
-
 		int[][] sAL = gv.getsAL();
 
-		int d = card[sToAddIdx];
 		int last = sL[sActCount];
-		int i = sL[sToAddIdx];
-		sL[i] = last;
-		sL[sActCount] = sToAddIdx;
-		sIL[last] = i;
-		sIL[sToAddIdx] = sActCount;
+		int currentIdx = sIL[s];
+		sL[currentIdx] = last;
+		sL[sActCount] = s;
+		sIL[last] = currentIdx;
+		sIL[s] = sActCount;
+
+		int d = card[s];
+
+		// int i = sL[sToAddIdx];
+		// sL[i] = last;
+		// sL[sActCount] = sToAddIdx;
+		// sIL[last] = i;
+		// sIL[sToAddIdx] = sActCount;
 
 		for (int j = d; j >= 1; j--) {
-			int e = sAL[sToAddIdx][j];
-			deleteElement(gv, card, freq, e);
+			int e = sAL[s][j];
+			deleteElement(gv, card, freq, sActCount, eActCount - (j - 1), e, s);
 
 		}
-		card[sToAddIdx] = 0;
+		card[s] = 0;
 
 		gv.setsL(sL);
 		gv.setsIL(sIL);
@@ -885,8 +936,8 @@ public class Util {
 	 *            element frequency
 	 * @return set index
 	 */
-	public static <ET, ST> int getSetOfFrequencyOneElement(GlobalVariable<ET, ST> gv, int[] freq) {
-		int eActCount = freq[0];
+	public static <ET, ST> int getSetOfFrequencyOneElement(GlobalVariable<ET, ST> gv, int[] freq, int eActCount) {
+		// int eActCount = freq[0];
 
 		int[] eL = gv.geteL();
 
@@ -948,65 +999,6 @@ public class Util {
 
 	}
 
-<<<<<<< HEAD
-//	/**
-//	 * generate a shallow copy of global variable (only memory id is different,
-//	 * the content are the same).
-//	 * 
-//	 * @param gv,
-//	 *            global variable
-//	 * @return a copy of the global variable
-//	 */
-//	public static <ET, ST> GlobalVariable<ET, ST> copyGlobalVariable(GlobalVariable<ET, ST> gv) {
-//		GlobalVariable<ET, ST> gv1 = new GlobalVariable<ET, ST>();
-//		gv1.setBestSolCount(gv.getBestSolCount());
-//		gv1.setCard(gv.getCard());
-//		gv1.seteActCount(gv.geteActCount());
-//		gv1.seteAL(gv.geteAL());
-//		gv1.seteIL(gv.geteIL());
-//		gv1.seteIM(gv.geteIM());
-//		gv1.seteL(gv.geteL());
-//		//gv1.seteLIL(gv.geteLIL());
-//		gv1.setFreq(gv.getFreq());
-//		gv1.setMate(gv.getMate());
-//		gv1.setsActCount(gv.getsActCount());
-//		gv1.setsAL(gv.getsAL());
-//		gv1.setsIL(gv.getsIL());
-//		gv1.setsIM(gv.getsIM());
-//		gv1.setsL(gv.getsL());
-//		//gv1.setsLIL(gv.getsLIL());
-//		gv1.setSol(gv.getSol());
-//		gv1.setSolPtr(gv.getSolPtr());
-//		gv1.setSolCount(gv.getSolCount());
-//
-//		return gv1;
-//	}
-
-//	/**
-//	 * get the set(containing only 2 elements) including element v and w
-//	 * 
-//	 * @param gv,
-//	 *            global variable
-//	 * @param v,
-//	 *            an element
-//	 * @param w,
-//	 *            another element
-//	 * @return the set(containing only 2 elements) including element v and w
-//	 */
-//	public static <ET, ST> int findSet(GlobalVariable<ET, ST> gv, int v, int w) {
-//		int[] freq = gv.getFreq();
-//		int[][] eAL = gv.geteAL();
-//		int[][] sAL = gv.getsAL();
-//
-//		for (int i = 0; i < freq[v]; i++) {
-//			int edge = eAL[v][i];
-//			if (sAL[edge][0] == w || sAL[edge][1] == w) {
-//				return edge;
-//			}
-//		}
-//		return ConstantValue.IMPOSSIBLE_VALUE;
-//	}
-=======
 	/**
 	 * if a set is a subset of another set, return the former set index
 	 * 
@@ -1056,7 +1048,7 @@ public class Util {
 	 */
 	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv, int[] card,
 			int[] freq) {
-		//TODO: sL is not right
+		// TODO: sL is not right
 		int[] sL = gv.getsL();
 		int[] eL = gv.geteL();
 		int[][] sAL = gv.getsAL();
@@ -1190,6 +1182,5 @@ public class Util {
 		return sb.toString();
 
 	}
->>>>>>> origin/master
 
 }
