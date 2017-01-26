@@ -112,7 +112,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 		card[0] = s1;
 		freq[0] = e1;
-		 
+
 		if (count > 0) {
 			return true;
 		}
@@ -165,7 +165,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		return branch(gv, card, freq );
+		return branch(gv, card, freq);
 	}
 
 	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq) {
@@ -180,11 +180,13 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 		if (e1 == 0) {
 			solCount = gv.getSolCount();
-			bestSolCount = solCount;
-			int[] sol = gv.getSol();
-			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-			gv.setBestSol(bestSol);
-			gv.setBestSolCount(bestSolCount);
+			if (bestSolCount > solCount) {
+				bestSolCount = solCount;
+				int[] sol = gv.getSol();
+				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+				gv.setBestSol(bestSol);
+				gv.setBestSolCount(bestSolCount);
+			}
 			return bestSolCount;
 		}
 
@@ -192,18 +194,20 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		// return bestSolCount;
 		// }
 
-		while (preProcess(gv, card, freq )) {
+		while (preProcess(gv, card, freq)) {
 			if (bestSolCount <= solCount) {
 				return bestSolCount;
 			}
 
 			if (freq[0] == 0) {
 				solCount = gv.getSolCount();
-				bestSolCount = solCount;
-				int[] sol = gv.getSol();
-				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-				gv.setBestSol(bestSol);
-				gv.setBestSolCount(bestSolCount);
+				if (bestSolCount > solCount) {
+					bestSolCount = solCount; 
+					int[] sol = gv.getSol();
+					int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+					gv.setBestSol(bestSol);
+					gv.setBestSolCount(bestSolCount);
+				}
 				return bestSolCount;
 			}
 
@@ -220,11 +224,13 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 		if (e1 == 0) {
 			solCount = gv.getSolCount();
-			bestSolCount = solCount;
-			int[] sol = gv.getSol();
-			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-			gv.setBestSol(bestSol);
-			gv.setBestSolCount(bestSolCount);
+			if (bestSolCount > solCount) {
+				bestSolCount = solCount;
+				int[] sol = gv.getSol();
+				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+				gv.setBestSol(bestSol);
+				gv.setBestSolCount(bestSolCount);
+			}
 			return bestSolCount;
 		}
 
@@ -302,7 +308,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		int[] copyCard = Arrays.copyOf(card, card.length);
 
 		int[] copyFreq = Arrays.copyOf(freq, freq.length);
-
+		solCount = gv.getSolCount();
 		int tmpSolCount = gv.getSolCount();
 		int tmpSolPtr = gv.getSolPtr();
 
@@ -320,8 +326,8 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		Util.addSetToCover(gv, copyCard, copyFreq, s1, e1, set);
 		int e2 = e1 - tempCard;
 		int s2 = s1 - 1;
-		copyCard[0]=s2;
-		copyFreq[0]=e2;
+		copyCard[0] = s2;
+		copyFreq[0] = e2;
 
 		int res1 = branch(gv, copyCard, copyFreq);
 
@@ -336,11 +342,10 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 		Util.deleteSet(gv, card, freq, s1, e1, set);
 		s1--;
-		card[0]=s1;
-		freq[0]=e1;
-		
+		card[0] = s1;
+		freq[0] = e1;
+
 		int res2 = branch(gv, card, freq);
-		
 
 		if (res1 < res2) {
 

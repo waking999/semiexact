@@ -34,21 +34,21 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		return branch(gv, card, freq,    start, betRunningTime, bestResultSize, acceptedResultSize,
-				unacceptedResultSize, 0);
+		return branch(gv, card, freq, start, betRunningTime, bestResultSize, acceptedResultSize, unacceptedResultSize,
+				0);
 	}
 
-	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq,   long start,
-			long bestRunningTime, int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int level) {
+	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long bestRunningTime,
+			int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int level) {
 
-		int bestSolCount = gv.getBestSolCount();
+		int bestSolCount = gv.getBestSolCount(); 
 
-		// System.out.println(level+","+freq[0]+","+bestSolCount);
+		 
 
 		// if the algorithm runs too long (longer than our patience), stop
 		long current = System.nanoTime();
-		// if (current - start >= bestRunningTime) {
-		if (current - start >= Long.MAX_VALUE) {
+		if (current - start >= bestRunningTime) {
+			 
 			if (bestSolCount >= unacceptedResultSize) {
 				/*
 				 * larger than bestResultSizeUpper, our algorithm is going to
@@ -59,8 +59,7 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 				level += GreedyMSC.run(gv, card, freq);
 
 			} else if (bestSolCount >= acceptedResultSize) {
-				// TODO:(bestResultSizeLower+bestResultSizeUpper)/2 is also can
-				// be a parameter later
+				
 				// smaller than upper, but not closer to the lower, continue
 				// search tree
 			} else {
@@ -80,30 +79,32 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 
 		if (e1 == 0) {
 			solCount = gv.getSolCount();
-			bestSolCount = solCount;
-			int[] sol = gv.getSol();
-			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-			gv.setBestSol(bestSol);
-			gv.setBestSolCount(bestSolCount);
+			if (bestSolCount > solCount) {
+				bestSolCount = solCount;
+				int[] sol = gv.getSol();
+				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+				gv.setBestSol(bestSol);
+				gv.setBestSolCount(bestSolCount);
+			}
 			return bestSolCount;
 		}
 
-		// if (bestSolCount <= solCount + 1) {
-		// return bestSolCount;
-		// }
+ 
 
-		while (msc.preProcess(gv, card, freq )) {
+		while (msc.preProcess(gv, card, freq)) {
 			if (bestSolCount <= solCount) {
 				return bestSolCount;
 			}
 
 			if (freq[0] == 0) {
 				solCount = gv.getSolCount();
-				bestSolCount = solCount;
-				int[] sol = gv.getSol();
-				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-				gv.setBestSol(bestSol);
-				gv.setBestSolCount(bestSolCount);
+				if (bestSolCount > solCount) {
+					bestSolCount = solCount;
+					int[] sol = gv.getSol();
+					int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+					gv.setBestSol(bestSol);
+					gv.setBestSolCount(bestSolCount);
+				}
 				return bestSolCount;
 			}
 
@@ -113,6 +114,7 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		}
 
 		solCount = gv.getSolCount();
+		bestSolCount = gv.getBestSolCount();
 
 		s1 = card[0];
 		e1 = freq[0];
@@ -123,29 +125,19 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 
 		if (e1 == 0) {
 			solCount = gv.getSolCount();
-			bestSolCount = solCount;
-			int[] sol = gv.getSol();
-			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-			gv.setBestSol(bestSol);
-			gv.setBestSolCount(bestSolCount);
+			if (bestSolCount > solCount) {
+				bestSolCount = solCount;
+				int[] sol = gv.getSol();
+				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+				gv.setBestSol(bestSol);
+				gv.setBestSolCount(bestSolCount);
+			}
 			return bestSolCount;
 		}
 
-		// if (bestSolCount <= solCount + 1) {
-		// return bestSolCount;
-		// }
+ 
 
-		// if (isMomentOfHurry(gv, level, targetLvl)) {
-		//
-		// level+=GreedyMSC.run(gv, card, freq, crossLvl);
-		//// solCount = gv.getSolCount();
-		//// bestSolCount = solCount;
-		//// int[] sol = gv.getSol();
-		//// int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-		//// gv.setBestSol(bestSol);
-		//// gv.setBestSolCount(bestSolCount);
-		//
-		// }
+ 
 
 		int set = Util.getMaxCardinalitySetIndex(gv, card, s1);
 
@@ -217,6 +209,7 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 
 		int[] copyFreq = Arrays.copyOf(freq, freq.length);
 
+		solCount = gv.getSolCount();
 		int tmpSolCount = gv.getSolCount();
 		int tmpSolPtr = gv.getSolPtr();
 
@@ -234,9 +227,9 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		int e2 = e1 - tempCard;
 		int s2 = s1 - 1;
 
-		copyCard[0]=s2;
-		copyFreq[0]=e2;
-		
+		copyCard[0] = s2;
+		copyFreq[0] = e2;
+
 		int res1 = branch(gv, copyCard, copyFreq, start, bestRunningTime, bestResultSize, acceptedResultSize,
 				unacceptedResultSize, level + 1);
 
@@ -250,10 +243,10 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		gv.setSolCount(solCount);
 
 		Util.deleteSet(gv, card, freq, s1, e1, set);
+		s1--;
+		card[0] = s1;
+		freq[0] = e1;
 
-		card[0]=s1;
-		freq[0]=e1;
-		
 		int res2 = branch(gv, card, freq, start, bestRunningTime, bestResultSize, acceptedResultSize,
 				unacceptedResultSize, level + 1);
 

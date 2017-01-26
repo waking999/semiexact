@@ -330,7 +330,7 @@ public class TestUtil {
 
 	public static void basicTest(String[] instanceCodes, String algTableName, IMSC<String, String> msc)
 			throws IOException {
-		String baseFilePath = TestUtil.getCurrentPath() + "/src/test/resources";
+		String baseFilePath = TestUtil.getCurrentPath() + "/src/test/resources"; 
 		String batchNum = Util.getBatchNum();
 
 		DBOperation dbo = new DBOperation();
@@ -362,7 +362,7 @@ public class TestUtil {
 				String bestRunningTimeStr = map.get(ConstantValue.DB_COL_BEST_RUNNING_TIME);
 				long bestRunningTime = Long.parseLong(bestRunningTimeStr);
 				String bestResultSizeStr = map.get(ConstantValue.DB_COL_BEST_RESULT_SIZE);
-				int bestResultSize = Integer.parseInt(bestResultSizeStr);
+				int bestResultSize = Integer.parseInt(bestResultSizeStr); 
 				String acceptedResultSizeStr = map.get(ConstantValue.DB_COL_ACCEPT_RESULT_SIZE);
 				int acceptedResultSize = Integer.parseInt(acceptedResultSizeStr);
 				String unacceptedResultSizeStr = map.get(ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE);

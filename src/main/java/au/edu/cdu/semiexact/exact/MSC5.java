@@ -33,7 +33,7 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 	}
 
 	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long timeLimit, int level) {
-		// System.out.println(level+","+freq[0]+","+gv.getBestSolCount()+","+gv.getSolCount());
+		//System.out.println(level + "," + freq[0] + "," + gv.getBestSolCount() + "," + gv.getSolCount());
 
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
@@ -53,11 +53,13 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 
 		if (e1 == 0) {
 			solCount = gv.getSolCount();
-			bestSolCount = solCount;
-			int[] sol = gv.getSol();
-			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-			gv.setBestSol(bestSol);
-			gv.setBestSolCount(bestSolCount);
+			if (bestSolCount > solCount) {
+				bestSolCount = solCount;
+				int[] sol = gv.getSol();
+				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+				gv.setBestSol(bestSol);
+				gv.setBestSolCount(bestSolCount);
+			}
 			return bestSolCount;
 		}
 
@@ -71,12 +73,14 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 			}
 
 			if (freq[0] == 0) {
-				solCount = gv.getSolCount();
-				bestSolCount = solCount;
-				int[] sol = gv.getSol();
-				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-				gv.setBestSol(bestSol);
-				gv.setBestSolCount(bestSolCount);
+				solCount = gv.getSolCount(); 
+				if (bestSolCount > solCount) {
+					bestSolCount = solCount;
+					int[] sol = gv.getSol();
+					int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+					gv.setBestSol(bestSol);
+					gv.setBestSolCount(bestSolCount);
+				}
 				return bestSolCount;
 			}
 
@@ -93,11 +97,13 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 
 		if (e1 == 0) {
 			solCount = gv.getSolCount();
-			bestSolCount = solCount;
-			int[] sol = gv.getSol();
-			int[] bestSol = Arrays.copyOf(sol, solCount + 1);
-			gv.setBestSol(bestSol);
-			gv.setBestSolCount(bestSolCount);
+			if (bestSolCount > solCount) {
+				bestSolCount = solCount;
+				int[] sol = gv.getSol();
+				int[] bestSol = Arrays.copyOf(sol, solCount + 1);
+				gv.setBestSol(bestSol);
+				gv.setBestSolCount(bestSolCount);
+			}
 			return bestSolCount;
 		}
 
