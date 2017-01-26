@@ -16,11 +16,11 @@ import au.edu.cdu.semiexact.util.Util;
  * 3. add time limit 4. add greedy sc at running time long and solution size big
  */
 
-public class MSC6<ET, ST> implements IMSC<ET, ST> {
+public class MSC7<ET, ST> implements IMSC<ET, ST> {
 
 	MSC4<ET, ST> msc;
 
-	public MSC6() {
+	public MSC7() {
 		msc = new MSC4<ET, ST>();
 	}
 
@@ -29,39 +29,70 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		int bestResultSize = ap.getBestResultSize();
 		int acceptedResultSize = ap.getAcceptedResultSize();
 		int unacceptedResultSize = ap.getUnacceptedResultSize();
-
+		int theshold = ap.getTheshold();
 		long betRunningTime = ap.getBestRunningTime();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
 		return branch(gv, card, freq, start, betRunningTime, bestResultSize, acceptedResultSize, unacceptedResultSize,
-				0);
+				theshold, 0);
+	}
+
+	private boolean isMomentOfHappy(long current, long start, long bestRunningTime, int bestSolCount,
+			int acceptedResultSize) {
+		if ((current - start >= bestRunningTime) && (bestSolCount < acceptedResultSize)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isMomentOfHurry(long current, long start, long bestRunningTime, int bestResultSize,
+			int unacceptedResultSize, int bestSolCount, int solCount, int theshold) {
+		if ((current - start >= bestRunningTime) && (bestSolCount >= unacceptedResultSize)
+				&& (bestSolCount - solCount == theshold)) {
+			return true;
+		}
+
+		return false;
+
 	}
 
 	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long bestRunningTime,
-			int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int level) {
+			int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int theshold, int level) {
 
 		int bestSolCount = gv.getBestSolCount();
+		int solCount = gv.getSolCount();
 
 		long current = System.nanoTime();
-		if (current - start >= bestRunningTime) {
-
-			if (bestSolCount >= unacceptedResultSize) {
-				
-				//System.out.println("Prune");
-				level += GreedyMSC.run(gv, card, freq);
-
-			} else if (bestSolCount >= acceptedResultSize) {
-
-				// smaller than upper, but not closer to the lower, continue
-				// search tree
-			} else {
-				// we are happy with the current bestSolCount as a solution
-				return bestSolCount;
-			}
+		if (isMomentOfHappy(current, start, bestRunningTime, bestSolCount, acceptedResultSize)) {
+			return bestSolCount;
 		}
 
-		int solCount = gv.getSolCount();
+		if (isMomentOfHurry(current, start, bestRunningTime, bestSolCount, unacceptedResultSize, bestSolCount, solCount,
+				theshold)) {
+			/*
+			 * larger than unacceptedResultSize, our algorithm is going to
+			 * stop exponential search at level min-theshold
+			 */
+			level += GreedyMSC.run(gv, card, freq);
+		}
+
+		// if (current - start >= bestRunningTime) {
+		//
+		// if (bestSolCount >= unacceptedResultSize) {
+		//
+		// level += GreedyMSC.run(gv, card, freq);
+		//
+		// } else if (bestSolCount >= acceptedResultSize) {
+		// /*
+		// * smaller than upper, but not closer to the lower, continue
+		// * search tree
+		// */
+		// } else {
+		// // we are happy with the current bestSolCount as a solution
+		// return bestSolCount;
+		// }
+		// }
 
 		int s1 = card[0];
 		int e1 = freq[0];
@@ -218,7 +249,7 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		copyFreq[0] = e2;
 
 		int res1 = branch(gv, copyCard, copyFreq, start, bestRunningTime, bestResultSize, acceptedResultSize,
-				unacceptedResultSize, level + 1);
+				unacceptedResultSize, theshold, level + 1);
 
 		copyCard = null;
 		copyFreq = null;
@@ -235,7 +266,7 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		freq[0] = e1;
 
 		int res2 = branch(gv, card, freq, start, bestRunningTime, bestResultSize, acceptedResultSize,
-				unacceptedResultSize, level + 1);
+				unacceptedResultSize, theshold, level + 1);
 
 		if (res1 < res2) {
 

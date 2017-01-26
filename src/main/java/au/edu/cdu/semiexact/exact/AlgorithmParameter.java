@@ -5,6 +5,14 @@ public class AlgorithmParameter {
 	private int unacceptedResultSize;
 	private int acceptedResultSize;
 	private int bestResultSize;
+	private int theshold;
+	
+	public int getTheshold() {
+		return theshold;
+	}
+	public void setTheshold(int theshold) {
+		this.theshold = theshold;
+	}
 	public long getBestRunningTime() {
 		return bestRunningTime;
 	}

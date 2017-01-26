@@ -23,9 +23,10 @@ public class ConstantValue {
 	// database table/view names
 	public static final String DB_TBNAME_DATASET = "dataset";
 	public static final String DB_TBNAME_INS = "instance";
-	public static final String DB_TBNAME_ALG1 = "alg1running";
-	public static final String DB_TBNAME_ALG2 = "alg2running";
-
+	public static final String DB_TBNAME_ALG5 = "alg1running";
+	public static final String DB_TBNAME_ALG6 = "alg2running";
+	public static final String DB_TBNAME_ALG7 = "alg3running";
+	
 	public static final String DB_VNAME_INS = "v_instance";
 	public static final String DB_VNAME_INS_OPT = "v_instance_opt";
 	// database column names
@@ -50,5 +51,7 @@ public class ConstantValue {
 	
 	public static final String DB_COL_ACCEPT_RESULT_SIZE = "accepted_result_size";
 	public static final String DB_COL_UNACCEPT_RESULT_SIZE = "unaccepted_result_size";
+	
+	public static final String DB_COL_THRESHOLD = "theshold";
 
 }

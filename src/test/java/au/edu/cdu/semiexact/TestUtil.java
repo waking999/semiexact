@@ -344,7 +344,7 @@ public class TestUtil {
 			String[] colNamesIn = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_INS_NAME,
 					ConstantValue.DB_COL_DATASET_PATH_NAME, ConstantValue.DB_COL_INS_PATH_NAME,
 					ConstantValue.DB_COL_BEST_RESULT_SIZE, ConstantValue.DB_COL_ACCEPT_RESULT_SIZE,
-					ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE, ConstantValue.DB_COL_BEST_RUNNING_TIME };
+					ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE, ConstantValue.DB_COL_BEST_RUNNING_TIME ,ConstantValue.DB_COL_THRESHOLD};
 			String[] colPairNamesIn = { ConstantValue.DB_COL_INS_CODE };
 			String[] colPairOperatorsIn = { "=" };
 			String[] colPairValuesIn = { instanceCode };
@@ -367,6 +367,9 @@ public class TestUtil {
 				int acceptedResultSize = Integer.parseInt(acceptedResultSizeStr);
 				String unacceptedResultSizeStr = map.get(ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE);
 				int unacceptedResultSize = Integer.parseInt(unacceptedResultSizeStr);
+				String thesholdStr = map.get(ConstantValue.DB_COL_THRESHOLD);
+				int theshold = Integer.parseInt(thesholdStr);
+				
 				String id = map.get(ConstantValue.DB_COL_INS_ID);
 
 				String filePath = baseFilePath + dPathName + iPathName;
@@ -377,6 +380,7 @@ public class TestUtil {
 				ap.setBestResultSize(bestResultSize);
 
 				ap.setBestRunningTime(bestRunningTime);
+				ap.setTheshold(theshold);
 
 				long start = System.nanoTime();
 				msc.branch(gv, ap);

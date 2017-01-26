@@ -32,7 +32,7 @@ public class MSC5TestDataset {
 	// @Ignore
 	@Test
 	public void testBHOSLIB() throws IOException {
-		String algTableName = ConstantValue.DB_TBNAME_ALG1;
+		String algTableName = ConstantValue.DB_TBNAME_ALG5;
 
 		String[] instanceCodes = { //"frb30-15-1", "frb30-15-2", "frb30-15-3", "frb30-15-4", "frb30-15-5",
 				"frb35-17-1", "frb35-17-2", "frb35-17-3", "frb35-17-4", "frb35-17-5",
@@ -48,7 +48,7 @@ public class MSC5TestDataset {
 	@Ignore
 	@Test
 	public void testKONECT() throws IOException {
-		String algTableName = ConstantValue.DB_TBNAME_ALG1;
+		String algTableName = ConstantValue.DB_TBNAME_ALG5;
 
 		String[] instanceCodes = { "DavidCopperfield", "Jazz", "PDZBase", "Rovira", "Euroroad", "Hamster", "HamsterFul",
 				"Facebook"
