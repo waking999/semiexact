@@ -44,7 +44,7 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		// if the algorithm runs too long (longer than our patience), stop
 		long current = System.nanoTime();
 		if (current - start >= timeLimit) {
-			return bestSolCount;
+			return ConstantValue.IMPOSSIBLE_VALUE;
 		}
 
 		if (bestSolCount <= solCount) {

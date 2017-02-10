@@ -30,11 +30,11 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		int acceptedResultSize = ap.getAcceptedResultSize();
 		int unacceptedResultSize = ap.getUnacceptedResultSize();
 
-		long betRunningTime = ap.getBestRunningTime();
+		long allowedRunningTime = ap.getAllowedRunningTime();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		return branch(gv, card, freq, start, betRunningTime, bestResultSize, acceptedResultSize, unacceptedResultSize,
+		return branch(gv, card, freq, start, allowedRunningTime, bestResultSize, acceptedResultSize, unacceptedResultSize,
 				0);
 	}
 

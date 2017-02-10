@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.util.ConstantValue;
@@ -24,8 +25,8 @@ public class DBOperationTest {
 		dbp.setColPairOperators(colPairOperators);
 		dbp.setColPairValues(colPairValues);
 
-		DBOperation dbo = new DBOperation();
-		List<Map<String, String>> lst = dbo.executeQuery(dbp);
+		// DBOperation dbo = new DBOperation();
+		List<Map<String, String>> lst = DBOperation.executeQuery(dbp);
 		Assert.assertNotNull(lst);
 	}
 
@@ -44,8 +45,8 @@ public class DBOperationTest {
 		dbp.setColPairOperators(colPairOperators);
 		dbp.setColPairValues(colPairValues);
 
-		DBOperation dbo = new DBOperation();
-		List<Map<String, String>> lst = dbo.executeQuery(dbp);
+		// DBOperation dbo = new DBOperation();
+		List<Map<String, String>> lst = DBOperation.executeQuery(dbp);
 		Assert.assertNotNull(lst);
 	}
 
@@ -64,25 +65,36 @@ public class DBOperationTest {
 		dbp.setColPairOperators(colPairOperators);
 		dbp.setColPairValues(colPairValues);
 
-		DBOperation dbo = new DBOperation();
-		List<Map<String, String>> lst = dbo.executeQuery(dbp);
+		List<Map<String, String>> lst = DBOperation.executeQuery(dbp);
 		Assert.assertNotNull(lst);
 	}
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void testExecuteInsert() throws Exception {
 		DBParameter dbp = new DBParameter();
 		dbp.setTableName(ConstantValue.DB_TBNAME_INS);
-		String[] colNames = {   ConstantValue.DB_COL_INS_NAME,
-				ConstantValue.DB_COL_INS_PATH_NAME  };
-		 
+		String[] colNames = { ConstantValue.DB_COL_INS_NAME, ConstantValue.DB_COL_INS_PATH_NAME };
+
 		String[] colValues = { "cc", "cc.clq" };
 		dbp.setColPairNames(colNames);
 		dbp.setColPairValues(colValues);
 
-		DBOperation dbo = new DBOperation();
-		dbo.executeInsert(dbp);
+		DBOperation.executeInsert(dbp);
+
+	}
+
+	@Test
+	public void testGenerateReportSql_KONECT() {
+		String datasetName = "KONECT";
+		DBOperation.generateReportSql(datasetName);
+
+	}
+	
+	@Test
+	public void testGenerateReportSql_BHOSLIB() {
+		String datasetName = "BHOSLIB";
+		DBOperation.generateReportSql(datasetName);
 
 	}
 }

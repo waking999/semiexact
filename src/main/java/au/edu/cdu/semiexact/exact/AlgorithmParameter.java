@@ -1,23 +1,24 @@
 package au.edu.cdu.semiexact.exact;
 
 public class AlgorithmParameter {
-	private long bestRunningTime;
+	private long allowedRunningTime;
 	private int unacceptedResultSize;
 	private int acceptedResultSize;
 	private int bestResultSize;
-	private int theshold;
+	private int threshold;
 	
-	public int getTheshold() {
-		return theshold;
+	public int getThreshold() {
+		return threshold;
 	}
-	public void setTheshold(int theshold) {
-		this.theshold = theshold;
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
-	public long getBestRunningTime() {
-		return bestRunningTime;
+ 
+	public long getAllowedRunningTime() {
+		return allowedRunningTime;
 	}
-	public void setBestRunningTime(long bestRunningTime) {
-		this.bestRunningTime = bestRunningTime;
+	public void setAllowedRunningTime(long allowedRunningTime) {
+		this.allowedRunningTime = allowedRunningTime;
 	}
 	public int getUnacceptedResultSize() {
 		return unacceptedResultSize;

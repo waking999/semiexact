@@ -6,7 +6,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
-import au.edu.cdu.semiexact.util.ConstantValue;
 
 /**
  * a test case to test more complex instances
@@ -14,34 +13,30 @@ import au.edu.cdu.semiexact.util.ConstantValue;
 public class MSC7TestDataset {
 	// private static Logger log = LogUtil.getLogger(MSC4Test.class);
 
-	  @Ignore
+	//@Ignore
 	@Test
 	public void testBHOSLIB() throws IOException {
-		String algTableName = ConstantValue.DB_TBNAME_ALG7;
 
-		String[] instanceCodes = {  "frb30-15-1", "frb30-15-2", "frb30-15-3", "frb30-15-4", "frb30-15-5",
-				"frb35-17-1", "frb35-17-2", "frb35-17-3", "frb35-17-4", "frb35-17-5",
-				  "frb40-19-1", "frb40-19-2", "frb40-19-3", "frb40-19-4", "frb40-19-5",
-				  "frb45-21-1", "frb45-21-2", "frb45-21-3", "frb45-21-4", "frb45-21-5",
-		};
-		IMSC<String, String> msc = new MSC6<String, String>();
+		String[] codes = { "frb30_15_1", "frb30_15_2", "frb30_15_3", "frb30_15_4", "frb30_15_5", "frb35_17_1",
+				"frb35_17_2", "frb35_17_3", "frb35_17_4", "frb35_17_5", "frb40_19_1", "frb40_19_2", "frb40_19_3",
+				"frb40_19_4", "frb40_19_5", "frb45_21_1", "frb45_21_2", "frb45_21_3", "frb45_21_4", "frb45_21_5", };
 
-		TestUtil.basicTest(instanceCodes, algTableName, msc);
+		IMSC<String, String> msc = new MSC7<String, String>();
+
+		TestUtil.basicTestLoop(codes, msc);
 
 	}
 
-	//@Ignore
+	 @Ignore
 	@Test
 	public void testKONECT() throws IOException {
-		String algTableName = ConstantValue.DB_TBNAME_ALG7;
 
-		String[] instanceCodes = { "DavidCopperfield", "Jazz", "PDZBase", "Rovira", "Euroroad", "Hamster", "HamsterFul",
-				"Facebook"
+		String[] codes = { //"DavidCopperfield", "Jazz", "PDZBase", "Rovira", "Euroroad", "Hamster", "HamsterFul",
+				"Facebook" };
 
-		};
-		IMSC<String, String> msc = new MSC6<String, String>();
+		IMSC<String, String> msc = new MSC7<String, String>();
 
-		TestUtil.basicTest(instanceCodes, algTableName, msc);
+		TestUtil.basicTestLoop(codes, msc);
 
 	}
 
