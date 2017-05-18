@@ -1,6 +1,6 @@
 package au.edu.cdu.semiexact.exact;
 
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import au.edu.cdu.semiexact.util.GlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;

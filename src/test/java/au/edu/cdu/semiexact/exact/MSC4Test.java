@@ -2,7 +2,7 @@ package au.edu.cdu.semiexact.exact;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
