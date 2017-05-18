@@ -38,6 +38,7 @@ Thumbs.db
 
 /target/
 /src/test/resources/
-result/
+/result/report/
+/result/db/*.bk
 
 src/test/java/au/edu/cdu/semiexact/ALgoTests.java
