@@ -303,7 +303,7 @@ public class UtilTest {
 	@Test
 	public void testGetMaxCardinalitySetIndex() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		//TestUtil.printGlobalVariableStatus(gv);
 
 		int sIdx = 4;
@@ -318,7 +318,7 @@ public class UtilTest {
 	@Test
 	public void testDeleteSeta1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 
 		testDeleteSeta(gv);
 
@@ -328,13 +328,13 @@ public class UtilTest {
 	@Test
 	public void testDeleteSeta2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 
 		testDeleteSeta(gv);
 
 	}
 
-	private void testDeleteSeta(GlobalVariable<String, String> gv) {
+	private void testDeleteSeta(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -376,7 +376,7 @@ public class UtilTest {
 	@Test
 	public void testDeleteElement1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testDeleteElement(gv);
 
 	}
@@ -385,12 +385,12 @@ public class UtilTest {
 	@Test
 	public void testDeleteElement2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testDeleteElement(gv);
 
 	}
 
-	private void testDeleteElement(GlobalVariable<String, String> gv) {
+	private void testDeleteElement(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 
@@ -445,7 +445,7 @@ public class UtilTest {
 	@Test
 	public void testAddSetToCover1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testAddSetToCover(gv);
 
 	}
@@ -454,12 +454,12 @@ public class UtilTest {
 	@Test
 	public void testAddSetToCover2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testAddSetToCover(gv);
 
 	}
 
-	private void testAddSetToCover(GlobalVariable<String, String> gv) {
+	private void testAddSetToCover(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -481,7 +481,7 @@ public class UtilTest {
 	@Test
 	public void testAProcessManuallyByPersonSimulation1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testAProcessManuallyByPersonSimulation(gv);
 	}
 
@@ -489,11 +489,11 @@ public class UtilTest {
 	@Test
 	public void testAProcessManuallyByPersonSimulation2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testAProcessManuallyByPersonSimulation(gv);
 	}
 
-	private void testAProcessManuallyByPersonSimulation(GlobalVariable<String, String> gv) {
+	private void testAProcessManuallyByPersonSimulation(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -533,7 +533,7 @@ public class UtilTest {
 	@Test
 	public void testDeleteSetb1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testDeletsetb(gv);
 
 	}
@@ -542,12 +542,12 @@ public class UtilTest {
 	@Test
 	public void testDeleteSetb2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testDeletsetb(gv);
 
 	}
 
-	private void testDeletsetb(GlobalVariable<String, String> gv) {
+	private void testDeletsetb(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 
@@ -579,7 +579,7 @@ public class UtilTest {
 	@Test
 	public void testGetSetOfFrequencyOneElement1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testGetSetOfFrequencyOneElement(gv);
 	}
 
@@ -587,11 +587,11 @@ public class UtilTest {
 	@Test
 	public void testGetSetOfFrequencyOneElement2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testGetSetOfFrequencyOneElement(gv);
 	}
 
-	private void testGetSetOfFrequencyOneElement(GlobalVariable<String, String> gv) {
+	private void testGetSetOfFrequencyOneElement(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -636,7 +636,7 @@ public class UtilTest {
 	@Test
 	public void testIs1Subset21() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testIs1Subset2(gv);
 
 	}
@@ -645,12 +645,12 @@ public class UtilTest {
 	@Test
 	public void testIs1Subset22() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testIs1Subset2(gv);
 
 	}
 
-	private void testIs1Subset2(GlobalVariable<String, String> gv) {
+	private void testIs1Subset2(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -687,7 +687,7 @@ public class UtilTest {
 	@Test
 	public void testGetSubset1() {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
 		testGetSubset(gv);
 
 	}
@@ -696,12 +696,12 @@ public class UtilTest {
 	@Test
 	public void testGetSubset2() throws IOException {
 
-		GlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
 		testGetSubset(gv);
 
 	}
 
-	private void testGetSubset(GlobalVariable<String, String> gv) {
+	private void testGetSubset(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 
@@ -762,7 +762,7 @@ public class UtilTest {
 	@Test
 	public void testTransferGVIntoMMParam() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		GlobalVariable<String, String> gv = TestUtil.getTC2Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getTC2Rep();
 
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();

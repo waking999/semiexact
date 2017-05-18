@@ -1,15 +1,14 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 /**
  * 1. the exactly same as the basic algorithm
- * 2. apply the reduction rule exhaustedly 
  */
 import java.util.List;
 
 import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
 
-public class MSC2 {
+public class MSC1 {
 	private List<List<Integer>> s;
 
 	public void setS(List<List<Integer>> s) {
@@ -23,18 +22,17 @@ public class MSC2 {
 	private int branch(List<List<Integer>> s) {
 		if (s == null || s.size() == 0)
 			return 0;
+
 		// subset rule
 		ExistQualifiedSet exist = Util.existSubset(s);
 		if (exist.isExist()) {
-			do {
-				int setIndex = exist.getSetIndex();
-				List<Integer> si = s.get(setIndex);
-				Util.removeSet(s, si);
-				exist = Util.existSubset(s);
-			} while (exist.isExist());
+			int setIndex = exist.getSetIndex();
+			List<Integer> si = s.get(setIndex);
 			List<List<Integer>> sCopy = Util.copyList(s);
+			Util.removeSet(sCopy, si);
 			return branch(sCopy);
 		}
+
 		// unique set for an element
 		List<Integer> uList = Util.unionSets(s);
 		exist = Util.existUniqueSetForAElement(uList, s);
@@ -43,17 +41,6 @@ public class MSC2 {
 			List<Integer> si = s.get(setIndex);
 			List<List<Integer>> sCopy = Util.copyList(s);
 			sCopy = Util.deleteSet(sCopy, si);
-
-			exist = Util.existSubset(sCopy);
-			if (exist.isExist()) {
-				do {
-					int setIndexPrime = exist.getSetIndex();
-					List<Integer> siPrime = sCopy.get(setIndexPrime);
-					Util.removeSet(sCopy, siPrime);
-					exist = Util.existSubset(sCopy);
-				} while (exist.isExist());
-			}
-
 			return 1 + branch(sCopy);
 		}
 		// base rule

@@ -8,7 +8,7 @@ package au.edu.cdu.semiexact.util;
  * @param <ST>
  *            set type
  */
-public class GlobalVariable<ET, ST> {
+public class MSCGlobalVariable<ET, ST> {
 	private int eCount; // element count
 
 	private int[] eL; // element list

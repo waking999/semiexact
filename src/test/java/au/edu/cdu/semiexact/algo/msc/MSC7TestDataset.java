@@ -1,4 +1,4 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.io.IOException;
 
@@ -6,6 +6,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+import au.edu.cdu.semiexact.algo.msc.IMSC;
+import au.edu.cdu.semiexact.algo.msc.MSC7;
 
 /**
  * a test case to test more complex instances

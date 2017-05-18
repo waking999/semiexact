@@ -1,10 +1,12 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+import au.edu.cdu.semiexact.algo.msc.IMSC;
+import au.edu.cdu.semiexact.algo.msc.MSC5;
 import au.edu.cdu.semiexact.util.ConstantValue;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 

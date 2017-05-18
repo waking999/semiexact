@@ -1,9 +1,10 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.util.Arrays;
 
+import au.edu.cdu.semiexact.algo.AlgorithmParameter;
 import au.edu.cdu.semiexact.util.ConstantValue;
-import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.Util;
 
 /**
@@ -26,7 +27,7 @@ public class MSC7<ET, ST> implements IMSC<ET, ST> {
 		msc = new MSC4<ET, ST>();
 	}
 
-	public int branch(GlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
+	public int branch(MSCGlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
 		long start = System.nanoTime();
 		// int bestResultSize = ap.getBestResultSize();
 		int acceptedResultSize = ap.getAcceptedResultSize();
@@ -60,7 +61,7 @@ public class MSC7<ET, ST> implements IMSC<ET, ST> {
 
 	}
 
-	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long allowedRunningTime,
+	private int branch(MSCGlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long allowedRunningTime,
 			int acceptedResultSize, int unacceptedResultSize, int threshold, int level) {
 
 		int bestSolCount = gv.getBestSolCount();

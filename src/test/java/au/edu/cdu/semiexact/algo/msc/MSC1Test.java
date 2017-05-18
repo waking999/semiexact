@@ -1,4 +1,4 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+import au.edu.cdu.semiexact.algo.msc.MSC1;
 
 /**
  * test class for msc1

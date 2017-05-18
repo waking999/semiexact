@@ -1,9 +1,10 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import au.edu.cdu.semiexact.algo.ReturnResult;
 import au.edu.cdu.semiexact.util.ExistQualifiedSet;
 import au.edu.cdu.semiexact.util.Util;
 

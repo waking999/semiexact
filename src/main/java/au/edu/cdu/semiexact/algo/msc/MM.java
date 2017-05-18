@@ -1,4 +1,4 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.util.Arrays;
 import java.util.HashMap;

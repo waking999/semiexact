@@ -10,13 +10,13 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
-import au.edu.cdu.semiexact.exact.AlgorithmParameter;
-import au.edu.cdu.semiexact.exact.IMSC;
+import au.edu.cdu.semiexact.algo.AlgorithmParameter;
+import au.edu.cdu.semiexact.algo.msc.IMSC;
 import au.edu.cdu.semiexact.io.DBOperation;
 import au.edu.cdu.semiexact.io.DBParameter;
 import au.edu.cdu.semiexact.io.FileOperation;
 import au.edu.cdu.semiexact.util.ConstantValue;
-import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
 import au.edu.cdu.semiexact.util.Util;
 
@@ -31,6 +31,7 @@ public class TestUtil {
 	public static String getCurrentPath() {
 		return Paths.get(".").toAbsolutePath().normalize().toString();
 	}
+
 
 	public static List<List<Integer>> getTestCase1ForBasicMSC() {
 		int[] l1 = { 1, 2, 3 };
@@ -89,9 +90,9 @@ public class TestUtil {
 		return map;
 	}
 
-	private static GlobalVariable<String, String> setGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq,
+	private static MSCGlobalVariable<String, String> setGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq,
 			int[][] eAL, int[][] eIM, int sCount, int[] sL, int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
-		GlobalVariable<String, String> gv = new GlobalVariable<String, String>();
+		MSCGlobalVariable<String, String> gv = new MSCGlobalVariable<String, String>();
 		gv.setCard(card);
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
@@ -129,15 +130,15 @@ public class TestUtil {
 
 	}
 
-	public static GlobalVariable<String, String> getTC1RepFile() throws IOException {
+	public static MSCGlobalVariable<String, String> getTC1RepFile() throws IOException {
 		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/sample1.txt";
 
-		GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
+		MSCGlobalVariable<String, String> gv = new FileOperation().readGraphForMSCByEdgePair(filePath);
 		return gv;
 
 	}
 
-	public static GlobalVariable<String, String> getTC1Rep() {
+	public static MSCGlobalVariable<String, String> getTC1Rep() {
 		int eCount = 6;
 
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6 };
@@ -163,7 +164,7 @@ public class TestUtil {
 
 	}
 
-	public static GlobalVariable<String, String> getTC2Rep() {
+	public static MSCGlobalVariable<String, String> getTC2Rep() {
 		int eCount = 7;
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] eIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
@@ -273,7 +274,7 @@ public class TestUtil {
 	 * @param gv,
 	 *            global variables
 	 */
-	public static void printGlobalVariableStatus(GlobalVariable<String, String> gv) {
+	public static void printGlobalVariableStatus(MSCGlobalVariable<String, String> gv) {
 		String styleStr = "%-6s %-6s %-6s %-20s %-20s";
 
 		int[] sIL = gv.getsIL();
@@ -358,14 +359,14 @@ public class TestUtil {
 
 			int thresholdUpper = ap.getBestResultSize() + 1;
 			for (int threshold = thresholdUpper; threshold > 0; threshold--) {
-				GlobalVariable<String, String> gv = getGV(baseFilePath, map);
+				MSCGlobalVariable<String, String> gv = getGV(baseFilePath, map);
 				ap.setThreshold(threshold);
 
 				long start = System.nanoTime();
 				msc.branch(gv, ap);
 				long end = System.nanoTime();
 
-				Assert.assertTrue(Util.isValidSolution(gv));
+				Assert.assertTrue(Util.isValidMSCSolution(gv));
 
 				dbpOut = getDBParamOutPut(algTableName, id, gv, start, end, batchNum, threshold);
 				DBOperation.executeInsert(dbpOut);
@@ -400,7 +401,7 @@ public class TestUtil {
 			int lstLen = lst.size();
 			for (int i = 0; i < lstLen; i++) {
 				Map<String, String> map = lst.get(i);
-				GlobalVariable<String, String> gv = getGV(baseFilePath, map);
+				MSCGlobalVariable<String, String> gv = getGV(baseFilePath, map);
 
 				AlgorithmParameter ap = getAP(map);
 
@@ -410,7 +411,7 @@ public class TestUtil {
 				msc.branch(gv, ap);
 				long end = System.nanoTime();
 
-				Assert.assertTrue(Util.isValidSolution(gv));
+				Assert.assertTrue(Util.isValidMSCSolution(gv));
 
 				dbpOut = getDBParamOutPut(algTableName, batchNum, id, gv, start, end);
 				DBOperation.executeInsert(dbpOut);
@@ -450,16 +451,16 @@ public class TestUtil {
 		return ap;
 	}
 
-	private static GlobalVariable<String, String> getGV(String baseFilePath, Map<String, String> map)
+	private static MSCGlobalVariable<String, String> getGV(String baseFilePath, Map<String, String> map)
 			throws IOException {
 		String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
 		String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
 		String filePath = baseFilePath + dPathName + iPathName;
-		GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
+		MSCGlobalVariable<String, String> gv = new FileOperation().readGraphForMSCByEdgePair(filePath);
 		return gv;
 	}
 
-	private static DBParameter getDBParamOutPut(String algTableName, String id, GlobalVariable<String, String> gv,
+	private static DBParameter getDBParamOutPut(String algTableName, String id, MSCGlobalVariable<String, String> gv,
 			long start, long end, String batchNum, int threshold) {
 		DBParameter dbpOut;
 		dbpOut = new DBParameter();
@@ -475,7 +476,7 @@ public class TestUtil {
 	}
 
 	private static DBParameter getDBParamOutPut(String algTableName, String batchNum, String id,
-			GlobalVariable<String, String> gv, long start, long end) {
+			MSCGlobalVariable<String, String> gv, long start, long end) {
 		DBParameter dbpOut;
 		dbpOut = new DBParameter();
 		dbpOut.setTableName(algTableName);

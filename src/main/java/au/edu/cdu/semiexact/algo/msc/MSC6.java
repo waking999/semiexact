@@ -1,9 +1,10 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.util.Arrays;
 
+import au.edu.cdu.semiexact.algo.AlgorithmParameter;
 import au.edu.cdu.semiexact.util.ConstantValue;
-import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.Util;
 
 /**
@@ -13,39 +14,58 @@ import au.edu.cdu.semiexact.util.Util;
  * 
  * 2. use existing Edmonds max matching algorithm;
  * 
- * 3. add time limit
+ * 3. add time limit 4. add greedy sc at running time long and solution size big
  */
 
-public class MSC5<ET, ST> implements IMSC<ET, ST> {
+public class MSC6<ET, ST> implements IMSC<ET, ST> {
 
 	MSC4<ET, ST> msc;
 
-	public MSC5() {
+	public MSC6() {
 		msc = new MSC4<ET, ST>();
 	}
 
-	public int branch(GlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
+	public int branch(MSCGlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
 		long start = System.nanoTime();
+		int bestResultSize = ap.getBestResultSize();
+		int acceptedResultSize = ap.getAcceptedResultSize();
+		int unacceptedResultSize = ap.getUnacceptedResultSize();
+
+		long allowedRunningTime = ap.getAllowedRunningTime();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		return branch(gv, card, freq, start, ConstantValue.RUNNING_TIME_LIMIT, 0);
+		return branch(gv, card, freq, start, allowedRunningTime, bestResultSize, acceptedResultSize, unacceptedResultSize,
+				0);
 	}
 
-	private int branch(GlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long timeLimit, int level) {
-		//System.out.println(level + "," + freq[0] + "," + gv.getBestSolCount() + "," + gv.getSolCount());
+	private int branch(MSCGlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long bestRunningTime,
+			int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int level) {
 
 		int bestSolCount = gv.getBestSolCount();
+
+		long current = System.nanoTime();
+		if (current - start >= bestRunningTime) {
+
+			if (bestSolCount >= unacceptedResultSize) {
+				
+				//System.out.println("Prune");
+				level += GreedyMSC.run(gv, card, freq);
+
+			} else if (bestSolCount >= acceptedResultSize) {
+
+				// smaller than upper, but not closer to the lower, continue
+				// search tree
+			} else {
+				// we are happy with the current bestSolCount as a solution
+				return bestSolCount;
+			}
+		}
+
 		int solCount = gv.getSolCount();
 
 		int s1 = card[0];
 		int e1 = freq[0];
-
-		// if the algorithm runs too long (longer than our patience), stop
-		long current = System.nanoTime();
-		if (current - start >= timeLimit) {
-			return ConstantValue.IMPOSSIBLE_VALUE;
-		}
 
 		if (bestSolCount <= solCount) {
 			return bestSolCount;
@@ -63,17 +83,13 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 			return bestSolCount;
 		}
 
-		// if (bestSolCount <= solCount + 1) {
-		// return bestSolCount;
-		// }
-
 		while (msc.preProcess(gv, card, freq)) {
 			if (bestSolCount <= solCount) {
 				return bestSolCount;
 			}
 
 			if (freq[0] == 0) {
-				solCount = gv.getSolCount(); 
+				solCount = gv.getSolCount();
 				if (bestSolCount > solCount) {
 					bestSolCount = solCount;
 					int[] sol = gv.getSol();
@@ -88,6 +104,10 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 			// return bestSolCount;
 			// }
 		}
+
+		solCount = gv.getSolCount();
+		bestSolCount = gv.getBestSolCount();
+
 		s1 = card[0];
 		e1 = freq[0];
 
@@ -106,10 +126,6 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 			}
 			return bestSolCount;
 		}
-
-		// if (bestSolCount <= solCount + 1) {
-		// return bestSolCount;
-		// }
 
 		int set = Util.getMaxCardinalitySetIndex(gv, card, s1);
 
@@ -192,7 +208,6 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		solCount++;
 
 		int tempCard = copyCard[set];
-
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
@@ -203,7 +218,8 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		copyCard[0] = s2;
 		copyFreq[0] = e2;
 
-		int res1 = branch(gv, copyCard, copyFreq, start, timeLimit, level + 1);
+		int res1 = branch(gv, copyCard, copyFreq, start, bestRunningTime, bestResultSize, acceptedResultSize,
+				unacceptedResultSize, level + 1);
 
 		copyCard = null;
 		copyFreq = null;
@@ -216,11 +232,11 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 
 		Util.deleteSet(gv, card, freq, s1, e1, set);
 		s1--;
-
 		card[0] = s1;
 		freq[0] = e1;
 
-		int res2 = branch(gv, card, freq, start, timeLimit, level + 1);
+		int res2 = branch(gv, card, freq, start, bestRunningTime, bestResultSize, acceptedResultSize,
+				unacceptedResultSize, level + 1);
 
 		if (res1 < res2) {
 

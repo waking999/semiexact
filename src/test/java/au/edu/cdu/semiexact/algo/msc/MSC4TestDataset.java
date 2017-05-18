@@ -1,4 +1,4 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import java.io.IOException;
 
@@ -7,8 +7,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
+import au.edu.cdu.semiexact.algo.msc.MSC4;
 import au.edu.cdu.semiexact.io.FileOperation;
-import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
 import au.edu.cdu.semiexact.util.Util;
 
@@ -23,7 +24,7 @@ public class MSC4TestDataset {
 			String fileName = fileNames[i];
 			String filePath = TestUtil.getCurrentPath() + "/src/test/resources/" + folder + "/" + fileName;
 
-			GlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
+			MSCGlobalVariable<String, String> gv = new FileOperation().readGraphForMSCByEdgePair(filePath);
 			MSC4<String, String> msc = new MSC4<String, String>();
 
 			long start = System.nanoTime();
@@ -31,7 +32,7 @@ public class MSC4TestDataset {
 			long end = System.nanoTime();
 
 			Assert.assertEquals(expectedSizes[i], gv.getBestSolCount());
-			Assert.assertTrue(Util.isValidSolution(gv));
+			Assert.assertTrue(Util.isValidMSCSolution(gv));
 
 			StringBuffer sb = new StringBuffer();
 			sb.append(fileName).append(":").append(gv.getBestSolCount()).append(":").append((end - start) / 1000000000)

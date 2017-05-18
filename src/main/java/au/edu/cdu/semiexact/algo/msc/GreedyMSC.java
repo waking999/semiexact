@@ -1,15 +1,15 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo.msc;
 
 import org.apache.log4j.Logger;
 
-import au.edu.cdu.semiexact.util.GlobalVariable;
+import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
 import au.edu.cdu.semiexact.util.Util;
 
 public class GreedyMSC {
 	private static Logger log = LogUtil.getLogger(GreedyMSC.class);
 
-	public static <ET, ST> int run(GlobalVariable<ET, ST> gv, int[] card, int[] freq) {
+	public static <ET, ST> int run(MSCGlobalVariable<ET, ST> gv, int[] card, int[] freq) {
 		log.debug("GreedyMSC is called");
 		int solCount = gv.getSolCount();
 		int[] sol = gv.getSol(); 

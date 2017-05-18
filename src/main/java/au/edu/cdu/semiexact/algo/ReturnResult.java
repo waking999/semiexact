@@ -1,4 +1,4 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package au.edu.cdu.semiexact.exact;
+package au.edu.cdu.semiexact.algo;
 
 public class AlgorithmParameter {
 	private long allowedRunningTime;

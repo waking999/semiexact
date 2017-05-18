@@ -541,7 +541,7 @@ public class Util {
 	 *            set cardinalities
 	 * @return the max cardinality set index in the list s
 	 */
-	public static <ET, ST> int getMaxCardinalitySetIndex(GlobalVariable<ET, ST> gv, int[] card, int sActCount) {
+	public static <ET, ST> int getMaxCardinalitySetIndex(MSCGlobalVariable<ET, ST> gv, int[] card, int sActCount) {
 
 		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
 		int index = ConstantValue.IMPOSSIBLE_VALUE;
@@ -739,7 +739,7 @@ public class Util {
 	 *            element frequency* @param sToDelIdx, the index of the set to
 	 *            be deleted
 	 */
-	public static <ET, ST> void deleteSet(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
+	public static <ET, ST> void deleteSet(MSCGlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
 			int eActCount, int s) {
 		int[] sL = gv.getsL();
 		int[] sIL = gv.getsIL();
@@ -782,7 +782,7 @@ public class Util {
 	 * @param sToDelIdx,
 	 *            the index of the set to be deleted
 	 */
-	private static <ET, ST> void decreaseElementFrequency(GlobalVariable<ET, ST> gv, int[] freq, int eActCount, int e,
+	private static <ET, ST> void decreaseElementFrequency(MSCGlobalVariable<ET, ST> gv, int[] freq, int eActCount, int e,
 			int s) {
 		// int[] freq = gv.getFreq();
 		int[][] eAL = gv.geteAL();
@@ -810,7 +810,7 @@ public class Util {
 	 * variable // * @param sToDecIdx, // * the index of the set to be decreased
 	 * // * @param eToDelIdx, // * the index of the element to be deleted //
 	 */
-	private static <ET, ST> void decreaseSetCardinality(GlobalVariable<ET, ST> gv, int[] card, int sActCount, int s,
+	private static <ET, ST> void decreaseSetCardinality(MSCGlobalVariable<ET, ST> gv, int[] card, int sActCount, int s,
 			int e) {
 		// int[] card = gv.getCard();
 		int[][] sAL = gv.getsAL();
@@ -845,7 +845,7 @@ public class Util {
 	 * @param eToDelIdx,
 	 *            the index of the element to be deleted
 	 */
-	protected static <ET, ST> void deleteElement(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
+	protected static <ET, ST> void deleteElement(MSCGlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
 			int eActCount, int e, int source) {
 		int[] eL = gv.geteL();
 		int[] eIL = gv.geteIL();
@@ -892,7 +892,7 @@ public class Util {
 	 * @param sToAddIdx,
 	 *            the index of the set to be added
 	 */
-	public static <ET, ST> void addSetToCover(GlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
+	public static <ET, ST> void addSetToCover(MSCGlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
 			int eActCount, int s) {
 		int[] sL = gv.getsL();
 		// int sActCount = card[0];
@@ -936,7 +936,7 @@ public class Util {
 	 *            element frequency
 	 * @return set index
 	 */
-	public static <ET, ST> int getSetOfFrequencyOneElement(GlobalVariable<ET, ST> gv, int[] freq, int eActCount) {
+	public static <ET, ST> int getSetOfFrequencyOneElement(MSCGlobalVariable<ET, ST> gv, int[] freq, int eActCount) {
 		// int eActCount = freq[0];
 
 		int[] eL = gv.geteL();
@@ -967,7 +967,7 @@ public class Util {
 	 * @return true: set1 is a subset of set2; false: otherwise
 	 */
 
-	protected static <ET, ST> boolean is1Subset2(GlobalVariable<ET, ST> gv, int[] card, int s1Idx, int s2Idx) {
+	protected static <ET, ST> boolean is1Subset2(MSCGlobalVariable<ET, ST> gv, int[] card, int s1Idx, int s2Idx) {
 		if (s1Idx == s2Idx) {
 			return false;
 		}
@@ -1008,7 +1008,7 @@ public class Util {
 	 *            set cardinalities
 	 * @return a subset of another set
 	 */
-	public static <ET, ST> int getSubset(GlobalVariable<ET, ST> gv, int[] card) {
+	public static <ET, ST> int getSubset(MSCGlobalVariable<ET, ST> gv, int[] card) {
 		int[] sL = gv.getsL();
 		int sActCount = card[0];
 
@@ -1046,7 +1046,7 @@ public class Util {
 	 *            set cardinalities
 	 * @return an adjacency list of elements format
 	 */
-	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(GlobalVariable<ET, ST> gv, int[] card,
+	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(MSCGlobalVariable<ET, ST> gv, int[] card,
 			int[] freq) {
 		// TODO: sL is not right
 		int[] sL = gv.getsL();
@@ -1116,15 +1116,17 @@ public class Util {
 		return elePosG;
 
 	}
-
+	
+	
+	 
 	/**
-	 * if a solution is valid
+	 * if a msc solution is valid
 	 * 
 	 * @param gv,
 	 *            global variables
 	 * @return true if it is valid, otherwise false
 	 */
-	public static <ET, ST> boolean isValidSolution(GlobalVariable<ET, ST> gv) {
+	public static <ET, ST> boolean isValidMSCSolution(MSCGlobalVariable<ET, ST> gv) {
 
 		int bestSolCount = gv.getBestSolCount();
 		int[] bestSol = gv.getBestSol();
@@ -1135,17 +1137,22 @@ public class Util {
 
 		int count = 0;
 
-		for (int i = 1; i <= bestSolCount; i++) {
-			int[] eLi = sAL[bestSol[i]];
-			for (int ei : eLi) {
-				if (ei != ConstantValue.IMPOSSIBLE_VALUE) {
-					int tmpIdx = getContiansEleIdx(copyEL, copyEL.length - 1, ei);
-					if (tmpIdx != ConstantValue.IMPOSSIBLE_VALUE) {
-						count++;
-						copyEL[tmpIdx] = ConstantValue.IMPOSSIBLE_VALUE;
+		try {
+			for (int i = 1; i <= bestSolCount; i++) {
+				int[] eLi = sAL[bestSol[i]];
+				for (int ei : eLi) {
+					if (ei != ConstantValue.IMPOSSIBLE_VALUE) {
+						int tmpIdx = getContiansEleIdx(copyEL, copyEL.length - 1, ei);
+						if (tmpIdx != ConstantValue.IMPOSSIBLE_VALUE) {
+							count++;
+							copyEL[tmpIdx] = ConstantValue.IMPOSSIBLE_VALUE;
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 
 		if (count == eCount) {
