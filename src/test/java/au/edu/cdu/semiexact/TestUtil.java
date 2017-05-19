@@ -16,8 +16,9 @@ import au.edu.cdu.semiexact.io.DBOperation;
 import au.edu.cdu.semiexact.io.DBParameter;
 import au.edu.cdu.semiexact.io.FileOperation;
 import au.edu.cdu.semiexact.util.ConstantValue;
-import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.LogUtil;
+import au.edu.cdu.semiexact.util.MISGlobalVariable;
+import au.edu.cdu.semiexact.util.MSCGlobalVariable;
 import au.edu.cdu.semiexact.util.Util;
 
 /**
@@ -90,7 +91,7 @@ public class TestUtil {
 		return map;
 	}
 
-	private static MSCGlobalVariable<String, String> setGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq,
+	private static MSCGlobalVariable<String, String> setMSCGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq,
 			int[][] eAL, int[][] eIM, int sCount, int[] sL, int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
 		MSCGlobalVariable<String, String> gv = new MSCGlobalVariable<String, String>();
 		gv.setCard(card);
@@ -129,6 +130,33 @@ public class TestUtil {
 		return gv;
 
 	}
+	
+	private static MISGlobalVariable<Integer> setMISGlobalVariable(int vCount, int[] vL, int[] vIL, int[] deg,
+			int[][] vAL, int[][] vIM) {
+		MISGlobalVariable<Integer> gv = new MISGlobalVariable<Integer>();
+		gv.setDeg(deg);
+		gv.setvAL(vAL);
+		gv.setvIL(vIL);
+		gv.setvL(vL);
+		gv.setvIM(vIM);
+		gv.setvCount(vCount);
+
+		gv.setBestSolCount(vCount);
+		gv.setSolCount(0);
+
+		int[] sol = new int[vCount];
+		int[] bestSol = new int[vCount];
+		for (int i = 0; i < vCount; i++) {
+			sol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+			bestSol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+		}
+		gv.setSol(sol);
+		gv.setBestSol(bestSol);
+		gv.setSolPtr(1);
+
+		return gv;
+
+	}
 
 	public static MSCGlobalVariable<String, String> getTC1RepFile() throws IOException {
 		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/sample1.txt";
@@ -138,7 +166,23 @@ public class TestUtil {
 
 	}
 
-	public static MSCGlobalVariable<String, String> getTC1Rep() {
+	
+	public static MISGlobalVariable<Integer> getMISTC1Rep() {
+		int vCount = 6;
+
+		int[] vL = { IV, 1, 2, 3, 4, 5, 6 };
+		int[] vIL = { IV, 1, 2, 3, 4, 5, 6 };
+		int[] deg = { vCount, 2, 2, 2, 3, 2, 1 };
+		int[][] vAL = { {}, { IV, 2, 3 }, { IV, 1, 4 }, { IV, 1, 4 }, { IV, 2, 3, 5 }, { IV, 4, 6 },
+				{ IV, 5 } };
+		int[][] vIM ={{IV, IV, IV, IV, IV, IV, IV}, {IV, IV, 1, 1, IV, IV, IV}, {IV, 1, IV, IV, 1, IV, IV}, {IV, 2, IV, IV, 2, IV, IV}, {IV, IV, 2, 2, IV, 1, IV}, {IV, IV, IV, IV, 3, IV, 1}, {IV, IV, IV, IV, IV, 2, IV}};
+
+		 
+		return setMISGlobalVariable(vCount, vL, vIL, deg, vAL, vIM);
+
+	}
+	
+	public static MSCGlobalVariable<String, String> getMSCTC1Rep() {
 		int eCount = 6;
 
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6 };
@@ -160,7 +204,7 @@ public class TestUtil {
 		int[][] sIM = { { IV, IV, IV, IV, IV, IV, IV, }, { IV, 1, 1, 1, IV, IV, IV }, { IV, 2, 2, IV, 1, IV, IV },
 				{ IV, 3, IV, 2, 2, IV, IV }, { IV, IV, 3, 3, 3, 1, IV }, { IV, IV, IV, IV, 4, 2, 1 },
 				{ IV, IV, IV, IV, IV, 3, 2 } };
-		return setGlobalVariable(eCount, eL, eIL, freq, eAL, eIM, sCount, sL, sIL, card, sAL, sIM);
+		return setMSCGlobalVariable(eCount, eL, eIL, freq, eAL, eIM, sCount, sL, sIL, card, sAL, sIM);
 
 	}
 
@@ -188,7 +232,7 @@ public class TestUtil {
 				{ IV, IV, IV, IV, IV, IV, 1, IV }, { IV, IV, IV, IV, IV, IV, 2, 1 },
 				{ IV, IV, IV, IV, IV, IV, IV, 2 } };
 
-		return setGlobalVariable(eCount, eL, eIL, freq, eAL, eIM, sCount, sL, sIL, card, sAL, sIM);
+		return setMSCGlobalVariable(eCount, eL, eIL, freq, eAL, eIM, sCount, sL, sIL, card, sAL, sIM);
 	}
 
 	public static Map<Integer, List<Integer>> getTestCase1ForMaxMatching() {
@@ -269,12 +313,33 @@ public class TestUtil {
 	}
 
 	/**
-	 * print status of global variables formatly
+	 * print status of global variables in format for MSC
 	 * 
 	 * @param gv,
 	 *            global variables
 	 */
-	public static void printGlobalVariableStatus(MSCGlobalVariable<String, String> gv) {
+	public static void printMISGlobalVariableStatus(MISGlobalVariable<Integer> gv) {
+		String styleStr = "%-6s %-6s %-6s %-20s %-20s";
+
+		int[] vIL = gv.getvIL();
+		int vLen = vIL.length - 1;
+		int[] deg = gv.getDeg();
+		int[][] vAL = gv.getvAL();
+		int[][] vIM = gv.getvIM();
+		int vActCount = gv.getvCount();
+		int[] vL = gv.getvL();
+
+		printStatus(styleStr, vLen, "vActCount", vActCount, "vL", vL, "vIL", vIL, "deg", deg, "vAL", vAL, "vIM", vIM);
+
+		System.out.println("--------------------------------------------------------");
+	}
+	/**
+	 * print status of global variables in format for MSC
+	 * 
+	 * @param gv,
+	 *            global variables
+	 */
+	public static void printMSCGlobalVariableStatus(MSCGlobalVariable<String, String> gv) {
 		String styleStr = "%-6s %-6s %-6s %-20s %-20s";
 
 		int[] sIL = gv.getsIL();
@@ -320,7 +385,7 @@ public class TestUtil {
 		StringBuffer sb = new StringBuffer();
 		int arrayLen = array.length;
 		for (int i = 1; i < arrayLen; i++) {
-			if (array[i] == -1) {
+			if (array[i] == ConstantValue.IMPOSSIBLE_VALUE) {
 				sb.append("N").append(",");
 			} else {
 				sb.append(array[i]).append(",");

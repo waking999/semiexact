@@ -31,7 +31,7 @@ public class FileOperationTest {
 		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/sample1.txt";
 
 		MSCGlobalVariable<String, String> gv = new FileOperation().readGraphForMSCByEdgePair(filePath);
-		TestUtil.printGlobalVariableStatus(gv);
+		TestUtil.printMSCGlobalVariableStatus(gv);
 
 	}
 }

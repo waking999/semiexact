@@ -8,13 +8,14 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.semiexact.TestUtil;
 
 public class UtilTest {
 	private static Logger log = LogUtil.getLogger(UtilTest.class);
-
+	@Ignore
 	@Test
 	public void testArrayToList() {
 		int[] l1 = { 1, 2, 3 };
@@ -24,6 +25,7 @@ public class UtilTest {
 		Assert.assertEquals(new Integer(3), list1.get(2));
 	}
 
+	@Ignore
 	@Test
 	public void testIs1Subset2() {
 		int[] l1 = { 1, 2, 3 };
@@ -42,6 +44,7 @@ public class UtilTest {
 		Assert.assertTrue(Util.is1Subset2(list2, list1));
 	}
 
+	@Ignore
 	@Test
 	public void testExistSubset() {
 		int[] l1 = { 1, 2, 3 };
@@ -62,6 +65,7 @@ public class UtilTest {
 		Assert.assertEquals(1, Util.existSubset(list).getSetIndex());
 	}
 
+	@Ignore
 	@Test
 	public void testExistUniqueSetForAElementList() {
 		int[] l1 = { 1, 2, 3 };
@@ -83,6 +87,7 @@ public class UtilTest {
 		Assert.assertFalse(Util.existUniqueSetForAElement(2, list).isExist());
 	}
 
+	@Ignore
 	@Test
 	public void testExistUniqueSetForAElement() {
 		int[] l1 = { 2, 3 };
@@ -111,6 +116,7 @@ public class UtilTest {
 		Assert.assertEquals(1, Util.existUniqueSetForAElement(uList, list).getSetIndex());
 	}
 
+	@Ignore
 	@Test
 	public void testUnionSets() {
 		int[] l1 = { 2, 3 };
@@ -134,6 +140,7 @@ public class UtilTest {
 		Assert.assertEquals(new Integer(1), Util.unionSets(list).get(2));
 	}
 
+	@Ignore
 	@Test
 	public void testSet1Minus2() {
 		int[] l1 = { 2, 3 };
@@ -162,6 +169,7 @@ public class UtilTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testDeletSetFromList() {
 		int[] l1 = { 2, 3 };
@@ -187,6 +195,7 @@ public class UtilTest {
 		Assert.assertEquals(list2, list.get(0));
 	}
 
+	@Ignore
 	@Test
 	public void testDeletSetFromMap() {
 
@@ -216,6 +225,8 @@ public class UtilTest {
 		Assert.assertEquals(2, map.size());
 	}
 
+	
+	@Ignore
 	@Test
 	public void testCopyList() {
 		int[] l1 = { 2, 3 };
@@ -235,6 +246,7 @@ public class UtilTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGetMaxCardinalitySet() {
 		int[] l1 = { 2, 3 };
@@ -260,6 +272,7 @@ public class UtilTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testConvertMapToListOfSet() {
 		int[] l1 = { 2, 3 };
@@ -280,6 +293,7 @@ public class UtilTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testCopyMap() {
 		int[] l1 = { 2, 3 };
@@ -300,10 +314,11 @@ public class UtilTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGetMaxCardinalitySetIndex() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		//TestUtil.printGlobalVariableStatus(gv);
 
 		int sIdx = 4;
@@ -313,18 +328,33 @@ public class UtilTest {
 		Assert.assertEquals(sIdx, selectSetIdx);
 
 	}
+	
+	@Ignore
+	@Test
+	public void testGetMinUtilVertexIndex() {
 
-	// @Ignore
+		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
+		TestUtil.printMISGlobalVariableStatus(gv);
+
+		int vIdx = 6;
+		int[] deg = gv.getDeg();
+
+		int selectVerIdx = Util.getMinUtilVerIndex(gv, deg, deg[0]);
+		Assert.assertEquals(vIdx, selectVerIdx);
+
+	}
+
+	@Ignore
 	@Test
 	public void testDeleteSeta1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 
 		testDeleteSeta(gv);
 
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testDeleteSeta2() throws IOException {
 
@@ -372,16 +402,62 @@ public class UtilTest {
 		Assert.assertEquals(sToDelIdx, sIL[sToExchIdx]);
 	}
 
-	// @Ignore
+	
+	@Ignore
+	@Test
+	public void testDeleteVertex() {		
+		
+		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
+		
+		log.debug(TestUtil.FUNCTION_SEP);
+	
+		TestUtil.printMISGlobalVariableStatus(gv);
+		
+		int[] deg = gv.getDeg();		
+		int vActCount = deg[0];
+		int[] vIL = gv.getvIL();
+		
+		int vToDelIdx = 1;
+		int vToExchIdx = vIL[vActCount];
+
+		Util.deleteVertex(gv, deg, vActCount, vToDelIdx);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		Assert.assertEquals(0, deg[vToDelIdx]);
+		
+		vIL = gv.getvIL();
+
+		Assert.assertEquals(0, deg[vToDelIdx]);
+		Assert.assertEquals(vToDelIdx, vIL[vActCount]);
+		Assert.assertEquals(vToExchIdx, vIL[vToDelIdx]);
+		Assert.assertEquals(vActCount, vIL[vToDelIdx]);
+		Assert.assertEquals(vToDelIdx, vIL[vToExchIdx]);
+
+		vActCount=gv.getvCount(); 
+		vIL = gv.getvIL();
+		vToDelIdx = 4;
+		vToExchIdx = vIL[vActCount];
+		Util.deleteVertex(gv, deg, vActCount, vToDelIdx);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		
+		Assert.assertEquals(0, deg[vToDelIdx]);
+		vIL = gv.getvIL();
+		Assert.assertEquals(0, deg[vToDelIdx]);
+		Assert.assertEquals(vToDelIdx, vIL[vActCount]);
+		Assert.assertEquals(vToExchIdx, vIL[vToDelIdx]);
+		Assert.assertEquals(vActCount, vIL[vToDelIdx]);
+		Assert.assertEquals(vToDelIdx, vIL[vToExchIdx]);
+	}
+	
+	@Ignore
 	@Test
 	public void testDeleteElement1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testDeleteElement(gv);
 
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testDeleteElement2() throws IOException {
 
@@ -441,16 +517,16 @@ public class UtilTest {
 		Assert.assertEquals(eToDelIdx, eIL[eToExchIdx]);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testAddSetToCover1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testAddSetToCover(gv);
 
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testAddSetToCover2() throws IOException {
 
@@ -476,16 +552,39 @@ public class UtilTest {
 		// TestUtil.printGlobalVariableStatus(gv);
 		Assert.assertEquals(sActCount - 1, card[0]);
 	}
-
-	// @Ignore
+	
+	
+	@Test
+	public void testAddVerToSolution() {
+		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
+		
+		log.debug(TestUtil.FUNCTION_SEP);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		 
+		int[] deg = gv.getDeg();
+		int vActCount = deg[0];
+		int vToAddIdx = 6;
+		Util.addVerToSolution(gv, deg, vActCount, vToAddIdx);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		Assert.assertEquals(vActCount - 2, deg[0]);
+		gv.setvCount(vActCount);
+		
+		vActCount = deg[0];
+		vToAddIdx = 4;
+		Util.addVerToSolution(gv, deg, vActCount, vToAddIdx);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		Assert.assertEquals(vActCount - 3, deg[0]);
+		 
+	}
+	@Ignore
 	@Test
 	public void testAProcessManuallyByPersonSimulation1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testAProcessManuallyByPersonSimulation(gv);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testAProcessManuallyByPersonSimulation2() throws IOException {
 
@@ -529,16 +628,16 @@ public class UtilTest {
 		// TestUtil.printGlobalVariableStatus(gv);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testDeleteSetb1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testDeletsetb(gv);
 
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testDeleteSetb2() throws IOException {
 
@@ -575,15 +674,15 @@ public class UtilTest {
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testGetSetOfFrequencyOneElement1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testGetSetOfFrequencyOneElement(gv);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testGetSetOfFrequencyOneElement2() throws IOException {
 
@@ -632,16 +731,16 @@ public class UtilTest {
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testIs1Subset21() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testIs1Subset2(gv);
 
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testIs1Subset22() throws IOException {
 
@@ -683,16 +782,16 @@ public class UtilTest {
 		Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testGetSubset1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 		testGetSubset(gv);
 
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testGetSubset2() throws IOException {
 
@@ -758,7 +857,7 @@ public class UtilTest {
 		Assert.assertEquals(s1Idx, subSetIdx);
 	}
 
-	// @Ignore
+	@Ignore
 	@Test
 	public void testTransferGVIntoMMParam() {
 		log.debug(TestUtil.FUNCTION_SEP);
@@ -785,6 +884,7 @@ public class UtilTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGetBatchNum() {
 		@SuppressWarnings("unused")

@@ -51,7 +51,7 @@ public class MSC4Test {
 	@Test
 	public void testPreProcess1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 
 		testPreProcess(gv);
 	}
@@ -79,7 +79,7 @@ public class MSC4Test {
 	@Test
 	public void testKHighest1() {
 
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 
 		testKHighest(gv);
 
@@ -122,7 +122,7 @@ public class MSC4Test {
 	@Test
 	public void testBranch1() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		MSCGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidMSCSolution(gv));

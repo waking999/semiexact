@@ -230,8 +230,8 @@ public class FileOperation {
 			int v = Integer.parseInt(v1Str);
 
 			if (u != v) {
-				vIM[u][v] = 1;
-				vIM[v][u] = 1; 
+				vIM[u][v] = 0;
+				vIM[v][u] = 0; 
 
 				deg[u]++;
 				deg[v]++; 
@@ -240,7 +240,7 @@ public class FileOperation {
 
 		for (int i = 1; i <= numOfVer; i++) {
 
-			vIM[i][i] = 1; 
+			vIM[i][i] = ConstantValue.IMPOSSIBLE_VALUE; 
 		}
 
 		int[][] vAL = new int[mallocsize][]; 
@@ -252,7 +252,7 @@ public class FileOperation {
 
 			int vCur = 1; 
 			for (int j = 1; j <= numOfVer; j++) {
-				if (vIM[j][i] == 1) {
+				if (vIM[j][i] == 0) {
 					vIM[j][i] = vCur;
 					vAL[i][vCur] = j;
 					vCur++;
@@ -280,7 +280,7 @@ public class FileOperation {
 		gv.setvIL(vIL);
 		gv.setDeg(deg);  
 
-		gv.setBestSolCount(numOfVer);
+		gv.setBestSolCount(ConstantValue.IMPOSSIBLE_VALUE);
 		gv.setSolCount(0); 
 
 		return gv;

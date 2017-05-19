@@ -532,6 +532,31 @@ public class Util {
 		return rtnIndex;
 	}
 
+	public static <VT> int getMinUtilVerIndex(MISGlobalVariable<VT> gv, int[] deg, int vActCount) {
+		int minUtil = Integer.MAX_VALUE;
+		int index = ConstantValue.IMPOSSIBLE_VALUE;
+
+		int[] vL = gv.getvL();
+
+		for (int i = 1; i <= vActCount; i++) {
+			int j = vL[i];
+			if (deg[j] < 0) {
+				continue;
+			}
+			if (deg[j] < minUtil) {
+				index = j;
+				minUtil = deg[j];
+			}
+			if (deg[j] <= minUtil && j < index) {
+				index = j;
+				minUtil = deg[j];
+			}
+		}
+
+		return index;
+
+	}
+
 	/**
 	 * get the max cardinality set index in the list s containing sets
 	 * 
@@ -772,6 +797,90 @@ public class Util {
 
 	}
 
+	 
+ 	public static <VT> void addVerToSolution(MISGlobalVariable<VT> gv, int[] deg,  int vActCount, int v) {
+		int[] vL = gv.getvL();
+		
+		int[] vIL = gv.getvIL();
+		int[][] vAL = gv.getvAL();
+
+		int solCount=gv.getSolCount();		
+		int[] sol=gv.getSol();
+		
+		solCount++;
+		sol[solCount]=v;
+		gv.setSol(sol);
+		gv.setSolCount(solCount);
+		
+		int d = deg[v];
+
+		for (int j = d; j >= 1; j--) {
+			int e = vAL[v][j];
+			deleteVertex(gv, deg,  vActCount,  e);
+
+		}
+		
+		gv.setvL(vL);
+		gv.setvIL(vIL);
+		gv.setvAL(vAL);
+		deg[0] = vActCount - d -1; 
+		gv.setvCount(vActCount - d -1);
+	}
+ 
+	/**
+	 * the vertex is not selected into solution and is just deleted 
+	 * @param gv
+	 * @param deg
+	 * @param vActCount
+	 * @param v
+	 */
+ 	public static <VT> void deleteVertex(MISGlobalVariable<VT> gv, int[] deg,  int vActCount, int v) {
+		int[] vL = gv.getvL();
+		int[] vIL = gv.getvIL();
+		int[][] vAL = gv.getvAL();
+		
+		int last = vL[vActCount];
+		int currentIdx = vIL[v];
+		vL[currentIdx] = last;
+		vL[vActCount] = v;
+		vIL[last] = currentIdx;
+		vIL[v] = vActCount;
+		
+		int d = deg[v];
+		for (int i = 1; i <=d; i++) {
+			int u = vAL[v][i];
+			
+			deleteEdge(gv, deg, vActCount, u, v);
+		}
+
+		deg[v] = 0;
+
+		gv.setvCount(vActCount-1);
+		gv.setvIL(vIL);
+		gv.setvAL(vAL);
+		gv.setvL(vL);
+	}
+	
+	private static <T> void deleteEdge(MISGlobalVariable<T> gv, int[] deg, int vActCount, int v, int u) {
+
+		int[][] vAL = gv.getvAL(); 
+		int[][] vIM = gv.getvIM();
+		 
+		int i = vIM[u][v];
+		int j = deg[v];
+		int x = vAL[v][j];
+		vAL[v][i] = x;
+		vIM[x][v] = i;
+		vAL[v][j] = u;
+		vIM[u][v] = j;
+		deg[v]--;
+
+		
+		gv.setvAL(vAL);
+		gv.setvIM(vIM);
+		gv.setDeg(deg);
+	}
+
 	/**
 	 * decrease element frequency
 	 *
@@ -782,8 +891,8 @@ public class Util {
 	 * @param sToDelIdx,
 	 *            the index of the set to be deleted
 	 */
-	private static <ET, ST> void decreaseElementFrequency(MSCGlobalVariable<ET, ST> gv, int[] freq, int eActCount, int e,
-			int s) {
+	private static <ET, ST> void decreaseElementFrequency(MSCGlobalVariable<ET, ST> gv, int[] freq, int eActCount,
+			int e, int s) {
 		// int[] freq = gv.getFreq();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
@@ -1116,9 +1225,7 @@ public class Util {
 		return elePosG;
 
 	}
-	
-	
-	 
+
 	/**
 	 * if a msc solution is valid
 	 * 
