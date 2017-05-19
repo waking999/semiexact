@@ -43,6 +43,9 @@ public class UtilTest {
 		list2 = null;
 		Assert.assertTrue(Util.is1Subset2(list2, list1));
 	}
+	
+	
+	
 
 	@Ignore
 	@Test
@@ -553,7 +556,7 @@ public class UtilTest {
 		Assert.assertEquals(sActCount - 1, card[0]);
 	}
 	
-	
+	@Ignore
 	@Test
 	public void testAddVerToSolution() {
 		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
@@ -691,6 +694,7 @@ public class UtilTest {
 	}
 
 	private void testGetSetOfFrequencyOneElement(MSCGlobalVariable<String, String> gv) {
+		
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -730,13 +734,36 @@ public class UtilTest {
 		selectSetIdx = Util.getSetOfFrequencyOneElement(gv, freq, freq[0]);
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
+	
+	@Ignore
+	@Test
+	public void testGetDeg0VerIdx() {
+		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
+		
+		log.debug(TestUtil.FUNCTION_SEP);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		int[] deg = gv.getDeg();
+		
+		// delete 5
+		int vIdx = 5;
+
+		Util.deleteVertex(gv, deg, deg[0], vIdx);
+		TestUtil.printMISGlobalVariableStatus(gv);
+
+		vIdx = 6;
+
+		int selectVerIdx = Util.getDeg0VerIdx(gv, deg, deg[0]);
+		Assert.assertEquals(vIdx, selectVerIdx);
+		
+	}
+
 
 	@Ignore
 	@Test
 	public void testIs1Subset21() {
 
 		MSCGlobalVariable<String, String> gv = TestUtil.getMSCTC1Rep();
-		testIs1Subset2(gv);
+		testMSCIs1Subset2(gv);
 
 	}
 
@@ -745,11 +772,11 @@ public class UtilTest {
 	public void testIs1Subset22() throws IOException {
 
 		MSCGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
-		testIs1Subset2(gv);
+		testMSCIs1Subset2(gv);
 
 	}
 
-	private void testIs1Subset2(MSCGlobalVariable<String, String> gv) {
+	private void testMSCIs1Subset2(MSCGlobalVariable<String, String> gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -780,6 +807,36 @@ public class UtilTest {
 
 		Assert.assertTrue(Util.is1Subset2(gv, card, s1Idx, s2Idx));
 		Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
+	}
+	
+	
+	
+	@Ignore
+	@Test
+	public void testMISIs1Subset2() {
+		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
+		
+		log.debug(TestUtil.FUNCTION_SEP);
+		TestUtil.printMISGlobalVariableStatus(gv);
+		int[] deg = gv.getDeg();
+		
+		int v1Idx = 6;
+		int v2Idx = 5;
+
+		Assert.assertTrue(Util.is1Subset2(gv, deg, v1Idx, v2Idx));
+		Assert.assertFalse(Util.is1Subset2(gv, deg, v2Idx, v1Idx));
+
+		//add 6
+		int vIdx = 6;
+		Util.addVerToSolution(gv, deg, deg[0], vIdx);
+		
+		TestUtil.printMISGlobalVariableStatus(gv);
+
+		v1Idx = 2;
+		v2Idx = 1;
+
+		Assert.assertFalse(Util.is1Subset2(gv, deg, v1Idx, v2Idx));
+		Assert.assertFalse(Util.is1Subset2(gv, deg, v2Idx, v1Idx));
 	}
 
 	@Ignore
@@ -855,6 +912,30 @@ public class UtilTest {
 		s1Idx = 3;
 		subSetIdx = Util.getSubset(gv, card);
 		Assert.assertEquals(s1Idx, subSetIdx);
+	}
+	
+	@Ignore
+	@Test
+	public void testGetSupset() {
+		
+		MISGlobalVariable<Integer> gv = TestUtil.getMISTC1Rep();
+		log.debug(TestUtil.FUNCTION_SEP);
+		TestUtil.printMISGlobalVariableStatus(gv);
+
+		int[] deg = gv.getDeg();
+
+		int v1Idx = 5;
+
+		int supSetIdx = Util.getSupset(gv, deg);
+		Assert.assertEquals(v1Idx, supSetIdx);
+
+		int vIdx = 6;
+		Util.deleteVertex(gv, deg, deg[0], vIdx);
+		TestUtil.printMISGlobalVariableStatus(gv);
+
+		v1Idx = 4;
+		supSetIdx = Util.getSupset(gv, deg);
+		Assert.assertEquals(v1Idx, supSetIdx);
 	}
 
 	@Ignore

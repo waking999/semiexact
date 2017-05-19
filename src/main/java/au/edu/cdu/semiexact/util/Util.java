@@ -855,6 +855,7 @@ public class Util {
 
 		deg[v] = 0;
 
+		deg[0]=vActCount-1;
 		gv.setvCount(vActCount-1);
 		gv.setvIL(vIL);
 		gv.setvAL(vAL);
@@ -1061,6 +1062,20 @@ public class Util {
 
 		return ConstantValue.IMPOSSIBLE_VALUE;
 	}
+	
+	
+ 	public static <VT> int getDeg0VerIdx(MISGlobalVariable<VT> gv, int[] deg, int vActCount) {
+		int[] vL = gv.getvL();
+ 
+		for (int i = 1; i <= vActCount; i++) {
+			int j = vL[i];
+			if (deg[j] == 0) {
+				return j;
+			}
+		}
+
+		return ConstantValue.IMPOSSIBLE_VALUE;
+	}
 
 	/**
 	 * if set1 is a subset of set2
@@ -1107,6 +1122,54 @@ public class Util {
 		}
 
 	}
+	private static int[] expandArray(int[] orgArr,int v) {
+		int orgArrLen=orgArr.length;
+		if (Util.setContiansEle(orgArr, orgArrLen, v)){
+			return orgArr;
+		}
+		
+		int[] newArr=new int[orgArrLen+1];
+		System.arraycopy(orgArr, 0, newArr, 0, orgArrLen);
+		newArr[orgArrLen]=v;
+		return newArr;
+	}
+	
+ 	protected static <VT> boolean is1Subset2(MISGlobalVariable<VT> gv, int[] deg, int v1Idx, int v2Idx) {
+		if (v1Idx == v2Idx) {
+			return false;
+		} 
+
+		int v1Deg = deg[v1Idx];		
+		int v2Deg = deg[v2Idx];
+		
+		if (v1Deg > v2Deg) {
+			return false;
+		}
+		
+		int[][] vAL = gv.getvAL();
+		int[] vL=gv.getvL();
+		
+		int[] v1Array = vAL[v1Idx];
+		v1Array=Util.expandArray(v1Array, vL[v1Idx]);
+		int[] v2Array = vAL[v2Idx];
+		v2Array=Util.expandArray(v2Array, vL[v2Idx]);
+		 
+		int count = 0;
+		for (int i = 1; i <= v1Array.length; i++) {
+			int tmp = v1Array[i];
+			if (Util.setContiansEle(v2Array, v2Deg+1, tmp)) {
+				count++;
+			}
+		}
+
+
+		if (count == v1Deg+1) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 
 	/**
 	 * if a set is a subset of another set, return the former set index
@@ -1137,6 +1200,29 @@ public class Util {
 					return isL;
 				} else if (is1Subset2(gv, card, jsL, isL)) {
 					return jsL;
+				}
+
+			}
+		}
+
+		return ConstantValue.IMPOSSIBLE_VALUE;
+	}
+	
+	public static <VT> int getSupset(MISGlobalVariable<VT> gv, int[] deg) {
+		int[] vL = gv.getvL();
+		int vActCount = deg[0];
+
+		for (int i = 1; i <= vActCount - 1; i++) {
+			int isL = vL[i];
+			
+			for (int j = i + 1; j <= vActCount; j++) {
+
+				int jsL = vL[j];
+				
+				if (is1Subset2(gv, deg, isL, jsL)) {
+					return jsL;
+				} else if (is1Subset2(gv, deg, jsL, isL)) {
+					return isL;
 				}
 
 			}
