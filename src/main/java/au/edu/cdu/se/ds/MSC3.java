@@ -43,7 +43,7 @@ public class MSC3 {
 		if (exist.isExist()) {
 			do {
 				int setIndex = exist.getSetIndex();
-				map.remove(new Integer(setIndex));
+				map.remove(Integer.valueOf(setIndex));
 				exist = Util.existSubset(map);
 			} while (exist.isExist());
 			Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
@@ -64,7 +64,7 @@ public class MSC3 {
 			if (exist.isExist()) {
 				do {
 					int setIndexPrime = exist.getSetIndex();
-					map.remove(new Integer(setIndexPrime));
+					map.remove(Integer.valueOf(setIndexPrime));
 					exist = Util.existSubset(map);
 				} while (exist.isExist());
 			}

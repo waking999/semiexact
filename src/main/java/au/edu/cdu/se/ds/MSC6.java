@@ -7,24 +7,22 @@ import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 
 /**
- * 
  * 1. convert Faisal's c code into java format, which also uses Faisal's graph
  * representation data structure ;
- * 
  * 2. use existing Edmonds max matching algorithm;
- * 
- * 3. add time limit 4. add greedy sc at running time long and solution size big
+ * 3. add time limit
+ * 4. add greedy sc at running time long and solution size big
  */
 
-public class MSC6<ET, ST> implements IMSC<ET, ST> {
+public class MSC6 implements IMSC {
 
-	MSC4<ET, ST> msc;
+	MSC4 msc;
 
 	public MSC6() {
-		msc = new MSC4<ET, ST>();
+		msc = new MSC4();
 	}
 
-	public int branch(DSGlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
+	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
 		long start = System.nanoTime();
 		int bestResultSize = ap.getBestResultSize();
 		int acceptedResultSize = ap.getAcceptedResultSize();
@@ -34,11 +32,11 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		return branch(gv, card, freq, start, allowedRunningTime, bestResultSize, acceptedResultSize, unacceptedResultSize,
-				0);
+		return branch(gv, card, freq, start, allowedRunningTime, bestResultSize, acceptedResultSize,
+				unacceptedResultSize, 0);
 	}
 
-	private int branch(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long bestRunningTime,
+	private int branch(DSGlobalVariable gv, int[] card, int[] freq, long start, long bestRunningTime,
 			int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int level) {
 
 		int bestSolCount = gv.getBestSolCount();
@@ -47,8 +45,8 @@ public class MSC6<ET, ST> implements IMSC<ET, ST> {
 		if (current - start >= bestRunningTime) {
 
 			if (bestSolCount >= unacceptedResultSize) {
-				
-				//System.out.println("Prune");
+
+				// System.out.println("Prune");
 				level += GreedyMSC.run(gv, card, freq);
 
 			} else if (bestSolCount >= acceptedResultSize) {

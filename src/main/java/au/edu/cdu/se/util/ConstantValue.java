@@ -21,7 +21,9 @@ public class ConstantValue {
 
 	// data set
 	public static final String DATASET_DIMACS = "DIMACS";
-
+	public static final String DATASET_KONECT = "KONECT";
+	public static final String DATASET_BHOSLIB = "BHOSLIB";
+	
 	// database table/view names
 	public static final String DB_TBNAME_DATASET = "dataset";
 	public static final String DB_TBNAME_INS = "instance";
@@ -39,10 +41,12 @@ public class ConstantValue {
 	public static final String DB_COL_INS_NAME = "i_name";
 	public static final String DB_COL_INS_PATH_NAME = "path_name";
 	public static final String DB_COL_DATASET_PATH_NAME = "d_path";
-
+	public static final String DB_COL_DATASET_NAME = "d_name";
 
 	public static final String DB_COL_V_COUNT = "v_count";
- 	public static final String DB_COL_E_COUNT = "e_count";
+	public static final String DB_COL_E_COUNT = "e_count";
+	public static final String DB_COL_TO_BE_TESTED = "to_be_tested";
+
 
  	public static final String DB_COL_BATCH_NUM = "batch_num";
 	public static final String DB_COL_RESULT_SIZE = "result_size";
@@ -57,6 +61,7 @@ public class ConstantValue {
 	
 	public static final String DB_COL_THRESHOLD = "threshold";
 	public static final String DB_COL_MODEL= "model";
+	public static final String DB_COL_RESULTS = "results";
 	
 	public static final String TBL_ALG_PREFIX="algRunning_";
 	
@@ -67,5 +72,9 @@ public class ConstantValue {
 	public static final String DB_COL_THRESHOLD2 = "threshold2";
 	public static final String DB_COL_RESULT_SIZE2 = "result_size2";
 	public static final String DB_COL_RUNNING_TIME2 = "running_nano_sec2";
+	
+	public static final String MODEL_HAPPY="Happy";
+	public static final String MODEL_HURRY="Harry";
+	
 
 }

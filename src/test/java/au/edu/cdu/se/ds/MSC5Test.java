@@ -14,7 +14,6 @@ import au.edu.cdu.se.util.ds.DSGlobalVariable;
 
 /**
  * test class for msc5
- *
  */
 public class MSC5Test {
 	private static Logger log = LogUtil.getLogger(MSC5Test.class);
@@ -23,7 +22,7 @@ public class MSC5Test {
 	@Test
 	public void testBranch3() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC2Rep();
+		DSGlobalVariable gv = TestUtil.getTC2Rep();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
@@ -34,7 +33,7 @@ public class MSC5Test {
 	@Test
 	public void testBranch1() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
@@ -46,17 +45,17 @@ public class MSC5Test {
 	@Test
 	public void testBranch2() throws IOException {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
 		Assert.assertEquals(2, gv.getBestSolCount());
 	}
 
-	private void testBranch(DSGlobalVariable<String, String> gv) {
-		MSC5<String, String> msc = new MSC5<String, String>();
+	private void testBranch(DSGlobalVariable gv) {
+		MSC5 msc = new MSC5();
 
-		msc.branch(gv,null);
+		msc.branch(gv, null);
 
 	}
 

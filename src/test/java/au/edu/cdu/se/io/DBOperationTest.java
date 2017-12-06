@@ -86,17 +86,17 @@ public class DBOperationTest {
 
 	}
 
-	@Test
-	public void testGenerateReportSql_KONECT() {
-		String datasetName = "KONECT";
-		DBOperation.generateReportSql(datasetName);
-
-	}
-	
-	@Test
-	public void testGenerateReportSql_BHOSLIB() {
-		String datasetName = "BHOSLIB";
-		DBOperation.generateReportSql(datasetName);
-
-	}
+//	@Test
+//	public void testGenerateReportSql_KONECT() {
+//		String datasetName = "KONECT";
+//		DBOperation.generateReportSql(datasetName);
+//
+//	}
+//	
+//	@Test
+//	public void testGenerateReportSql_BHOSLIB() {
+//		String datasetName = "BHOSLIB";
+//		DBOperation.generateReportSql(datasetName);
+//
+//	}
 }

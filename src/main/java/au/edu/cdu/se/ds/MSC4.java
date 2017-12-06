@@ -16,14 +16,14 @@ import au.edu.cdu.se.util.ds.DSGlobalVariable;
  * 
  * 2. use existing Edmonds max matching algorithm
  */
-public class MSC4<ET, ST> implements IMSC<ET, ST> {
+public class MSC4 implements IMSC {
 
 	/**
 	 * 
 	 * @param gv
 	 * @return
 	 */
-	protected int buildMaxMatching(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq) {
+	protected int buildMaxMatching(DSGlobalVariable gv, int[] card, int[] freq) {
 		Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card, freq);
 		MM mm = new MM();
 		MMObj o = mm.maxMatching(g);
@@ -56,7 +56,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 	 * @param gv
 	 * @return
 	 */
-	protected boolean preProcess(DSGlobalVariable<ET, ST> gv, int[] card, int freq[]) {
+	protected boolean preProcess(DSGlobalVariable gv, int[] card, int freq[]) {
 
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
@@ -120,7 +120,7 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 		return false;
 	}
 
-	protected int kHighest(DSGlobalVariable<ET, ST> gv, int[] card, int maxCard, int sActCount) {
+	protected int kHighest(DSGlobalVariable gv, int[] card, int maxCard, int sActCount) {
 		// TODO: make sure the sum of cardinalities of the k sets of highest
 		// card is greater than number of elements
 		int bestSolCount = gv.getBestSolCount();
@@ -161,14 +161,14 @@ public class MSC4<ET, ST> implements IMSC<ET, ST> {
 
 	}
 
-	public int branch(DSGlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
+	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
 		return branch(gv, card, freq);
 	}
 
-	private int branch(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq) {
+	private int branch(DSGlobalVariable gv, int[] card, int[] freq) {
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
 		int s1 = card[0];

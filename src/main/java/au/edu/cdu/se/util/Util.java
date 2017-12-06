@@ -20,9 +20,8 @@ public class Util {
 
 	/**
 	 * convert an integer array to an integer list
-	 * 
 	 * @param a,
-	 *            an integer array
+	 * an integer array
 	 * @return an integer list
 	 */
 	public static List<Integer> arrayToList(int[] a) {
@@ -43,11 +42,10 @@ public class Util {
 
 	/**
 	 * if set s1 is a subset of set s2.
-	 * 
 	 * @param s1,
-	 *            a set
+	 * a set
 	 * @param s2,
-	 *            a set
+	 * a set
 	 * @return true: s1 is a subset of s2; false: otherwise
 	 */
 	public static <T> boolean is1Subset2(List<T> s1, List<T> s2) {
@@ -72,11 +70,10 @@ public class Util {
 
 	/**
 	 * check if there is a set si is a subset of a set sj in the list s.
-	 * 
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return an object containing the flag and the subset index. if the flag
-	 *         is false, the index should be ignored
+	 * is false, the index should be ignored
 	 */
 	public static <T> ExistQualifiedSet existSubset(List<List<T>> s) {
 		if (s == null)
@@ -97,11 +94,10 @@ public class Util {
 
 	/**
 	 * check if there is a set si is a subset of a set sj in the list s.
-	 * 
 	 * @param map,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return an object containing the flag and the subset index. if the flag
-	 *         is false, the index should be ignored
+	 * is false, the index should be ignored
 	 */
 	public static ExistQualifiedSet existSubset(Map<Integer, List<Integer>> map) {
 		if (map == null)
@@ -124,13 +120,12 @@ public class Util {
 
 	/**
 	 * check if there an unique set si containing an element u
-	 * 
 	 * @param u,
-	 *            an element
+	 * an element
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return an object containing the flag and the subset index. if the flag
-	 *         is false, the index should be ignored
+	 * is false, the index should be ignored
 	 */
 	public static <T> ExistQualifiedSet existUniqueSetForAElement(T u, List<List<T>> s) {
 		if (s == null) {
@@ -158,13 +153,12 @@ public class Util {
 
 	/**
 	 * check if there an unique set si containing an element u
-	 * 
 	 * @param u,
-	 *            an element
+	 * an element
 	 * @param map,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return an object containing the flag and the subset index. if the flag
-	 *         is false, the index should be ignored
+	 * is false, the index should be ignored
 	 */
 	public static ExistQualifiedSet existUniqueSetForAElement(Integer u, Map<Integer, List<Integer>> map) {
 		if (map == null) {
@@ -197,13 +191,12 @@ public class Util {
 	/**
 	 * check if there an unique set si containing an element u in an element
 	 * list
-	 * 
 	 * @param uList,
-	 *            an element list
+	 * an element list
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return an object containing the flag and the subset index. if the flag
-	 *         is false, the index should be ignored
+	 * is false, the index should be ignored
 	 */
 	public static <T> ExistQualifiedSet existUniqueSetForAElement(List<T> uList, List<List<T>> s) {
 		if (uList == null) {
@@ -225,13 +218,12 @@ public class Util {
 	/**
 	 * check if there an unique set si containing an element u in an element
 	 * list
-	 * 
 	 * @param uList,
-	 *            an element list
+	 * an element list
 	 * @param map,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return an object containing the flag and the subset index. if the flag
-	 *         is false, the index should be ignored
+	 * is false, the index should be ignored
 	 */
 	public static ExistQualifiedSet existUniqueSetForAElement(List<Integer> uList, Map<Integer, List<Integer>> map) {
 		if (uList == null) {
@@ -253,9 +245,8 @@ public class Util {
 
 	/**
 	 * union all elements of the subsets of s
-	 * 
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return a list containing all elements of the subsets of s
 	 */
 	public static <T> List<T> unionSets(List<List<T>> s) {
@@ -282,9 +273,8 @@ public class Util {
 
 	/**
 	 * union all elements of the subsets of s
-	 * 
 	 * @param map,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return a list containing all elements of the subsets of s
 	 */
 	public static <T> List<T> unionSets(Map<T, List<T>> map) {
@@ -313,11 +303,10 @@ public class Util {
 
 	/**
 	 * a set s1 minus a set s2
-	 * 
 	 * @param s1,
-	 *            a set
+	 * a set
 	 * @param s2,
-	 *            a set
+	 * a set
 	 * @return the elements in set s1 not in s2
 	 */
 	public static <T> List<T> set1Minus2(List<T> s1, List<T> s2) {
@@ -343,9 +332,8 @@ public class Util {
 
 	/**
 	 * make a copy of a list
-	 * 
 	 * @param s,
-	 *            a list
+	 * a list
 	 * @return a copy of the list
 	 */
 	public static <T> List<T> copyList(List<T> s) {
@@ -359,9 +347,8 @@ public class Util {
 
 	/**
 	 * make a copy of a map
-	 * 
 	 * @param map,
-	 *            a map
+	 * a map
 	 * @return a copy of the map
 	 */
 	public static <T> Map<T, List<T>> copyMap(Map<T, List<T>> map) {
@@ -381,11 +368,10 @@ public class Util {
 	/**
 	 * delete a set r from a list containing sets: {s' is not empty: s'=si\r, si
 	 * belongs s}
-	 * 
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @param r,
-	 *            a set
+	 * a set
 	 * @return the list after deleting the set
 	 */
 	public static <T> List<List<T>> deleteSet(List<List<T>> s, List<T> r) {
@@ -424,11 +410,10 @@ public class Util {
 	/**
 	 * delete a set r from a list containing sets: {s' is not empty: s'=si\r, si
 	 * belongs s}
-	 * 
 	 * @param map,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @param r,
-	 *            a set
+	 * a set
 	 * @return the list after deleting the set
 	 */
 	public static <T> Map<T, List<T>> deleteSet(Map<T, List<T>> map, List<T> r) {
@@ -455,9 +440,8 @@ public class Util {
 
 	/**
 	 * get the max cardinality set in the list s containing sets
-	 * 
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return the max cardinality set in the list s
 	 */
 	public static <T> List<T> getMaxCardinalitySet(List<List<T>> s) {
@@ -481,9 +465,8 @@ public class Util {
 
 	/**
 	 * get the max cardinality set index in the list s containing sets
-	 * 
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return the max cardinality set index in the list s
 	 */
 	public static <T> int getMaxCardinalitySetIndex(List<List<T>> s) {
@@ -507,9 +490,8 @@ public class Util {
 
 	/**
 	 * get the max cardinality set index in the list s containing sets
-	 * 
 	 * @param map,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @return the max cardinality set index in the list s
 	 */
 	public static int getMaxCardinalitySetIndex(Map<Integer, List<Integer>> map) {
@@ -536,14 +518,13 @@ public class Util {
 
 	/**
 	 * get the max cardinality set index in the list s containing sets
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @return the max cardinality set index in the list s
 	 */
-	public static <ET, ST> int getMaxCardinalitySetIndex(DSGlobalVariable<ET, ST> gv, int[] card, int sActCount) {
+	public static int getMaxCardinalitySetIndex(DSGlobalVariable gv, int[] card, int sActCount) {
 
 		int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
 		int index = ConstantValue.IMPOSSIBLE_VALUE;
@@ -572,11 +553,10 @@ public class Util {
 
 	/**
 	 * remove a set r from a list containing sets: s\{r}
-	 * 
 	 * @param s,
-	 *            a list containing sets
+	 * a list containing sets
 	 * @param r,
-	 *            a set
+	 * a set
 	 * @return the list after removing the set
 	 */
 	public static <T> List<List<T>> removeSet(List<List<T>> s, List<T> r) {
@@ -592,9 +572,8 @@ public class Util {
 
 	/**
 	 * convert a map of <index,set> to a list of sets
-	 * 
 	 * @param map,a
-	 *            map of <index,set>
+	 * map of <index,set>
 	 * @return a list of sets
 	 */
 	public static <T> List<List<T>> convertMapToListOfSet(Map<T, List<T>> map) {
@@ -619,13 +598,12 @@ public class Util {
 
 	/**
 	 * if the set (with limited setSize) contains the element
-	 * 
 	 * @param set,
-	 *            the set
+	 * the set
 	 * @param setSize,
-	 *            limit the set size
+	 * limit the set size
 	 * @param ele,
-	 *            the element
+	 * the element
 	 * @return true: the set contains the element; false: otherwise
 	 */
 	public static boolean setContiansEle(int[] set, int setSize, int ele) {
@@ -640,13 +618,12 @@ public class Util {
 
 	/**
 	 * if a set contains an element, return the index of the element in the set
-	 * 
 	 * @param set,
-	 *            the set
+	 * the set
 	 * @param setSize,
-	 *            limit the set size
+	 * limit the set size
 	 * @param ele,
-	 *            the element
+	 * the element
 	 * @return the index of the element in the set
 	 */
 	private static int getContiansEleIdx(int[] set, int setSize, int ele) {
@@ -732,17 +709,15 @@ public class Util {
 
 	/**
 	 * delete a set
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @param freq,
-	 *            element frequency* @param sToDelIdx, the index of the set to
-	 *            be deleted
+	 * element frequency* @param sToDelIdx, the index of the set to
+	 * be deleted
 	 */
-	public static <ET, ST> void deleteSet(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
-			int eActCount, int s) {
+	public static void deleteSet(DSGlobalVariable gv, int[] card, int[] freq, int sActCount, int eActCount, int s) {
 		int[] sL = gv.getsL();
 		int[] sIL = gv.getsIL();
 		int[][] sAL = gv.getsAL();
@@ -776,16 +751,14 @@ public class Util {
 
 	/**
 	 * decrease element frequency
-	 *
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @param eToDecIdx,
-	 *            the index of the element to be decreased
+	 * the index of the element to be decreased
 	 * @param sToDelIdx,
-	 *            the index of the set to be deleted
+	 * the index of the set to be deleted
 	 */
-	private static <ET, ST> void decreaseElementFrequency(DSGlobalVariable<ET, ST> gv, int[] freq, int eActCount, int e,
-			int s) {
+	private static void decreaseElementFrequency(DSGlobalVariable gv, int[] freq, int eActCount, int e, int s) {
 		// int[] freq = gv.getFreq();
 		int[][] eAL = gv.geteAL();
 		int[][] eIM = gv.geteIM();
@@ -812,8 +785,7 @@ public class Util {
 	 * variable // * @param sToDecIdx, // * the index of the set to be decreased
 	 * // * @param eToDelIdx, // * the index of the element to be deleted //
 	 */
-	private static <ET, ST> void decreaseSetCardinality(DSGlobalVariable<ET, ST> gv, int[] card, int sActCount, int s,
-			int e) {
+	private static void decreaseSetCardinality(DSGlobalVariable gv, int[] card, int sActCount, int s, int e) {
 		// int[] card = gv.getCard();
 		int[][] sAL = gv.getsAL();
 		int[][] sIM = gv.getsIM();
@@ -837,18 +809,17 @@ public class Util {
 
 	/**
 	 * delete element
-	 * 
 	 * @param gv,
-	 *            global variable
+	 * global variable
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @param freq,
-	 *            element frequency
+	 * element frequency
 	 * @param eToDelIdx,
-	 *            the index of the element to be deleted
+	 * the index of the element to be deleted
 	 */
-	protected static <ET, ST> void deleteElement(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
-			int eActCount, int e, int source) {
+	protected static void deleteElement(DSGlobalVariable gv, int[] card, int[] freq, int sActCount, int eActCount,
+			int e, int source) {
 		int[] eL = gv.geteL();
 		int[] eIL = gv.geteIL();
 		int[][] eAL = gv.geteAL();
@@ -884,18 +855,16 @@ public class Util {
 
 	/**
 	 * add a set to solution
-	 * 
 	 * @param gv,
-	 *            global variable
+	 * global variable
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @param freq,
-	 *            element frequency
+	 * element frequency
 	 * @param sToAddIdx,
-	 *            the index of the set to be added
+	 * the index of the set to be added
 	 */
-	public static <ET, ST> void addSetToCover(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq, int sActCount,
-			int eActCount, int s) {
+	public static void addSetToCover(DSGlobalVariable gv, int[] card, int[] freq, int sActCount, int eActCount, int s) {
 		int[] sL = gv.getsL();
 		// int sActCount = card[0];
 		int[] sIL = gv.getsIL();
@@ -931,14 +900,13 @@ public class Util {
 
 	/**
 	 * get the set index which contains an element of frequency one
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @param freq,
-	 *            element frequency
+	 * element frequency
 	 * @return set index
 	 */
-	public static <ET, ST> int getSetOfFrequencyOneElement(DSGlobalVariable<ET, ST> gv, int[] freq, int eActCount) {
+	public static int getSetOfFrequencyOneElement(DSGlobalVariable gv, int[] freq, int eActCount) {
 		// int eActCount = freq[0];
 
 		int[] eL = gv.geteL();
@@ -957,19 +925,18 @@ public class Util {
 
 	/**
 	 * if set1 is a subset of set2
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @param s1Idx,
-	 *            set1 index
+	 * set1 index
 	 * @param s2Idx,
-	 *            set2 index
+	 * set2 index
 	 * @return true: set1 is a subset of set2; false: otherwise
 	 */
 
-	protected static <ET, ST> boolean is1Subset2(DSGlobalVariable<ET, ST> gv, int[] card, int s1Idx, int s2Idx) {
+	protected static boolean is1Subset2(DSGlobalVariable gv, int[] card, int s1Idx, int s2Idx) {
 		if (s1Idx == s2Idx) {
 			return false;
 		}
@@ -1003,14 +970,13 @@ public class Util {
 
 	/**
 	 * if a set is a subset of another set, return the former set index
-	 * 
 	 * @param gv,
-	 *            global variable
+	 * global variable
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @return a subset of another set
 	 */
-	public static <ET, ST> int getSubset(DSGlobalVariable<ET, ST> gv, int[] card) {
+	public static int getSubset(DSGlobalVariable gv, int[] card) {
 		int[] sL = gv.getsL();
 		int sActCount = card[0];
 
@@ -1041,15 +1007,13 @@ public class Util {
 	/**
 	 * convert global variables into the format useful for calculating maximum
 	 * matching
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @param card,
-	 *            set cardinalities
+	 * set cardinalities
 	 * @return an adjacency list of elements format
 	 */
-	public static <ET, ST> Map<Integer, List<Integer>> transferGVIntoMMParam(DSGlobalVariable<ET, ST> gv, int[] card,
-			int[] freq) {
+	public static Map<Integer, List<Integer>> transferGVIntoMMParam(DSGlobalVariable gv, int[] card, int[] freq) {
 		// TODO: sL is not right
 		int[] sL = gv.getsL();
 		int[] eL = gv.geteL();
@@ -1121,12 +1085,11 @@ public class Util {
 
 	/**
 	 * if a solution is valid
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 * @return true if it is valid, otherwise false
 	 */
-	public static <ET, ST> boolean isValidSolution(DSGlobalVariable<ET, ST> gv) {
+	public static boolean isValidSolution(DSGlobalVariable gv) {
 
 		int bestSolCount = gv.getBestSolCount();
 		int[] bestSol = gv.getBestSol();
@@ -1160,7 +1123,6 @@ public class Util {
 
 	/**
 	 * generate a batch num by date and time
-	 * 
 	 * @return
 	 */
 	public static String getBatchNum() {
@@ -1184,5 +1146,31 @@ public class Util {
 		return sb.toString();
 
 	}
+	
+	/**
+	 * convert the idx solution into label solution
+	 * @param g
+	 * @return
+	 */
+	public static int[] getLabSolution(DSGlobalVariable g) {
+		int idxSolSize = g.getSolCount();
+		int[] idxSol=g.getSol();
+		int[] labLst=g.getsL();
+		int[] sol = new int[idxSolSize];
+		for (int i = 0; i < idxSolSize; i++) {
+			sol[i] = labLst[idxSol[i]];
+		}
+		return sol;
+	}
 
+	
+	public static String getLabSolutionStr(DSGlobalVariable g) {
+		StringBuffer sb=new StringBuffer();
+		int[] sol = Util.getLabSolution(g);
+		int solSize = sol.length;
+		for (int i = 0; i < solSize; i++) {
+			sb.append(sol[i]).append(",");
+		}
+		return sb.substring(0,sb.length()-1);
+	}
 }

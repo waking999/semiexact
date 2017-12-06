@@ -24,9 +24,9 @@ public class FileOperation {
 	 * @return graph representation
 	 * @throws IOException
 	 */
-	public DSGlobalVariable<String, String> readGraphByEdgePair(String filePath) throws IOException {
+	public static DSGlobalVariable readGraphByEdgePair(String filePath) throws IOException {
 
-		DSGlobalVariable<String, String> gv = new DSGlobalVariable<String, String>();
+		DSGlobalVariable g = new DSGlobalVariable();
 
 		Path path = Paths.get(filePath);
 		List<String> lines = Files.readAllLines(path, Charset.defaultCharset());
@@ -141,31 +141,31 @@ public class FileOperation {
 			sol[i] = ConstantValue.IMPOSSIBLE_VALUE;
 			bestSol[i] = ConstantValue.IMPOSSIBLE_VALUE;
 		}
-		gv.setSol(sol);
-		gv.setBestSol(bestSol);
-		gv.setSolPtr(1); // valid index starts from 1;
+		g.setSol(sol);
+		g.setBestSol(bestSol);
+		g.setSolPtr(1); // valid index starts from 1;
 
-		gv.setsCount(numOfVer);
-		gv.setsAL(sAL);
-		gv.setsIL(sIL);
-		gv.setsIM(sIM);
-		gv.setsL(sL);
-		gv.setsIL(sIL);
-		gv.setCard(card);
+		g.setsCount(numOfVer);
+		g.setsAL(sAL);
+		g.setsIL(sIL);
+		g.setsIM(sIM);
+		g.setsL(sL);
+		g.setsIL(sIL);
+		g.setCard(card);
 
-		gv.seteCount(numOfVer);
-		gv.seteAL(eAL);
-		gv.seteIL(eIL);
-		gv.seteIM(eIM);
-		gv.seteL(eL);
-		gv.seteIL(eIL);
-		gv.setFreq(freq);
+		g.seteCount(numOfVer);
+		g.seteAL(eAL);
+		g.seteIL(eIL);
+		g.seteIM(eIM);
+		g.seteL(eL);
+		g.seteIL(eIL);
+		g.setFreq(freq);
 
-		gv.setBestSolCount(numOfVer);
-		gv.setSolCount(0);
-		gv.setMate(mate);
+		g.setBestSolCount(numOfVer);
+		g.setSolCount(0);
+		g.setMate(mate);
 
-		return gv;
+		return g;
 
 	}
 }

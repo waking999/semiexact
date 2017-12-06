@@ -2,13 +2,8 @@ package au.edu.cdu.se.util.ds;
 
 /**
  * a java bean to store graph representations of Faisal's data structure
- * 
- * @param <ET>
- *            element type
- * @param <ST>
- *            set type
  */
-public class DSGlobalVariable<ET, ST> {
+public class DSGlobalVariable {
 	private int eCount; // element count
 
 	private int[] eL; // element list

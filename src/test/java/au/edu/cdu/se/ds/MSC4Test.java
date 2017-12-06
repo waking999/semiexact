@@ -24,15 +24,15 @@ public class MSC4Test {
 	@Test
 	public void testBuildMaxMatching1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC2Rep();
+		DSGlobalVariable gv = TestUtil.getTC2Rep();
 
 		testBuildMaxMatching(gv);
 
 	}
 
-	private void testBuildMaxMatching(DSGlobalVariable<String, String> gv) {
+	private void testBuildMaxMatching(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		MSC4<String, String> msc = new MSC4<String, String>();
+		MSC4 msc = new MSC4();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 		int size = msc.buildMaxMatching(gv, card, freq);
@@ -51,7 +51,7 @@ public class MSC4Test {
 	@Test
 	public void testPreProcess1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 
 		testPreProcess(gv);
 	}
@@ -60,14 +60,14 @@ public class MSC4Test {
 	@Test
 	public void testPreProcess2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 
 		testPreProcess(gv);
 	}
 
-	private void testPreProcess(DSGlobalVariable<String, String> gv) {
+	private void testPreProcess(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		MSC4<String, String> msc = new MSC4<String, String>();
+		MSC4 msc = new MSC4();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 		msc.preProcess(gv, card, freq );
@@ -79,7 +79,7 @@ public class MSC4Test {
 	@Test
 	public void testKHighest1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 
 		testKHighest(gv);
 
@@ -89,15 +89,15 @@ public class MSC4Test {
 	@Test
 	public void testKHighest2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 
 		testKHighest(gv);
 
 	}
 
-	private void testKHighest(DSGlobalVariable<String, String> gv) {
+	private void testKHighest(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
-		MSC4<String, String> msc = new MSC4<String, String>();
+		MSC4 msc = new MSC4();
 		int[] card = gv.getCard();
 		int maxCardSet = Util.getMaxCardinalitySetIndex(gv, card, card[0]);
 
@@ -111,7 +111,7 @@ public class MSC4Test {
 	@Test
 	public void testBranch3() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC2Rep();
+		DSGlobalVariable gv = TestUtil.getTC2Rep();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
@@ -122,7 +122,7 @@ public class MSC4Test {
 	@Test
 	public void testBranch1() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
@@ -133,15 +133,15 @@ public class MSC4Test {
 	@Test
 	public void testBranch2() throws IOException {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 
 		testBranch(gv);
 		Assert.assertTrue(Util.isValidSolution(gv));
 		Assert.assertEquals(2, gv.getBestSolCount());
 	}
 
-	private void testBranch(DSGlobalVariable<String, String> gv) {
-		MSC4<String, String> msc = new MSC4<String, String>();
+	private void testBranch(DSGlobalVariable gv) {
+		MSC4 msc = new MSC4();
 
 		msc.branch(gv, null);
 

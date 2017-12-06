@@ -32,9 +32,8 @@ public class DBOperation {
 
 	/**
 	 * execute query by sql statement
-	 * 
 	 * @param dbp,
-	 *            db operation parameters
+	 * db operation parameters
 	 * @return query result map
 	 * @throws Exception
 	 */
@@ -109,9 +108,8 @@ public class DBOperation {
 
 	/**
 	 * insert one record into database table
-	 * 
 	 * @param dbp,
-	 *            database operation parameters
+	 * database operation parameters
 	 * @return inserted record count
 	 */
 	@SuppressWarnings("finally")
@@ -166,59 +164,60 @@ public class DBOperation {
 
 	}
 
-	/**
-	 * create table for each instance. If a table already exist, ignore.
-	 * 
-	 * @param instanceCode,
-	 *            instance code
-	 */
-	@SuppressWarnings("finally")
-	public static void createTable(String instanceCode) {
-		Connection c = null;
-		Statement stmt = null;
-
-		String tblPrefix = ConstantValue.TBL_ALG_PREFIX;
-
-		try {
-			StringBuffer sb = new StringBuffer();
-			// sqlSb.append("drop table if exists
-			// ").append(tblPrefix).append(instanceCode).append(";");
-			c = getConnection();
-			c.setAutoCommit(false);
-			stmt = c.createStatement();
-			// stmt.execute(sqlSb.toString());
-
-			sb.setLength(0);
-
-			sb.append("CREATE TABLE IF NOT EXISTS ").append(tblPrefix).append(instanceCode).append("(\n");
-			sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, \n");
-			sb.append(" i_id varchar2(10),\n");
-			sb.append(" result_size INTEGER,\n");
-			sb.append(" running_nano_sec INTEGER,\n");
-			sb.append(" batch_num varchar2(30),\n");
-			sb.append(" threshold INTEGER,\n");
-			sb.append(" model varchar2(30),\n");
-			sb.append(" FOREIGN KEY(i_id) REFERENCES \"v_instance\"(i_id)\n");
-			sb.append(");");
-
-			stmt.execute(sb.toString());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				stmt.close();
-				c.commit();
-				c.close();
-			} catch (final Exception e) {
-
-				e.printStackTrace();
-			} finally {
-				return;
-			}
-
-		}
-	}
+	// /**
+	// * create table for each instance. If a table already exist, ignore.
+	// *
+	// * @param instanceCode,
+	// * instance code
+	// */
+	// @SuppressWarnings("finally")
+	// public static void createTable(String instanceCode) {
+	// Connection c = null;
+	// Statement stmt = null;
+	//
+	// String tblPrefix = ConstantValue.TBL_ALG_PREFIX;
+	//
+	// try {
+	// StringBuffer sb = new StringBuffer();
+	// // sqlSb.append("drop table if exists
+	// // ").append(tblPrefix).append(instanceCode).append(";");
+	// c = getConnection();
+	// c.setAutoCommit(false);
+	// stmt = c.createStatement();
+	// // stmt.execute(sqlSb.toString());
+	//
+	// sb.setLength(0);
+	//
+	// sb.append("CREATE TABLE IF NOT EXISTS
+	// ").append(tblPrefix).append(instanceCode).append("(\n");
+	// sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, \n");
+	// sb.append(" i_id varchar2(10),\n");
+	// sb.append(" result_size INTEGER,\n");
+	// sb.append(" running_nano_sec INTEGER,\n");
+	// sb.append(" batch_num varchar2(30),\n");
+	// sb.append(" threshold INTEGER,\n");
+	// sb.append(" model varchar2(30),\n");
+	// sb.append(" FOREIGN KEY(i_id) REFERENCES \"v_instance\"(i_id)\n");
+	// sb.append(");");
+	//
+	// stmt.execute(sb.toString());
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// } finally {
+	// try {
+	// stmt.close();
+	// c.commit();
+	// c.close();
+	// } catch (final Exception e) {
+	//
+	// e.printStackTrace();
+	// } finally {
+	// return;
+	// }
+	//
+	// }
+	// }
 
 	private static String singleInstanceQueryStr(String code) {
 		StringBuffer sb = new StringBuffer();
@@ -297,41 +296,132 @@ public class DBOperation {
 		return sb.toString();
 	}
 
+//	@SuppressWarnings("finally")
+//	public static String generateReportSql(String datasetName) {
+//		Connection c = null;
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//
+//		try {
+//			StringBuffer sqlSb = new StringBuffer();
+//			sqlSb.append("select i_code from \"v_instance_opt\" where \"d_name\"=").append(datasetName).append(";");
+//			c = getConnection();
+//			c.setAutoCommit(false);
+//			stmt = c.createStatement();
+//			rs = stmt.executeQuery(sqlSb.toString());
+//
+//			StringBuffer sqlWithSb = new StringBuffer();
+//			StringBuffer sqlQueSb = new StringBuffer();
+//
+//			sqlWithSb.append("with ");
+//
+//			while (rs.next()) {
+//				String code = rs.getString(1);
+//				String insQuStr = singleInstanceQueryStr(code);
+//				sqlWithSb.append(insQuStr).append(",");
+//				sqlQueSb.append("select * from ").append("v_").append(ConstantValue.TBL_ALG_PREFIX).append(code)
+//						.append("_alg2").append("\n");
+//				sqlQueSb.append("union\n");
+//			}
+//
+//			String sqlWith = sqlWithSb.substring(0, sqlWithSb.length() - 1);
+//			String sqlQue = sqlQueSb.substring(0, sqlQueSb.length() - "union\n".length());
+//
+//			sqlSb.setLength(0);
+//			sqlSb.append(sqlWith).append("\n").append(sqlQue);
+//
+//			return sqlSb.toString();
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				stmt.close();
+//				c.commit();
+//				c.close();
+//			} catch (final Exception e) {
+//
+//				e.printStackTrace();
+//			} finally {
+//				return null;
+//			}
+//
+//		}
+//	}
+
+	/**************************************************************/
+	/**
+	 * get the infomation of instances by data set such as id, code, path and so on
+	 * @param dataSetName
+	 * @return
+	 */
+	public static List<Map<String, String>> getInstanceInfo(String dataSetName) {
+		DBParameter dbpIn = new DBParameter();
+		dbpIn.setTableName(ConstantValue.DB_VNAME_INS_OPT);
+		String[] colNames = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_INS_CODE, ConstantValue.DB_COL_INS_NAME,
+				ConstantValue.DB_COL_DATASET_NAME, ConstantValue.DB_COL_DATASET_PATH_NAME,
+				ConstantValue.DB_COL_INS_PATH_NAME, ConstantValue.DB_COL_ALLOWED_RUNNING_TIME,
+				ConstantValue.DB_COL_BEST_RESULT_SIZE, ConstantValue.DB_COL_ACCEPT_RESULT_SIZE,
+				ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE };
+		String[] colPairNames = { ConstantValue.DB_COL_DATASET_NAME, ConstantValue.DB_COL_TO_BE_TESTED };
+		String[] colPairOperators = { "=", "=" };
+		String[] colPairValues = { dataSetName, "1" };
+		dbpIn.setColNames(colNames);
+		dbpIn.setColPairNames(colPairNames);
+		dbpIn.setColPairOperators(colPairOperators);
+		dbpIn.setColPairValues(colPairValues);
+
+		List<Map<String, String>> lst = executeQuery(dbpIn);
+		dbpIn = null;
+		return lst;
+	}
+
+	/**
+	 * @param algorithmNam,
+	 * algorithm name
+	 * @return
+	 */
+	public static String getAlgorithmTableName(String algorithmNam) {
+		String algTableName = ConstantValue.TBL_ALG_PREFIX + algorithmNam;
+		return algTableName;
+	}
+
 	@SuppressWarnings("finally")
-	public static String generateReportSql(String datasetName) {
+	public static void createTable(String tableName) {
 		Connection c = null;
 		Statement stmt = null;
-		ResultSet rs = null;
 
 		try {
-			StringBuffer sqlSb = new StringBuffer();
-			sqlSb.append("select i_code from \"v_instance_opt\" where \"d_name\"=").append(datasetName).append(";");
+			StringBuffer sb = new StringBuffer();
+			// sqlSb.append("drop table if exists
+			// ").append(tblPrefix).append(instanceCode).append(";");
 			c = getConnection();
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
-			rs = stmt.executeQuery(sqlSb.toString());
-			
-			StringBuffer sqlWithSb = new StringBuffer();
-			StringBuffer sqlQueSb = new StringBuffer();
-			
-			sqlWithSb.append("with ");
-			
-			while (rs.next()) {
-				String code = rs.getString(1);
-				String insQuStr=singleInstanceQueryStr(code);
-				sqlWithSb.append(insQuStr).append(",");
-				sqlQueSb.append("select * from ").append("v_").append(ConstantValue.TBL_ALG_PREFIX).append(code).append("_alg2").append("\n");
-				sqlQueSb.append("union\n"); 
-			}
-			
-			String sqlWith=sqlWithSb.substring(0, sqlWithSb.length()-1);
-			String sqlQue=sqlQueSb.substring(0, sqlQueSb.length()-"union\n".length());
-			
-			sqlSb.setLength(0);
-			sqlSb.append(sqlWith).append("\n").append(sqlQue);
-			
-			return sqlSb.toString();
-			
+			// stmt.execute(sqlSb.toString());
+
+			sb.setLength(0);
+
+			sb.append("CREATE TABLE IF NOT EXISTS ").append(tableName).append("(\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_ID).append(ConstantValue.BLANK)
+					.append("INTEGER PRIMARY KEY AUTOINCREMENT, \n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_INS_ID).append(ConstantValue.BLANK)
+					.append("varchar2(10),\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_RESULT_SIZE).append(ConstantValue.BLANK)
+					.append("INTEGER,\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_RUNNING_TIME).append(ConstantValue.BLANK)
+					.append("INTEGER,\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_BATCH_NUM).append(ConstantValue.BLANK)
+					.append("varchar2(30),\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_THRESHOLD).append(ConstantValue.BLANK)
+					.append("INTEGER,\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_MODEL).append(ConstantValue.BLANK)
+					.append("varchar2(30),\n");
+			sb.append(ConstantValue.BLANK).append(ConstantValue.DB_COL_RESULTS).append(ConstantValue.BLANK)
+					.append("text \n");
+			sb.append(");");
+
+			stmt.execute(sb.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -344,10 +434,9 @@ public class DBOperation {
 
 				e.printStackTrace();
 			} finally {
-				return null;
+				return;
 			}
 
 		}
 	}
-
 }

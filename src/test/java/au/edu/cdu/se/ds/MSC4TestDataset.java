@@ -20,12 +20,12 @@ public class MSC4TestDataset {
 	private static Logger log = LogUtil.getLogger(MSC4Test.class);
 
 	private void basicTest(String folder, String[] fileNames, int[] expectedSizes) throws IOException {
-		for (int i = 0; i <  fileNames.length; i++) {
+		for (int i = 0; i < fileNames.length; i++) {
 			String fileName = fileNames[i];
-			String filePath = TestUtil.getCurrentPath() + "/src/test/resources/" + folder + "/" + fileName;
+			String filePath = TestUtil.getBasePath() + "/src/test/resources/" + folder + "/" + fileName;
 
-			DSGlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
-			MSC4<String, String> msc = new MSC4<String, String>();
+			DSGlobalVariable gv = FileOperation.readGraphByEdgePair(filePath);
+			MSC4 msc = new MSC4();
 
 			long start = System.nanoTime();
 			msc.branch(gv, null);

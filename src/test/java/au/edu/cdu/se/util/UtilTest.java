@@ -8,23 +8,27 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import au.edu.cdu.se.TestUtil;
-import au.edu.cdu.se.util.LogUtil;
-import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 
 public class UtilTest {
 	private static Logger log = LogUtil.getLogger(UtilTest.class);
 
+	@Ignore
+	public void testIgnore() {
+
+	}
+
 	@Test
 	public void testArrayToList() {
 		int[] l1 = { 1, 2, 3 };
 		List<Integer> list1 = Util.arrayToList(l1);
-		Assert.assertEquals(new Integer(1), list1.get(0));
-		Assert.assertEquals(new Integer(2), list1.get(1));
-		Assert.assertEquals(new Integer(3), list1.get(2));
+		Assert.assertEquals(Integer.valueOf(1), list1.get(0));
+		Assert.assertEquals(Integer.valueOf(2), list1.get(1));
+		Assert.assertEquals(Integer.valueOf(3), list1.get(2));
 	}
 
 	@Test
@@ -130,11 +134,11 @@ public class UtilTest {
 
 		list.add(list1);
 		Assert.assertNotNull(Util.unionSets(list));
-		Assert.assertEquals(new Integer(2), Util.unionSets(list).get(0));
-		Assert.assertEquals(new Integer(3), Util.unionSets(list).get(1));
+		Assert.assertEquals(Integer.valueOf(2), Util.unionSets(list).get(0));
+		Assert.assertEquals(Integer.valueOf(3), Util.unionSets(list).get(1));
 
 		list.add(list2);
-		Assert.assertEquals(new Integer(1), Util.unionSets(list).get(2));
+		Assert.assertEquals(Integer.valueOf(1), Util.unionSets(list).get(2));
 	}
 
 	@Test
@@ -153,14 +157,14 @@ public class UtilTest {
 
 		list1 = Util.set1Minus2(list1, list2);
 		Assert.assertEquals(1, list1.size());
-		Assert.assertEquals(new Integer(3), list1.get(0));
+		Assert.assertEquals(Integer.valueOf(3), list1.get(0));
 		Assert.assertEquals(2, list2.size());
 
 		int[] l3 = { 1, 2, 3 };
 		List<Integer> list3 = Util.arrayToList(l3);
 		list3 = Util.set1Minus2(list3, list2);
 		Assert.assertEquals(1, list3.size());
-		Assert.assertEquals(new Integer(3), list3.get(0));
+		Assert.assertEquals(Integer.valueOf(3), list3.get(0));
 		Assert.assertEquals(2, list2.size());
 
 	}
@@ -233,8 +237,7 @@ public class UtilTest {
 		list1 = Util.arrayToList(l1);
 		list1Copy = Util.copyList(list1);
 		Assert.assertEquals(2, list1Copy.size());
-		Assert.assertEquals(new Integer(2), list1Copy.get(0));
-		Assert.assertEquals(new Integer(2), list1Copy.get(0));
+		Assert.assertEquals(Integer.valueOf(2), list1Copy.get(0));
 
 	}
 
@@ -306,8 +309,8 @@ public class UtilTest {
 	@Test
 	public void testGetMaxCardinalitySetIndex() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
-		//TestUtil.printGlobalVariableStatus(gv);
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
+		// TestUtil.printGlobalVariableStatus(gv);
 
 		int sIdx = 4;
 		int[] card = gv.getCard();
@@ -321,7 +324,7 @@ public class UtilTest {
 	@Test
 	public void testDeleteSeta1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 
 		testDeleteSeta(gv);
 
@@ -331,13 +334,13 @@ public class UtilTest {
 	@Test
 	public void testDeleteSeta2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 
 		testDeleteSeta(gv);
 
 	}
 
-	private void testDeleteSeta(DSGlobalVariable<String, String> gv) {
+	private void testDeleteSeta(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -379,7 +382,7 @@ public class UtilTest {
 	@Test
 	public void testDeleteElement1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testDeleteElement(gv);
 
 	}
@@ -388,12 +391,12 @@ public class UtilTest {
 	@Test
 	public void testDeleteElement2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testDeleteElement(gv);
 
 	}
 
-	private void testDeleteElement(DSGlobalVariable<String, String> gv) {
+	private void testDeleteElement(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 
@@ -448,7 +451,7 @@ public class UtilTest {
 	@Test
 	public void testAddSetToCover1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testAddSetToCover(gv);
 
 	}
@@ -457,12 +460,12 @@ public class UtilTest {
 	@Test
 	public void testAddSetToCover2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testAddSetToCover(gv);
 
 	}
 
-	private void testAddSetToCover(DSGlobalVariable<String, String> gv) {
+	private void testAddSetToCover(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -484,7 +487,7 @@ public class UtilTest {
 	@Test
 	public void testAProcessManuallyByPersonSimulation1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testAProcessManuallyByPersonSimulation(gv);
 	}
 
@@ -492,11 +495,11 @@ public class UtilTest {
 	@Test
 	public void testAProcessManuallyByPersonSimulation2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testAProcessManuallyByPersonSimulation(gv);
 	}
 
-	private void testAProcessManuallyByPersonSimulation(DSGlobalVariable<String, String> gv) {
+	private void testAProcessManuallyByPersonSimulation(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -536,7 +539,7 @@ public class UtilTest {
 	@Test
 	public void testDeleteSetb1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testDeletsetb(gv);
 
 	}
@@ -545,12 +548,12 @@ public class UtilTest {
 	@Test
 	public void testDeleteSetb2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testDeletsetb(gv);
 
 	}
 
-	private void testDeletsetb(DSGlobalVariable<String, String> gv) {
+	private void testDeletsetb(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 
@@ -582,7 +585,7 @@ public class UtilTest {
 	@Test
 	public void testGetSetOfFrequencyOneElement1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testGetSetOfFrequencyOneElement(gv);
 	}
 
@@ -590,11 +593,11 @@ public class UtilTest {
 	@Test
 	public void testGetSetOfFrequencyOneElement2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testGetSetOfFrequencyOneElement(gv);
 	}
 
-	private void testGetSetOfFrequencyOneElement(DSGlobalVariable<String, String> gv) {
+	private void testGetSetOfFrequencyOneElement(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -635,25 +638,25 @@ public class UtilTest {
 		Assert.assertEquals(sIdx, selectSetIdx);
 	}
 
-	// @Ignore
+ 
 	@Test
 	public void testIs1Subset21() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testIs1Subset2(gv);
 
 	}
 
-	// @Ignore
+ 
 	@Test
 	public void testIs1Subset22() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testIs1Subset2(gv);
 
 	}
 
-	private void testIs1Subset2(DSGlobalVariable<String, String> gv) {
+	private void testIs1Subset2(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 		int[] card = gv.getCard();
@@ -686,25 +689,25 @@ public class UtilTest {
 		Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
 	}
 
-	// @Ignore
+ 
 	@Test
 	public void testGetSubset1() {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1Rep();
+		DSGlobalVariable gv = TestUtil.getTC1Rep();
 		testGetSubset(gv);
 
 	}
 
-	// @Ignore
+ 
 	@Test
 	public void testGetSubset2() throws IOException {
 
-		DSGlobalVariable<String, String> gv = TestUtil.getTC1RepFile();
+		DSGlobalVariable gv = TestUtil.getTC1RepFile();
 		testGetSubset(gv);
 
 	}
 
-	private void testGetSubset(DSGlobalVariable<String, String> gv) {
+	private void testGetSubset(DSGlobalVariable gv) {
 		log.debug(TestUtil.FUNCTION_SEP);
 		// TestUtil.printGlobalVariableStatus(gv);
 
@@ -761,11 +764,11 @@ public class UtilTest {
 		Assert.assertEquals(s1Idx, subSetIdx);
 	}
 
-	// @Ignore
+ 
 	@Test
 	public void testTransferGVIntoMMParam() {
 		log.debug(TestUtil.FUNCTION_SEP);
-		DSGlobalVariable<String, String> gv = TestUtil.getTC2Rep();
+		DSGlobalVariable gv = TestUtil.getTC2Rep();
 
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
@@ -792,7 +795,7 @@ public class UtilTest {
 	public void testGetBatchNum() {
 		@SuppressWarnings("unused")
 		String batchNum = Util.getBatchNum();
-		//System.out.println(batchNum);
+		// System.out.println(batchNum);
 	}
 
 }

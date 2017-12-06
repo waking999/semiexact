@@ -28,7 +28,7 @@ public class TestUtil {
 	private static final int IV = ConstantValue.IMPOSSIBLE_VALUE;
 	public static final String FUNCTION_SEP = "***********************************************************";
 
-	public static String getCurrentPath() {
+	public static String getBasePath() {
 		return Paths.get(".").toAbsolutePath().normalize().toString();
 	}
 
@@ -89,9 +89,9 @@ public class TestUtil {
 		return map;
 	}
 
-	private static DSGlobalVariable<String, String> setGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq,
-			int[][] eAL, int[][] eIM, int sCount, int[] sL, int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
-		DSGlobalVariable<String, String> gv = new DSGlobalVariable<String, String>();
+	private static DSGlobalVariable setGlobalVariable(int eCount, int[] eL, int[] eIL, int[] freq, int[][] eAL,
+			int[][] eIM, int sCount, int[] sL, int[] sIL, int[] card, int[][] sAL, int[][] sIM) {
+		DSGlobalVariable gv = new DSGlobalVariable();
 		gv.setCard(card);
 		gv.seteAL(eAL);
 		gv.seteIL(eIL);
@@ -129,15 +129,15 @@ public class TestUtil {
 
 	}
 
-	public static DSGlobalVariable<String, String> getTC1RepFile() throws IOException {
-		String filePath = TestUtil.getCurrentPath() + "/src/test/resources/sample1.txt";
+	public static DSGlobalVariable getTC1RepFile() throws IOException {
+		String filePath = TestUtil.getBasePath() + "/src/test/resources/sample1.txt";
 
-		DSGlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
+		DSGlobalVariable gv = FileOperation.readGraphByEdgePair(filePath);
 		return gv;
 
 	}
 
-	public static DSGlobalVariable<String, String> getTC1Rep() {
+	public static DSGlobalVariable getTC1Rep() {
 		int eCount = 6;
 
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6 };
@@ -163,7 +163,7 @@ public class TestUtil {
 
 	}
 
-	public static DSGlobalVariable<String, String> getTC2Rep() {
+	public static DSGlobalVariable getTC2Rep() {
 		int eCount = 7;
 		int[] eL = { IV, 1, 2, 3, 4, 5, 6, 7 };
 		int[] eIL = { IV, 1, 2, 3, 4, 5, 6, 7 };
@@ -269,11 +269,10 @@ public class TestUtil {
 
 	/**
 	 * print status of global variables formatly
-	 * 
 	 * @param gv,
-	 *            global variables
+	 * global variables
 	 */
-	public static void printGlobalVariableStatus(DSGlobalVariable<String, String> gv) {
+	public static void printGlobalVariableStatus(DSGlobalVariable gv) {
 		String styleStr = "%-6s %-6s %-6s %-20s %-20s";
 
 		int[] sIL = gv.getsIL();
@@ -328,105 +327,177 @@ public class TestUtil {
 		return sb.substring(0, sb.length() - 1);
 	}
 
-	public static void basicTestLoop(String[] instanceCodes, IMSC<String,String> msc) throws IOException {
-		for(String instanceCode:instanceCodes){
-			String batchNum=Util.getBatchNum();
-			basicTest(instanceCode, batchNum, msc);
-		}
-	}
-	
-	private static void basicTest(String instanceCode, String batchNum, IMSC<String, String> msc) throws IOException {
-		String baseFilePath = TestUtil.getCurrentPath() + "/src/test/resources";
-
-		DBOperation.createTable(instanceCode);
-
-		DBParameter dbpIn = null;
-		DBParameter dbpOut = null;
-
-		dbpIn = getDBParamInput(instanceCode);
-
-		String algTableName = ConstantValue.TBL_ALG_PREFIX + instanceCode;
-
-		List<Map<String, String>> lst = DBOperation.executeQuery(dbpIn);
-		int lstLen = lst.size();
-		for (int i = 0; i < lstLen; i++) {
-			Map<String, String> map = lst.get(i); 
-
-			AlgorithmParameter ap = getAP(map);
-
-			String id = map.get(ConstantValue.DB_COL_INS_ID);
-
-			int thresholdUpper = ap.getBestResultSize() + 1;
-			for (int threshold = thresholdUpper; threshold > 0; threshold--) {
-				DSGlobalVariable<String, String> gv = getGV(baseFilePath, map);
-				ap.setThreshold(threshold);
-
-				long start = System.nanoTime();
-				msc.branch(gv, ap);
-				long end = System.nanoTime();
-
-				Assert.assertTrue(Util.isValidSolution(gv));
-
-				dbpOut = getDBParamOutPut(algTableName, id, gv, start, end, batchNum, threshold);
-				DBOperation.executeInsert(dbpOut);
-
-				dbpOut = null;
-
-				StringBuffer sb = new StringBuffer();
-				sb.append(instanceCode).append(":").append(gv.getBestSolCount()).append(":")
-						.append(String.format("%.3f", ((end - start) / 1000000000.0))).append(" s.");
-				log.debug(sb.toString());
-
-			}
-
-		}
-		dbpIn = null;
-	}
-
-	public static void basicTest(String[] instanceCodes, String algTableName, IMSC<String, String> msc)
-			throws IOException {
-		String baseFilePath = TestUtil.getCurrentPath() + "/src/test/resources";
+	public static void basicTestLoop(String dataSetName, String className, IMSC algo) throws IOException {
+		 
+		/*
+		 * get the info of the instances of a certain dataset such as id, code,
+		 * path
+		 */
+		List<Map<String, String>> lst = DBOperation.getInstanceInfo(dataSetName);
+		// loop to run the algorithm with the instance info and write to db
+		 
+ 
 		String batchNum = Util.getBatchNum();
 
-		//DBOperation dbo = new DBOperation();
-		DBParameter dbpIn = null;
+		for (Map<String, String> map : lst) {
+			try {
+				basicFunc(className, algo, batchNum, map, log);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+		}
+	}
+
+	/**
+	 * the basic structure to run algorithms and write to db
+	 * run on only one instance
+	 * which is used for greedy dds algorithms
+	 * @param className
+	 * @param algo
+	 * @param log
+	 * @param batchNum
+	 * @param id
+	 * @param instanceCode
+	 * @param algTableName
+	 * @param inputFile
+	 * @param k
+	 * @param r
+	 * @throws IOException
+	 */
+	private static void basicFunc(String className, IMSC algo, String batchNum, Map<String, String> map, Logger log)
+			throws IOException {
+		String resourcePath = TestUtil.getBasePath() + "/src/test/resources";
+		
+		String dataSetPath = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
+		String pathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
+		String id = map.get(ConstantValue.DB_COL_INS_ID);
+		String instanceCode = map.get(ConstantValue.DB_COL_INS_CODE);
+		String algTableName = DBOperation.getAlgorithmTableName(className);
+		AlgorithmParameter ap = getAP(map);
+		int thresholdUpper = ap.getBestResultSize() + 1;
+		String inputFile = resourcePath + dataSetPath + pathName;
+
 		DBParameter dbpOut = null;
 
-		for (String instanceCode : instanceCodes) {
+		DBOperation.createTable(algTableName);
+		
+		for (int threshold = thresholdUpper; threshold > 0; threshold--) {
+			DSGlobalVariable gv = FileOperation.readGraphByEdgePair(inputFile);
+			ap.setThreshold(threshold);
 
-			dbpIn = getDBParamInput(instanceCode);
+			long start = System.nanoTime();
+			algo.branch(gv, ap);
+			long end = System.nanoTime();
 
-			List<Map<String, String>> lst = DBOperation.executeQuery(dbpIn);
-			int lstLen = lst.size();
-			for (int i = 0; i < lstLen; i++) {
-				Map<String, String> map = lst.get(i);
-				DSGlobalVariable<String, String> gv = getGV(baseFilePath, map);
+			Assert.assertTrue(Util.isValidSolution(gv));
 
-				AlgorithmParameter ap = getAP(map);
+			dbpOut = getDBParamOutPut(algTableName, id, gv, start, end, batchNum, threshold);
+			DBOperation.executeInsert(dbpOut);
 
-				String id = map.get(ConstantValue.DB_COL_INS_ID);
+			dbpOut = null;
 
-				long start = System.nanoTime();
-				msc.branch(gv, ap);
-				long end = System.nanoTime();
-
-				Assert.assertTrue(Util.isValidSolution(gv));
-
-				dbpOut = getDBParamOutPut(algTableName, batchNum, id, gv, start, end);
-				DBOperation.executeInsert(dbpOut);
-
-				dbpOut = null;
-
-				StringBuffer sb = new StringBuffer();
-				sb.append(instanceCode).append(":").append(gv.getBestSolCount()).append(":")
-						.append(String.format("%.3f", ((end - start) / 1000000000.0))).append(" s.");
-				log.debug(sb.toString());
-
-			}
-			dbpIn = null;
+			StringBuffer sb = new StringBuffer();
+			sb.append(instanceCode).append(":").append(gv.getBestSolCount()).append(":")
+					.append(String.format("%.3f", ((end - start) / 1000000000.0))).append(" s.");
+			log.debug(sb.toString());
 
 		}
 	}
+
+ 
+
+//	private static void basicTest(String instanceCode, String batchNum, IMSC msc) throws IOException {
+//		String baseFilePath = TestUtil.getBasePath() + "/src/test/resources";
+//
+//		DBOperation.createTable(instanceCode);
+//
+//		DBParameter dbpIn = null;
+//		DBParameter dbpOut = null;
+//
+//		dbpIn = getDBParamInput(instanceCode);
+//
+//		String algTableName = ConstantValue.TBL_ALG_PREFIX + instanceCode;
+//
+//		List<Map<String, String>> lst = DBOperation.executeQuery(dbpIn);
+//		int lstLen = lst.size();
+//		for (int i = 0; i < lstLen; i++) {
+//			Map<String, String> map = lst.get(i);
+//
+//			AlgorithmParameter ap = getAP(map);
+//
+//			String id = map.get(ConstantValue.DB_COL_INS_ID);
+//
+//			int thresholdUpper = ap.getBestResultSize() + 1;
+//			for (int threshold = thresholdUpper; threshold > 0; threshold--) {
+//				DSGlobalVariable gv = getGV(baseFilePath, map);
+//				ap.setThreshold(threshold);
+//
+//				long start = System.nanoTime();
+//				msc.branch(gv, ap);
+//				long end = System.nanoTime();
+//
+//				Assert.assertTrue(Util.isValidSolution(gv));
+//
+//				dbpOut = getDBParamOutPut(algTableName, id, gv, start, end, batchNum, threshold);
+//				DBOperation.executeInsert(dbpOut);
+//
+//				dbpOut = null;
+//
+//				StringBuffer sb = new StringBuffer();
+//				sb.append(instanceCode).append(":").append(gv.getBestSolCount()).append(":")
+//						.append(String.format("%.3f", ((end - start) / 1000000000.0))).append(" s.");
+//				log.debug(sb.toString());
+//
+//			}
+//
+//		}
+//		dbpIn = null;
+//	}
+
+//	public static void basicTest(String[] instanceCodes, String algTableName, IMSC msc) throws IOException {
+//		String baseFilePath = TestUtil.getBasePath() + "/src/test/resources";
+//		String batchNum = Util.getBatchNum();
+//
+//		// DBOperation dbo = new DBOperation();
+//		DBParameter dbpIn = null;
+//		DBParameter dbpOut = null;
+//
+//		for (String instanceCode : instanceCodes) {
+//
+//			dbpIn = getDBParamInput(instanceCode);
+//
+//			List<Map<String, String>> lst = DBOperation.executeQuery(dbpIn);
+//			int lstLen = lst.size();
+//			for (int i = 0; i < lstLen; i++) {
+//				Map<String, String> map = lst.get(i);
+//				DSGlobalVariable gv = getGV(baseFilePath, map);
+//
+//				AlgorithmParameter ap = getAP(map);
+//
+//				String id = map.get(ConstantValue.DB_COL_INS_ID);
+//
+//				long start = System.nanoTime();
+//				msc.branch(gv, ap);
+//				long end = System.nanoTime();
+//
+//				Assert.assertTrue(Util.isValidSolution(gv));
+//
+//				dbpOut = getDBParamOutPut(algTableName, batchNum, id, gv, start, end);
+//				DBOperation.executeInsert(dbpOut);
+//
+//				dbpOut = null;
+//
+//				StringBuffer sb = new StringBuffer();
+//				sb.append(instanceCode).append(":").append(gv.getBestSolCount()).append(":")
+//						.append(String.format("%.3f", ((end - start) / 1000000000.0))).append(" s.");
+//				log.debug(sb.toString());
+//
+//			}
+//			dbpIn = null;
+//
+//		}
+//	}
 
 	private static AlgorithmParameter getAP(Map<String, String> map) {
 		String allowedRunningTimeStr = map.get(ConstantValue.DB_COL_ALLOWED_RUNNING_TIME);
@@ -450,65 +521,65 @@ public class TestUtil {
 		return ap;
 	}
 
-	private static DSGlobalVariable<String, String> getGV(String baseFilePath, Map<String, String> map)
-			throws IOException {
-		String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
-		String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
-		String filePath = baseFilePath + dPathName + iPathName;
-		DSGlobalVariable<String, String> gv = new FileOperation().readGraphByEdgePair(filePath);
-		return gv;
-	}
+//	private static DSGlobalVariable getGV(String baseFilePath, Map<String, String> map) throws IOException {
+//		String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
+//		String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
+//		String filePath = baseFilePath + dPathName + iPathName;
+//		DSGlobalVariable gv = FileOperation.readGraphByEdgePair(filePath);
+//		return gv;
+//	}
 
-	private static DBParameter getDBParamOutPut(String algTableName, String id, DSGlobalVariable<String, String> gv,
-			long start, long end, String batchNum, int threshold) {
+	private static DBParameter getDBParamOutPut(String algTableName, String id, DSGlobalVariable gv, long start,
+			long end, String batchNum, int threshold) {
 		DBParameter dbpOut;
 		dbpOut = new DBParameter();
 		dbpOut.setTableName(algTableName);
 		String[] colPairNamesOut = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_RESULT_SIZE,
-				ConstantValue.DB_COL_RUNNING_TIME, ConstantValue.DB_COL_BATCH_NUM, ConstantValue.DB_COL_THRESHOLD, ConstantValue.DB_COL_MODEL };
+				ConstantValue.DB_COL_RUNNING_TIME, ConstantValue.DB_COL_BATCH_NUM, ConstantValue.DB_COL_THRESHOLD,
+				ConstantValue.DB_COL_MODEL };
 
-		String[] colPairValuesOut = { id, Integer.toString(gv.getBestSolCount()), Long.toString((end - start)),batchNum,
-				Integer.toString(threshold), gv.getModel() };
+		String[] colPairValuesOut = { id, Integer.toString(gv.getBestSolCount()), Long.toString((end - start)),
+				batchNum, Integer.toString(threshold), gv.getModel() };
 		dbpOut.setColPairNames(colPairNamesOut);
 		dbpOut.setColPairValues(colPairValuesOut);
 		return dbpOut;
 	}
 
-	private static DBParameter getDBParamOutPut(String algTableName, String batchNum, String id,
-			DSGlobalVariable<String, String> gv, long start, long end) {
-		DBParameter dbpOut;
-		dbpOut = new DBParameter();
-		dbpOut.setTableName(algTableName);
-		String[] colPairNamesOut = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_BATCH_NUM,
-				ConstantValue.DB_COL_RESULT_SIZE, ConstantValue.DB_COL_RUNNING_TIME };
-		String[] colPairValuesOut = { id, batchNum, Integer.toString(gv.getBestSolCount()),
-				Long.toString((end - start)) };
-		dbpOut.setColPairNames(colPairNamesOut);
-		dbpOut.setColPairValues(colPairValuesOut);
-		return dbpOut;
-	}
-
-	private static DBParameter getDBParamInput(String instanceCode) {
-		DBParameter dbpIn;
-		dbpIn = new DBParameter();
-		dbpIn.setTableName(ConstantValue.DB_VNAME_INS_OPT);
-		String[] colNamesIn = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_INS_NAME,
-				ConstantValue.DB_COL_DATASET_PATH_NAME, ConstantValue.DB_COL_INS_PATH_NAME,
-				ConstantValue.DB_COL_BEST_RESULT_SIZE, ConstantValue.DB_COL_ACCEPT_RESULT_SIZE,
-				ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE, ConstantValue.DB_COL_ALLOWED_RUNNING_TIME };
-		String[] colPairNamesIn = { ConstantValue.DB_COL_INS_CODE };
-		String[] colPairOperatorsIn = { "=" };
-		String[] colPairValuesIn = { instanceCode };
-		dbpIn.setColNames(colNamesIn);
-		dbpIn.setColPairNames(colPairNamesIn);
-		dbpIn.setColPairOperators(colPairOperatorsIn);
-		dbpIn.setColPairValues(colPairValuesIn);
-		return dbpIn;
-	}
+//	private static DBParameter getDBParamOutPut(String algTableName, String batchNum, String id, DSGlobalVariable gv,
+//			long start, long end) {
+//		DBParameter dbpOut;
+//		dbpOut = new DBParameter();
+//		dbpOut.setTableName(algTableName);
+//		String[] colPairNamesOut = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_BATCH_NUM,
+//				ConstantValue.DB_COL_RESULT_SIZE, ConstantValue.DB_COL_RUNNING_TIME };
+//		String[] colPairValuesOut = { id, batchNum, Integer.toString(gv.getBestSolCount()),
+//				Long.toString((end - start)) };
+//		dbpOut.setColPairNames(colPairNamesOut);
+//		dbpOut.setColPairValues(colPairValuesOut);
+//		return dbpOut;
+//	}
+//
+//	private static DBParameter getDBParamInput(String instanceCode) {
+//		DBParameter dbpIn;
+//		dbpIn = new DBParameter();
+//		dbpIn.setTableName(ConstantValue.DB_VNAME_INS_OPT);
+//		String[] colNamesIn = { ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_INS_NAME,
+//				ConstantValue.DB_COL_DATASET_PATH_NAME, ConstantValue.DB_COL_INS_PATH_NAME,
+//				ConstantValue.DB_COL_BEST_RESULT_SIZE, ConstantValue.DB_COL_ACCEPT_RESULT_SIZE,
+//				ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE, ConstantValue.DB_COL_ALLOWED_RUNNING_TIME };
+//		String[] colPairNamesIn = { ConstantValue.DB_COL_INS_CODE };
+//		String[] colPairOperatorsIn = { "=" };
+//		String[] colPairValuesIn = { instanceCode };
+//		dbpIn.setColNames(colNamesIn);
+//		dbpIn.setColPairNames(colPairNamesIn);
+//		dbpIn.setColPairOperators(colPairOperatorsIn);
+//		dbpIn.setColPairValues(colPairValuesIn);
+//		return dbpIn;
+//	}
 
 	// public static void baiscTestLoop(String[] codes, int[] thresholdUppers,
 	// int[] thresholdSteps, int rounds,
-	// String algTableName, IMSC<String, String> msc) throws IOException {
+	// String algTableName, IMSC msc) throws IOException {
 	//
 	// int codesLen = codes.length;
 	//
@@ -525,7 +596,7 @@ public class TestUtil {
 	//
 	// public static void basicTest(String code, int threshold, String batchNum,
 	// String algTableName,
-	// IMSC<String, String> msc) throws IOException {
+	// IMSC msc) throws IOException {
 	// String baseFilePath = TestUtil.getCurrentPath() + "/src/test/resources";
 	//
 	// DBOperation dbo = new DBOperation();
@@ -550,10 +621,10 @@ public class TestUtil {
 	// dbpIn.setColPairOperators(colPairOperatorsIn);
 	// dbpIn.setColPairValues(colPairValuesIn);
 	//
-	// List<Map<String, String>> lst = dbo.executeQuery(dbpIn);
+	// List<Map<String,String>> lst = dbo.executeQuery(dbpIn);
 	// int lstLen = lst.size();
 	// for (int i = 0; i < lstLen; i++) {
-	// Map<String, String> map = lst.get(i);
+	// Map<String,String> map = lst.get(i);
 	// String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
 	// String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
 	// String allowedRunningTimeStr =
@@ -572,7 +643,7 @@ public class TestUtil {
 	// String id = map.get(ConstantValue.DB_COL_INS_ID);
 	//
 	// String filePath = baseFilePath + dPathName + iPathName;
-	// GlobalVariable<String, String> gv = new
+	// GlobalVariable gv = new
 	// FileOperation().readGraphByEdgePair(filePath);
 	// gv.setModel("Exact");
 	//

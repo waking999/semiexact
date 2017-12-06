@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * a test suit for all test suits
  */
 @RunWith(Suite.class)
-@SuiteClasses({   UtilTests.class })
+@SuiteClasses({ UtilTests.class,AlgoTests.class })
 public class AllTests {
 
 }

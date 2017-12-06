@@ -16,15 +16,15 @@ import au.edu.cdu.se.util.ds.DSGlobalVariable;
  * 3. add time limit
  */
 
-public class MSC5<ET, ST> implements IMSC<ET, ST> {
+public class MSC5 implements IMSC {
 
-	MSC4<ET, ST> msc;
+	MSC4 msc;
 
 	public MSC5() {
-		msc = new MSC4<ET, ST>();
+		msc = new MSC4();
 	}
 
-	public int branch(DSGlobalVariable<ET, ST> gv, AlgorithmParameter ap) {
+	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
 		long start = System.nanoTime();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
@@ -32,7 +32,7 @@ public class MSC5<ET, ST> implements IMSC<ET, ST> {
 		return branch(gv, card, freq, start, ConstantValue.RUNNING_TIME_LIMIT, 0);
 	}
 
-	private int branch(DSGlobalVariable<ET, ST> gv, int[] card, int[] freq, long start, long timeLimit, int level) {
+	private int branch(DSGlobalVariable gv, int[] card, int[] freq, long start, long timeLimit, int level) {
 		//System.out.println(level + "," + freq[0] + "," + gv.getBestSolCount() + "," + gv.getSolCount());
 
 		int bestSolCount = gv.getBestSolCount();
