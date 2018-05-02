@@ -22,7 +22,7 @@ public class FileOperation {
 	 * @param filePath,
 	 *            file path and name
 	 * @return graph representation
-	 * @throws IOException
+	 * @throws IOException, IOException
 	 */
 	public static DSGlobalVariable readGraphByEdgePair(String filePath) throws IOException {
 
@@ -76,7 +76,7 @@ public class FileOperation {
 			}
 		}
 
-		String tmpLine = null;
+		String tmpLine;
 		for (int i = 1; i <= numOfEdg; i++) {
 			tmpLine = lines.get(i);
 			String[] tmpLineArray = tmpLine.split(BLANK);

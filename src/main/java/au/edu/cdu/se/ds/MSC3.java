@@ -16,17 +16,17 @@ import au.edu.cdu.se.util.Util;
  *
  */
 public class MSC3 {
-	Map<Integer, List<Integer>> map;
+	private Map<Integer, List<Integer>> map;
 
 	public void setMap(Map<Integer, List<Integer>> map) {
 		this.map = map;
 	}
 
-	public void setRr(ReturnResult<Integer> rr) {
+	void setRr(ReturnResult<Integer> rr) {
 		this.rr = rr;
 	}
 
-	ReturnResult<Integer> rr;
+	private ReturnResult<Integer> rr;
 
 	public ReturnResult<Integer> run() {
 		return branch(map, rr);
@@ -43,7 +43,7 @@ public class MSC3 {
 		if (exist.isExist()) {
 			do {
 				int setIndex = exist.getSetIndex();
-				map.remove(Integer.valueOf(setIndex));
+				map.remove(setIndex);
 				exist = Util.existSubset(map);
 			} while (exist.isExist());
 			Map<Integer, List<Integer>> mapCopy = Util.copyMap(map);
@@ -64,7 +64,7 @@ public class MSC3 {
 			if (exist.isExist()) {
 				do {
 					int setIndexPrime = exist.getSetIndex();
-					map.remove(Integer.valueOf(setIndexPrime));
+					map.remove(setIndexPrime);
 					exist = Util.existSubset(map);
 				} while (exist.isExist());
 			}
@@ -110,7 +110,7 @@ public class MSC3 {
 		List<Integer> results = rr.getResults();
 		results.addAll(keySet);
 
-		return new ReturnResult<Integer>(rr.getResultSize() + keySet.size(), results);
+		return new ReturnResult<>(rr.getResultSize() + keySet.size(), results);
 
 	}
 }

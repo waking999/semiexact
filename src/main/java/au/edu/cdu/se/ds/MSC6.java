@@ -18,13 +18,12 @@ public class MSC6 implements IMSC {
 
 	MSC4 msc;
 
-	public MSC6() {
+	MSC6() {
 		msc = new MSC4();
 	}
 
 	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
 		long start = System.nanoTime();
-		int bestResultSize = ap.getBestResultSize();
 		int acceptedResultSize = ap.getAcceptedResultSize();
 		int unacceptedResultSize = ap.getUnacceptedResultSize();
 
@@ -32,12 +31,12 @@ public class MSC6 implements IMSC {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
-		return branch(gv, card, freq, start, allowedRunningTime, bestResultSize, acceptedResultSize,
+		return branch(gv, card, freq, start, allowedRunningTime, acceptedResultSize,
 				unacceptedResultSize, 0);
 	}
 
 	private int branch(DSGlobalVariable gv, int[] card, int[] freq, long start, long bestRunningTime,
-			int bestResultSize, int acceptedResultSize, int unacceptedResultSize, int level) {
+					   int acceptedResultSize, int unacceptedResultSize, int level) {
 
 		int bestSolCount = gv.getBestSolCount();
 
@@ -61,7 +60,7 @@ public class MSC6 implements IMSC {
 
 		int solCount = gv.getSolCount();
 
-		int s1 = card[0];
+		int s1;
 		int e1 = freq[0];
 
 		if (bestSolCount <= solCount) {
@@ -171,7 +170,6 @@ public class MSC6 implements IMSC {
 							sol[solPtr++] = sL[i];
 							solCount++;
 							mate[sAL[sL[i]][2]] = sAL[sL[i]][1];
-							continue;
 						}
 					}
 					if (bestSolCount > solCount) {
@@ -215,11 +213,8 @@ public class MSC6 implements IMSC {
 		copyCard[0] = s2;
 		copyFreq[0] = e2;
 
-		int res1 = branch(gv, copyCard, copyFreq, start, bestRunningTime, bestResultSize, acceptedResultSize,
+		int res1 = branch(gv, copyCard, copyFreq, start, bestRunningTime, acceptedResultSize,
 				unacceptedResultSize, level + 1);
-
-		copyCard = null;
-		copyFreq = null;
 
 		solPtr = tmpSolPtr;
 		solCount = tmpSolCount;
@@ -227,12 +222,12 @@ public class MSC6 implements IMSC {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, s1, e1, set);
+		Util.deleteSet(gv, card, freq, s1, set);
 		s1--;
 		card[0] = s1;
 		freq[0] = e1;
 
-		int res2 = branch(gv, card, freq, start, bestRunningTime, bestResultSize, acceptedResultSize,
+		int res2 = branch(gv, card, freq, start, bestRunningTime, acceptedResultSize,
 				unacceptedResultSize, level + 1);
 
 		if (res1 < res2) {

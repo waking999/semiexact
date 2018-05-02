@@ -8,7 +8,7 @@ public class DBParameter {
 
 	private String[] colPairValues;
 
-	public String getTableName() {
+	String getTableName() {
 		return tableName;
 	}
 
@@ -16,7 +16,7 @@ public class DBParameter {
 		this.tableName = tableName;
 	}
 
-	public String[] getColPairNames() {
+	String[] getColPairNames() {
 		return colPairNames;
 	}
 
@@ -24,15 +24,15 @@ public class DBParameter {
 		this.colPairNames = colPairNames;
 	}
 
-	public String[] getColPairOperators() {
+	String[] getColPairOperators() {
 		return colPairOperators;
 	}
 
-	public void setColPairOperators(String[] colPairOperators) {
+	void setColPairOperators(String[] colPairOperators) {
 		this.colPairOperators = colPairOperators;
 	}
 
-	public String[] getColPairValues() {
+	String[] getColPairValues() {
 		return colPairValues;
 	}
 
@@ -40,11 +40,11 @@ public class DBParameter {
 		this.colPairValues = colPairValues;
 	}
 
-	public String[] getColNames() {
+	String[] getColNames() {
 		return colNames;
 	}
 
-	public void setColNames(String[] colNames) {
+	void setColNames(String[] colNames) {
 		this.colNames = colNames;
 	}
 

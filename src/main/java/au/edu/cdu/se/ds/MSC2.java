@@ -1,8 +1,8 @@
 package au.edu.cdu.se.ds;
 
-/**
- * 1. the exactly same as the basic algorithm
- * 2. apply the reduction rule exhaustedly 
+/*
+  1. the exactly same as the basic algorithm
+  2. apply the reduction rule exhaustedly
  */
 import java.util.List;
 
@@ -26,12 +26,7 @@ public class MSC2 {
 		// subset rule
 		ExistQualifiedSet exist = Util.existSubset(s);
 		if (exist.isExist()) {
-			do {
-				int setIndex = exist.getSetIndex();
-				List<Integer> si = s.get(setIndex);
-				Util.removeSet(s, si);
-				exist = Util.existSubset(s);
-			} while (exist.isExist());
+			subsetRemove(s, exist);
 			List<List<Integer>> sCopy = Util.copyList(s);
 			return branch(sCopy);
 		}
@@ -46,12 +41,7 @@ public class MSC2 {
 
 			exist = Util.existSubset(sCopy);
 			if (exist.isExist()) {
-				do {
-					int setIndexPrime = exist.getSetIndex();
-					List<Integer> siPrime = sCopy.get(setIndexPrime);
-					Util.removeSet(sCopy, siPrime);
-					exist = Util.existSubset(sCopy);
-				} while (exist.isExist());
+				subsetRemove(sCopy, exist);
 			}
 
 			return 1 + branch(sCopy);
@@ -65,6 +55,15 @@ public class MSC2 {
 		// branch
 		return Math.min(branch(Util.removeSet(Util.copyList(s), si)), 1 + branch(Util.deleteSet(Util.copyList(s), si)));
 
+	}
+
+	private void subsetRemove(List<List<Integer>> s, ExistQualifiedSet exist) {
+		do {
+			int setIndex = exist.getSetIndex();
+			List<Integer> si = s.get(setIndex);
+			Util.removeSet(s, si);
+			exist = Util.existSubset(s);
+		} while (exist.isExist());
 	}
 
 	private int polyMsc(List<List<Integer>> s) {

@@ -7,26 +7,26 @@ public class AlgorithmParameter {
 	private int bestResultSize;
 	private int threshold;
 	
-	public int getThreshold() {
+	int getThreshold() {
 		return threshold;
 	}
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
 	}
  
-	public long getAllowedRunningTime() {
+	long getAllowedRunningTime() {
 		return allowedRunningTime;
 	}
 	public void setAllowedRunningTime(long allowedRunningTime) {
 		this.allowedRunningTime = allowedRunningTime;
 	}
-	public int getUnacceptedResultSize() {
+	int getUnacceptedResultSize() {
 		return unacceptedResultSize;
 	}
 	public void setUnacceptedResultSize(int unacceptedResultSize) {
 		this.unacceptedResultSize = unacceptedResultSize;
 	}
-	public int getAcceptedResultSize() {
+	int getAcceptedResultSize() {
 		return acceptedResultSize;
 	}
 	public void setAcceptedResultSize(int acceptedResultSize) {

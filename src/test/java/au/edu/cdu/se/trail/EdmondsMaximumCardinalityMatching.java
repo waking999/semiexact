@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EdmondsMaximumCardinalityMatching {
-	static int lca(int[] match, int[] base, int[] p, int a, int b) {
+	private static int lca(int[] match, int[] base, int[] p, int a, int b) {
 		boolean[] used = new boolean[match.length];
 		while (true) {
 			a = base[a];
@@ -22,7 +22,7 @@ public class EdmondsMaximumCardinalityMatching {
 		}
 	}
 
-	static void markPath(int[] match, int[] base, boolean[] blossom, int[] p, int v, int b, int children) {
+	private static void markPath(int[] match, int[] base, boolean[] blossom, int[] p, int v, int b, int children) {
 		for (; base[v] != b; v = p[match[v]]) {
 			blossom[base[v]] = blossom[base[match[v]]] = true;
 			p[v] = children;
@@ -30,7 +30,7 @@ public class EdmondsMaximumCardinalityMatching {
 		}
 	}
 
-	static int findPath(List<Integer>[] graph, int[] match, int[] p, int root) {
+	private static int findPath(List<Integer>[] graph, int[] match, int[] p, int root) {
 		int n = graph.length;
 		boolean[] used = new boolean[n];
 		Arrays.fill(p, -1);
@@ -73,7 +73,7 @@ public class EdmondsMaximumCardinalityMatching {
 		return -1;
 	}
 
-	public static int maxMatching(List<Integer>[] graph) {
+	private static int maxMatching(List<Integer>[] graph) {
 		int n = graph.length;
 		int[] match = new int[n];
 		Arrays.fill(match, -1);
@@ -102,7 +102,7 @@ public class EdmondsMaximumCardinalityMatching {
 		int v = 6;
 		List<Integer>[] g = new List[v];
 		for (int i = 0; i < v; i++) {
-			g[i] = new ArrayList<Integer>();
+			g[i] = new ArrayList<>();
 		}
 		g[0].add(1);
 

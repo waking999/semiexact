@@ -8,30 +8,30 @@ public class ConstantValue {
 	public static final int IMPOSSIBLE_VALUE = -1;
 	public static final String BLANK = " ";
 
-	public static final int LABEL_TYPE_START = 0;
-	public static final int LABEL_TYPE_VERTEX = 1;
-	public static final int LABEL_TYPE_EDGE = 2;
+//	public static final int LABEL_TYPE_START = 0;
+//	public static final int LABEL_TYPE_VERTEX = 1;
+//	public static final int LABEL_TYPE_EDGE = 2;
 
 	public static final int MATE_EXPOSE = -1;
 
-	public static final String COMMA=",";
+//	public static final String COMMA=",";
 	
 	// time limit of algorithm running
 	public static final long RUNNING_TIME_LIMIT = 15 * 60 * 1000000000L;
 
 	// data set
-	public static final String DATASET_DIMACS = "DIMACS";
+//	public static final String DATASET_DIMACS = "DIMACS";
 	public static final String DATASET_KONECT = "KONECT";
 	public static final String DATASET_BHOSLIB = "BHOSLIB";
 	
 	// database table/view names
-	public static final String DB_TBNAME_DATASET = "dataset";
+//	public static final String DB_TBNAME_DATASET = "dataset";
 	public static final String DB_TBNAME_INS = "instance";
-	public static final String DB_TBNAME_ALG5 = "alg1running";
-	public static final String DB_TBNAME_ALG6 = "alg2running";
-	public static final String DB_TBNAME_ALG7 = "alg3running";
-	
-	public static final String DB_VNAME_INS = "v_instance";
+//	public static final String DB_TBNAME_ALG5 = "alg1running";
+//	public static final String DB_TBNAME_ALG6 = "alg2running";
+//	public static final String DB_TBNAME_ALG7 = "alg3running";
+
+//	public static final String DB_VNAME_INS = "v_instance";
 	public static final String DB_VNAME_INS_OPT = "v_instance_opt";
 	// database column names
 	public static final String DB_COL_ID = "id";
@@ -65,13 +65,13 @@ public class ConstantValue {
 	
 	public static final String TBL_ALG_PREFIX="algRunning_";
 	
-	public static final String DB_COL_THRESHOLD1 = "threshold1";
-	public static final String DB_COL_RESULT_SIZE1 = "result_size1";
-	public static final String DB_COL_RUNNING_TIME1 = "running_nano_sec1";
+//	public static final String DB_COL_THRESHOLD1 = "threshold1";
+//	public static final String DB_COL_RESULT_SIZE1 = "result_size1";
+//	public static final String DB_COL_RUNNING_TIME1 = "running_nano_sec1";
 	
-	public static final String DB_COL_THRESHOLD2 = "threshold2";
-	public static final String DB_COL_RESULT_SIZE2 = "result_size2";
-	public static final String DB_COL_RUNNING_TIME2 = "running_nano_sec2";
+//	public static final String DB_COL_THRESHOLD2 = "threshold2";
+//	public static final String DB_COL_RESULT_SIZE2 = "result_size2";
+//	public static final String DB_COL_RUNNING_TIME2 = "running_nano_sec2";
 	
 	public static final String MODEL_HAPPY="Happy";
 	public static final String MODEL_HURRY="Harry";

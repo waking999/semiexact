@@ -20,7 +20,7 @@ public class MSC5 implements IMSC {
 
 	MSC4 msc;
 
-	public MSC5() {
+	MSC5() {
 		msc = new MSC4();
 	}
 
@@ -38,7 +38,7 @@ public class MSC5 implements IMSC {
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
 
-		int s1 = card[0];
+		int s1;
 		int e1 = freq[0];
 
 		// if the algorithm runs too long (longer than our patience), stop
@@ -158,7 +158,6 @@ public class MSC5 implements IMSC {
 							sol[solPtr++] = sL[i];
 							solCount++;
 							mate[sAL[sL[i]][2]] = sAL[sL[i]][1];
-							continue;
 						}
 					}
 					if (bestSolCount > solCount) {
@@ -205,16 +204,13 @@ public class MSC5 implements IMSC {
 
 		int res1 = branch(gv, copyCard, copyFreq, start, timeLimit, level + 1);
 
-		copyCard = null;
-		copyFreq = null;
-
 		solPtr = tmpSolPtr;
 		solCount = tmpSolCount;
 
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, s1, e1, set);
+		Util.deleteSet(gv, card, freq, s1, set);
 		s1--;
 
 		card[0] = s1;

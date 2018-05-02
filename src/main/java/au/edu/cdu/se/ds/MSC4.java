@@ -20,10 +20,10 @@ public class MSC4 implements IMSC {
 
 	/**
 	 * 
-	 * @param gv
-	 * @return
+	 * @param gv, variables representing a graph
+	 * @return max matching size
 	 */
-	protected int buildMaxMatching(DSGlobalVariable gv, int[] card, int[] freq) {
+	int buildMaxMatching(DSGlobalVariable gv, int[] card, int[] freq) {
 		Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card, freq);
 		MM mm = new MM();
 		MMObj o = mm.maxMatching(g);
@@ -53,10 +53,10 @@ public class MSC4 implements IMSC {
 	/**
 	 * apply reduction rules;
 	 * 
-	 * @param gv
-	 * @return
+	 * @param gv, variables representing a graph
+	 * @return true if reduction rules run, false otherwise
 	 */
-	protected boolean preProcess(DSGlobalVariable gv, int[] card, int freq[]) {
+	boolean preProcess(DSGlobalVariable gv, int[] card, int freq[]) {
 
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
@@ -82,7 +82,7 @@ public class MSC4 implements IMSC {
 				// gv.setSolCount(solCount);
 				// return true;
 				// }
-				Util.deleteSet(gv, card, freq, s1, e1, domSet);
+				Util.deleteSet(gv, card, freq, s1, domSet);
 				s1--;
 				count++;
 				domSet = Util.getSubset(gv, card);
@@ -113,14 +113,11 @@ public class MSC4 implements IMSC {
 		card[0] = s1;
 		freq[0] = e1;
 
-		if (count > 0) {
-			return true;
-		}
+		return count > 0;
 
-		return false;
 	}
 
-	protected int kHighest(DSGlobalVariable gv, int[] card, int maxCard, int sActCount) {
+	int kHighest(DSGlobalVariable gv, int[] card, int maxCard, int sActCount) {
 		// TODO: make sure the sum of cardinalities of the k sets of highest
 		// card is greater than number of elements
 		int bestSolCount = gv.getBestSolCount();
@@ -171,7 +168,7 @@ public class MSC4 implements IMSC {
 	private int branch(DSGlobalVariable gv, int[] card, int[] freq) {
 		int bestSolCount = gv.getBestSolCount();
 		int solCount = gv.getSolCount();
-		int s1 = card[0];
+		int s1;
 		int e1 = freq[0];
 
 		if (bestSolCount <= solCount) {
@@ -285,7 +282,6 @@ public class MSC4 implements IMSC {
 							sol[solPtr++] = sL[i];
 							solCount++;
 							mate[sAL[sL[i]][2]] = sAL[sL[i]][1];
-							continue;
 						}
 					}
 
@@ -331,16 +327,13 @@ public class MSC4 implements IMSC {
 
 		int res1 = branch(gv, copyCard, copyFreq);
 
-		copyCard = null;
-		copyFreq = null;
-
 		solPtr = tmpSolPtr;
 		solCount = tmpSolCount;
 
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, s1, e1, set);
+		Util.deleteSet(gv, card, freq, s1, set);
 		s1--;
 		card[0] = s1;
 		freq[0] = e1;

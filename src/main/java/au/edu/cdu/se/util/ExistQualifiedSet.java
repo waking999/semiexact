@@ -21,7 +21,7 @@ public class ExistQualifiedSet {
 	}
 
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (exist) {
 			sb.append("exist:").append(this.setIndex);
 		} else {

@@ -21,7 +21,7 @@ public class MSC7 implements IMSC {
 
 	MSC4 msc;
 
-	public MSC7() {
+	MSC7() {
 		msc = new MSC4();
 	}
 
@@ -30,7 +30,7 @@ public class MSC7 implements IMSC {
 		 
 		int acceptedResultSize = ap.getAcceptedResultSize();
 		int unacceptedResultSize = ap.getUnacceptedResultSize();
-		int threshold = ap.getThreshold(); ;
+		int threshold = ap.getThreshold();
 		long allowedRunningTime = ap.getAllowedRunningTime();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
@@ -41,20 +41,13 @@ public class MSC7 implements IMSC {
 
 	private boolean isMomentOfHappy(long current, long start, long allowedRunningTime, int acceptedResultSize,
 			int bestSolCount) {
-		if ((current - start >= allowedRunningTime) && (bestSolCount <= acceptedResultSize)) {
-			return true;
-		}
-		return false;
+		return (current - start >= allowedRunningTime) && (bestSolCount <= acceptedResultSize);
 	}
 
 	private boolean isMomentOfHurry(long current, long start, long allowedRunningTime, int acceptedResultSize,
 			int unacceptedResultSize, int bestSolCount, int solCount, int threshold) {
-		if ((current - start >= allowedRunningTime) && (bestSolCount >= unacceptedResultSize)
-				&& (acceptedResultSize - solCount <= threshold)) {
-			return true;
-		}
-
-		return false;
+		return (current - start >= allowedRunningTime) && (bestSolCount >= unacceptedResultSize)
+				&& (acceptedResultSize - solCount <= threshold);
 
 	}
 
@@ -83,7 +76,7 @@ public class MSC7 implements IMSC {
 
 		}
 
-		int s1 = card[0];
+		int s1;
 		int e1 = freq[0];
 
 		bestSolCount = gv.getBestSolCount();
@@ -107,10 +100,10 @@ public class MSC7 implements IMSC {
 		}
 
 		while (msc.preProcess(gv, card, freq)) {
-			if (bestSolCount <= solCount) {
-
-				return bestSolCount;
-			}
+//			if (bestSolCount <= solCount) {
+//
+//				return bestSolCount;
+//			}
 
 			if (freq[0] == 0) {
 				solCount = gv.getSolCount();
@@ -202,7 +195,6 @@ public class MSC7 implements IMSC {
 							sol[solPtr++] = sL[i];
 							solCount++;
 							mate[sAL[sL[i]][2]] = sAL[sL[i]][1];
-							continue;
 						}
 					}
 					if (bestSolCount > solCount) {
@@ -250,16 +242,13 @@ public class MSC7 implements IMSC {
 		int res1 = branch(gv, copyCard, copyFreq, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize,
 				threshold, level + 1);
 
-		copyCard = null;
-		copyFreq = null;
-
 		solPtr = tmpSolPtr;
 		solCount = tmpSolCount;
 
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, s1, e1, set);
+		Util.deleteSet(gv, card, freq, s1, set);
 		s1--;
 		card[0] = s1;
 		freq[0] = e1;
