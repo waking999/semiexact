@@ -6,7 +6,11 @@ package au.edu.cdu.se.util;
  */
 public class ConstantValue {
 	public static final int IMPOSSIBLE_VALUE = -1;
+	public static final int NOT_NULL = Integer.MAX_VALUE;
+	public static final int MAX_VALUE = Integer.MAX_VALUE;
 	public static final String BLANK = " ";
+
+	public static final float FLOAT_NO_DIFF = 1E-12f;
 
 //	public static final int LABEL_TYPE_START = 0;
 //	public static final int LABEL_TYPE_VERTEX = 1;

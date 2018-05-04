@@ -8,6 +8,22 @@ import java.util.*;
  * an util class for common functions
  */
 public class Util {
+    /**
+     * find the position of a value in a range of an array
+     *
+     * @param array,    the search base
+     * @param arrayLen, the range
+     * @param val,      the value
+     * @return position or ConstantValue.IMPOSSIBLE_VALUE if not found
+     */
+    public static int findPos(int[] array, int arrayLen, int val) {
+        for (int i = 0; i < arrayLen; i++) {
+            if (array[i] == val) {
+                return i;
+            }
+        }
+        return ConstantValue.IMPOSSIBLE_VALUE;
+    }
 
     /**
      * convert an integer array to an integer list
