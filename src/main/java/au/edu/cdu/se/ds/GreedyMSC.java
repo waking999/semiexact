@@ -1,9 +1,9 @@
 package au.edu.cdu.se.ds;
 
+import au.edu.cdu.se.util.AlgoUtil;
 import org.apache.log4j.Logger;
 
 import au.edu.cdu.se.util.LogUtil;
-import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 
 public class GreedyMSC {
@@ -20,9 +20,9 @@ public class GreedyMSC {
 		int e1 = freq[0];
 
 		while (e1 > 0) {
-			int set = Util.getMaxCardinalitySetIndex(gv, card, s1);
+			int set = AlgoUtil.getMaxCardinalitySetIndex(gv, card, s1);
 			int tempCard = card[set];
-			Util.addSetToCover(gv, card, freq, s1, e1, set);
+			AlgoUtil.addSetToCover(gv, card, freq, s1, e1, set);
 			e1 = e1 - tempCard;
 			s1 = s1 - 1;
 

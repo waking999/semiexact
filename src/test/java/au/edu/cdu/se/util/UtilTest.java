@@ -315,7 +315,7 @@ public class UtilTest {
         int sIdx = 4;
         int[] card = gv.getCard();
 
-        int selectSetIdx = Util.getMaxCardinalitySetIndex(gv, card, card[0]);
+        int selectSetIdx = AlgoUtil.getMaxCardinalitySetIndex(gv, card, card[0]);
         Assert.assertEquals(sIdx, selectSetIdx);
 
     }
@@ -351,7 +351,7 @@ public class UtilTest {
         int sToDelIdx = 4;
         int sToExchIdx = sIL[sActCount];
 
-        Util.deleteSet(gv, card, freq, sActCount, sToDelIdx);
+        AlgoUtil.deleteSet(gv, card, freq, sActCount, sToDelIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         Assert.assertEquals(0, card[sToDelIdx]);
         sIL = gv.getsIL();
@@ -367,7 +367,7 @@ public class UtilTest {
         sIL = gv.getsIL();
         sToDelIdx = 1;
         sToExchIdx = sIL[sActCount];
-        Util.deleteSet(gv, card, freq, sActCount, sToDelIdx);
+        AlgoUtil.deleteSet(gv, card, freq, sActCount, sToDelIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         Assert.assertEquals(0, card[sToDelIdx]);
         sIL = gv.getsIL();
@@ -411,7 +411,7 @@ public class UtilTest {
         int eToExchIdx = eIL[eActCount];
         int s = 1;
 
-        Util.deleteElement(gv, card, freq, eActCount, eToDelIdx, s);
+        AlgoUtil.deleteElement(gv, card, freq, eActCount, eToDelIdx, s);
         // TestUtil.printGlobalVariableStatus(gv);
 
         Assert.assertEquals(0, freq[eToDelIdx]);
@@ -432,7 +432,7 @@ public class UtilTest {
         eToDelIdx = 1;
         eToExchIdx = eIL[eActCount];
 
-        Util.deleteElement(gv, card, freq, eActCount, eToDelIdx, s);
+        AlgoUtil.deleteElement(gv, card, freq, eActCount, eToDelIdx, s);
         // TestUtil.printGlobalVariableStatus(gv);
 
         Assert.assertEquals(0, freq[eToDelIdx]);
@@ -472,13 +472,13 @@ public class UtilTest {
         int[] freq = gv.getFreq();
         int sActCount = card[0];
         int sToAddIdx = 5;
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sToAddIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sToAddIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         Assert.assertEquals(sActCount - 1, card[0]);
         sActCount = card[0];
         sToAddIdx = 1;
 
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sToAddIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sToAddIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         Assert.assertEquals(sActCount - 1, card[0]);
     }
@@ -508,30 +508,30 @@ public class UtilTest {
         // 1. delete sf
         int sIdx = 6;
 
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // 2. add se
         sIdx = 5;
 
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // 3. delete sb
         sIdx = 2;
 
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // 4. delete sc
         sIdx = 3;
 
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // 5. delete sd
         sIdx = 4;
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // 6. add sa
         sIdx = 1;
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
     }
 
@@ -561,23 +561,23 @@ public class UtilTest {
         int[] freq = gv.getFreq();
         int sIdx = 4;
 
-        int selectSetIdx = Util.getMaxCardinalitySetIndex(gv, card, card[0]);
+        int selectSetIdx = AlgoUtil.getMaxCardinalitySetIndex(gv, card, card[0]);
         Assert.assertEquals(sIdx, selectSetIdx);
 
         // delete sf
         sIdx = 6;
 
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // add se
         sIdx = 5;
 
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
 
         sIdx = 1;
 
-        selectSetIdx = Util.getMaxCardinalitySetIndex(gv, card, card[0]);
+        selectSetIdx = AlgoUtil.getMaxCardinalitySetIndex(gv, card, card[0]);
         Assert.assertEquals(sIdx, selectSetIdx);
     }
 
@@ -605,36 +605,36 @@ public class UtilTest {
         // delete sf
         int sIdx = 6;
 
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
 
         sIdx = 5;
 
-        int selectSetIdx = Util.getSetOfFrequencyOneElement(gv, freq, freq[0]);
+        int selectSetIdx = AlgoUtil.getSetOfFrequencyOneElement(gv, freq, freq[0]);
         Assert.assertEquals(sIdx, selectSetIdx);
 
         // add se
         sIdx = 5;
 
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
 
         // delete sb
         sIdx = 2;
 
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // delete sc
         sIdx = 3;
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         // delete sd
         sIdx = 4;
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
 
         sIdx = 1;
-        selectSetIdx = Util.getSetOfFrequencyOneElement(gv, freq, freq[0]);
+        selectSetIdx = AlgoUtil.getSetOfFrequencyOneElement(gv, freq, freq[0]);
         Assert.assertEquals(sIdx, selectSetIdx);
     }
 
@@ -665,19 +665,19 @@ public class UtilTest {
         int s1Idx = 6;
         int s2Idx = 5;
 
-        Assert.assertTrue(Util.is1Subset2(gv, card, s1Idx, s2Idx));
-        Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
+        Assert.assertTrue(AlgoUtil.is1Subset2(gv, card, s1Idx, s2Idx));
+        Assert.assertFalse(AlgoUtil.is1Subset2(gv, card, s2Idx, s1Idx));
 
         // delete sf
         int sIdx = 6;
-        Util.deleteSet(gv, card, freq, card[0], sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, card[0], sIdx);
 
         // TestUtil.printGlobalVariableStatus(gv);
 
         // add se
         sIdx = 5;
 
-        Util.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, card[0], freq[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
 
         // s1 = "Sb";
@@ -685,8 +685,8 @@ public class UtilTest {
         s1Idx = 2;
         s2Idx = 1;
 
-        Assert.assertTrue(Util.is1Subset2(gv, card, s1Idx, s2Idx));
-        Assert.assertFalse(Util.is1Subset2(gv, card, s2Idx, s1Idx));
+        Assert.assertTrue(AlgoUtil.is1Subset2(gv, card, s1Idx, s2Idx));
+        Assert.assertFalse(AlgoUtil.is1Subset2(gv, card, s2Idx, s1Idx));
     }
 
 
@@ -716,7 +716,7 @@ public class UtilTest {
 
         int s1Idx = 6;
 
-        int subSetIdx = Util.getSubset(gv, card);
+        int subSetIdx = AlgoUtil.getSubset(gv, card);
         Assert.assertEquals(s1Idx, subSetIdx);
 
         // delete sf
@@ -724,43 +724,43 @@ public class UtilTest {
 
         int sActCount = card[0];
 
-        Util.deleteSet(gv, card, freq, sActCount, sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, sActCount, sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         sActCount--;
         // add se
         sIdx = 5;
 
-        Util.addSetToCover(gv, card, freq, sActCount, freq[0], sIdx);
+        AlgoUtil.addSetToCover(gv, card, freq, sActCount, freq[0], sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         sActCount--;
 
         s1Idx = 2;
 
-        subSetIdx = Util.getSubset(gv, card);
+        subSetIdx = AlgoUtil.getSubset(gv, card);
         Assert.assertEquals(s1Idx, subSetIdx);
 
         // delete sb
         sIdx = 2;
-        Util.deleteSet(gv, card, freq, sActCount, sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, sActCount, sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
         sActCount--;
 
         s1Idx = 4;
 
-        subSetIdx = Util.getSubset(gv, card);
+        subSetIdx = AlgoUtil.getSubset(gv, card);
         Assert.assertEquals(s1Idx, subSetIdx);
 
         // delete sd
 
         sIdx = 4;
 
-        Util.deleteSet(gv, card, freq, sActCount, sIdx);
+        AlgoUtil.deleteSet(gv, card, freq, sActCount, sIdx);
         // TestUtil.printGlobalVariableStatus(gv);
 
         //sActCount--;
         // s1 = "Sc";
         s1Idx = 3;
-        subSetIdx = Util.getSubset(gv, card);
+        subSetIdx = AlgoUtil.getSubset(gv, card);
         Assert.assertEquals(s1Idx, subSetIdx);
     }
 
@@ -773,7 +773,7 @@ public class UtilTest {
         int[] card = gv.getCard();
         int[] freq = gv.getFreq();
 
-        Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card, freq);
+        Map<Integer, List<Integer>> g = AlgoUtil.transferGVIntoMMParam(gv, card, freq);
         Assert.assertTrue(g.get(1).contains(2));
         Assert.assertTrue(g.get(1).contains(3));
         Assert.assertTrue(g.get(1).contains(4));

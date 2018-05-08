@@ -5,14 +5,13 @@ import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
 
-import java.util.Arrays;
-
 /**
  * This is the basic implementation of branch search tree with:
- * 1. only degree 0 reduction rule
+ * 1. degree 0 reduction rule
+ * 2. degree 1 reduction rule
  * 2. get solutions
  */
-public class MIS2 implements IMIS {
+public class MIS3 implements IMIS {
 
     private boolean preProcess(ISGlobalVariable gv) {
         int[][] idxAL = gv.getIdxAL();
@@ -25,14 +24,27 @@ public class MIS2 implements IMIS {
         //reduction rule 1: degree zero
         int vIdx = AlgoUtil.getDegreeZeroVertex(gv);
         while(vIdx!=ConstantValue.IMPOSSIBLE_VALUE){
-
-
+            count++;
             //if v's degree is 0, v is in the solution
             idxSol[idxSolSize]=vIdx;
             idxSolSize++;
 
             //delete v
             AlgoUtil.deleteVertex(gv, vIdx);
+
+            vIdx = AlgoUtil.getDegreeZeroVertex(gv);
+        }
+
+        //reduction rule 2: degree one
+        vIdx=AlgoUtil.getDegreeOneVertex(gv);
+        while(vIdx!=ConstantValue.IMPOSSIBLE_VALUE){
+            count++;
+            //if v's degree is 0, v is in the solution
+            idxSol[idxSolSize]=vIdx;
+            idxSolSize++;
+
+            //delete N[v]
+            AlgoUtil.deleteClosedNeighs(gv, vIdx);
 
             vIdx = AlgoUtil.getDegreeZeroVertex(gv);
         }

@@ -1,9 +1,9 @@
 package au.edu.cdu.se.ds;
 
 import au.edu.cdu.se.TestUtil;
+import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.LogUtil;
-import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -98,7 +98,7 @@ public class MSC4Test {
         log.debug(TestUtil.FUNCTION_SEP);
         MSC4 msc = new MSC4();
         int[] card = gv.getCard();
-        int maxCardSet = Util.getMaxCardinalitySetIndex(gv, card, card[0]);
+        int maxCardSet = AlgoUtil.getMaxCardinalitySetIndex(gv, card, card[0]);
 
         int maxCard = card[maxCardSet];
 
@@ -113,7 +113,7 @@ public class MSC4Test {
         DSGlobalVariable gv = TestUtil.getTC2Rep();
 
         testBranch(gv);
-        assertTrue(Util.isValidSolution(gv));
+        assertTrue(AlgoUtil.isValidDSSolution(gv));
         assertEquals(4, gv.getBestSolCount());
     }
 
@@ -124,7 +124,7 @@ public class MSC4Test {
         DSGlobalVariable gv = TestUtil.getTC1Rep();
 
         testBranch(gv);
-        assertTrue(Util.isValidSolution(gv));
+        assertTrue(AlgoUtil.isValidDSSolution(gv));
         assertEquals(2, gv.getBestSolCount());
     }
 
@@ -135,7 +135,7 @@ public class MSC4Test {
         DSGlobalVariable gv = TestUtil.getTC1RepFile();
 
         testBranch(gv);
-        assertTrue(Util.isValidSolution(gv));
+        assertTrue(AlgoUtil.isValidDSSolution(gv));
         assertEquals(2, gv.getBestSolCount());
     }
 

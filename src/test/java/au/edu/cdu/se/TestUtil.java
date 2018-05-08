@@ -5,6 +5,7 @@ import au.edu.cdu.se.ds.IMSC;
 import au.edu.cdu.se.io.DBOperation;
 import au.edu.cdu.se.io.DBParameter;
 import au.edu.cdu.se.io.FileOperation;
+import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.LogUtil;
 import au.edu.cdu.se.util.Util;
@@ -382,7 +383,7 @@ public class TestUtil {
             algo.branch(gv, ap);
             long end = System.nanoTime();
 
-            Assert.assertTrue(Util.isValidSolution(gv));
+            Assert.assertTrue(AlgoUtil.isValidDSSolution(gv));
 
             dbpOut = getDBParamOutPut(algTableName, id, gv, start, end, batchNum, threshold);
             DBOperation.executeInsert(dbpOut);

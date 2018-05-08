@@ -2,8 +2,8 @@ package au.edu.cdu.se.ds;
 
 import java.util.Arrays;
 
+import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
-import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 
 /**
@@ -123,7 +123,7 @@ public class MSC6 implements IMSC {
 			return bestSolCount;
 		}
 
-		int set = Util.getMaxCardinalitySetIndex(gv, card, s1);
+		int set = AlgoUtil.getMaxCardinalitySetIndex(gv, card, s1);
 
 		if (set == ConstantValue.IMPOSSIBLE_VALUE) {
 			return bestSolCount;
@@ -206,7 +206,7 @@ public class MSC6 implements IMSC {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.addSetToCover(gv, copyCard, copyFreq, s1, e1, set);
+		AlgoUtil.addSetToCover(gv, copyCard, copyFreq, s1, e1, set);
 		int e2 = e1 - tempCard;
 		int s2 = s1 - 1;
 
@@ -222,7 +222,7 @@ public class MSC6 implements IMSC {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, s1, set);
+		AlgoUtil.deleteSet(gv, card, freq, s1, set);
 		s1--;
 		card[0] = s1;
 		freq[0] = e1;

@@ -1,8 +1,9 @@
 package au.edu.cdu.se.util;
 
+import au.edu.cdu.se.util.ds.DSGlobalVariable;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * this is a util class for algorithm relevant methods
@@ -121,7 +122,7 @@ public class AlgoUtil {
 //
 //        for (int uIdx : vGNeighs) {
 //            // for any neighbour u of v in g
-//            int uIdxPos = Util.findPos(giLabLst, gi.getActVerCnt(), uIdx);
+//            int uIdxPos = Util.getContiansEleIdxFromZero(giLabLst, gi.getActVerCnt(), uIdx);
 //            if (uIdxPos != ConstantValue.IMPOSSIBLE_VALUE) {
 //                // if u in gi, get the index of u in gi
 //                int giUIdx = giIdxLst[uIdxPos];
@@ -159,7 +160,7 @@ public class AlgoUtil {
 
         int[] idxDegre = g.getIdxDegree();
         // get the pos of vIdx in idxLst
-        int vIdxPos = Util.findPos(idxLst, actVerCnt, vIdx);
+        int vIdxPos = Util.getContiansEleIdxFromZero(idxLst, actVerCnt, vIdx);
         if (vIdxPos == ConstantValue.IMPOSSIBLE_VALUE) {
             return;
         }
@@ -725,7 +726,7 @@ public class AlgoUtil {
 //            List<int[]> combins = Util.getAllRoutOfNCombines(ds, idxSolSize - d);
 //
 //            for (int[] com : combins) {
-//                boolean flag = AlgoUtil.isValidSolution(g, com);
+//                boolean flag = AlgoUtil.w0risValidSolution(g, com);
 //                if (flag) {
 //                    return com;
 //                }
@@ -735,22 +736,36 @@ public class AlgoUtil {
 //        return ds;
 //    }
 
+
+    private static int getACertainDegreeVertex(ISGlobalVariable gv, int degree) {
+        int[] idxDegree = gv.getIdxDegree();
+        int[] idxLst = gv.getIdxLst();
+        int actVerCnt = gv.getActVerCnt();
+        for (int i = 0; i < actVerCnt; i++) {
+            if (idxDegree[idxLst[i]] == degree) {
+                return idxLst[i];
+            }
+        }
+
+        return ConstantValue.IMPOSSIBLE_VALUE;
+    }
+
     /**
      * get the first vertex whose degree is zero
      * @param gv, variables representing a graph
      * @return vertex index
      */
     public static int getDegreeZeroVertex(ISGlobalVariable gv){
-        int[] idxDegree=gv.getIdxDegree();
-        int[] idxLst=gv.getIdxLst();
-        int actVerCnt=gv.getActVerCnt();
-        for(int i=0;i<actVerCnt;i++){
-            if(idxDegree[idxLst[i]]==0){
-                return idxLst[i];
-            }
-        }
+        return getACertainDegreeVertex(gv, 0);
+    }
 
-        return ConstantValue.IMPOSSIBLE_VALUE;
+    /**
+     * get the first vertex whose degree is one
+     * @param gv, variables representing a graph
+     * @return vertex index
+     */
+    public static int getDegreeOneVertex(ISGlobalVariable gv){
+        return getACertainDegreeVertex(gv, 1);
     }
 
 
@@ -792,5 +807,468 @@ public class AlgoUtil {
         }
         //delete v
         AlgoUtil.deleteVertex(gv, vIdx);
+    }
+
+    /**
+     * if a solution is valid
+     *
+     * @param gv, global variables
+     * @return true if it is valid, otherwise false
+     */
+    public static boolean isValidDSSolution(DSGlobalVariable gv) {
+
+        int bestSolCount = gv.getBestSolCount();
+        int[] bestSol = gv.getBestSol();
+        int[][] sAL = gv.getsAL();
+        int[] eL = gv.geteL();
+        int[] copyEL = Arrays.copyOf(eL, eL.length);
+        int eCount = gv.geteCount();
+
+        int count = 0;
+
+        for (int i = 1; i <= bestSolCount; i++) {
+            int[] eLi = sAL[bestSol[i]];
+            for (int ei : eLi) {
+                if (ei != ConstantValue.IMPOSSIBLE_VALUE) {
+                    int tmpIdx = Util.getContainsEleIdxFromOne(copyEL, copyEL.length - 1, ei);
+                    if (tmpIdx != ConstantValue.IMPOSSIBLE_VALUE) {
+                        count++;
+                        copyEL[tmpIdx] = ConstantValue.IMPOSSIBLE_VALUE;
+                    }
+                }
+            }
+        }
+
+        return count == eCount;
+    }
+
+    /**
+     * delete a set
+     *
+     * @param gv,   global variables
+     * @param card, set cardinality
+     * @param freq, element frequency* @param sToDelIdx, the index of the set to
+     *              be deleted
+     */
+    public static void deleteSet(DSGlobalVariable gv, int[] card, int[] freq, int sActCount, int s) {
+        int[] sL = gv.getsL();
+        int[] sIL = gv.getsIL();
+        int[][] sAL = gv.getsAL();
+        // int[][] eAL = gv.geteAL();
+        // int[][] eIM = gv.geteIM();
+
+        // deleteVertex(card, sL, sIL, sAL, freq, eAL, eIM, sToDelIdx);
+        int last = sL[sActCount];
+        int currentIdx = sIL[s];
+        sL[currentIdx] = last;
+        sL[sActCount] = s;
+        sIL[last] = currentIdx;
+        sIL[s] = sActCount;
+
+        int d = card[s];
+        for (int i = 1; i <= d; i++) {
+            int e = sAL[s][i];
+            decreaseElementFrequency(gv, freq, e, s);
+        }
+
+        card[s] = 0;
+
+        gv.setsIL(sIL);
+        gv.setsAL(sAL);
+        // gv.seteAL(eAL);
+        // gv.seteIM(eIM);
+        gv.setsL(sL);
+        gv.setCard(card);
+
+    }
+
+    /**
+     * decrease the cardinality of a set
+     *
+     * @param gv, global variable
+     * @param card, set cardinality
+     * @param s,  the index of the set to be decreased
+     * @param e,  the index of the element to be deleted
+     */
+    private static void decreaseSetCardinality(DSGlobalVariable gv, int[] card, int s, int e) {
+        // int[] card = gv.getCard();
+        int[][] sAL = gv.getsAL();
+        int[][] sIM = gv.getsIM();
+
+        // deleteEdge(card, sAL, sIM, s, e);
+
+        int i = sIM[e][s];
+        int j = card[s];
+        int x = sAL[s][j];
+        sAL[s][i] = x;
+        sIM[x][s] = i;
+        sAL[s][j] = e;
+        sIM[e][s] = j;
+        card[s]--;
+
+        // gv.setCard(card);
+        gv.setsAL(sAL);
+        gv.setsIM(sIM);
+        gv.setCard(card);
+    }
+
+    /**
+     * delete element
+     *
+     * @param gv,        global variable
+     * @param card,      set cardinalities
+     * @param freq,      element frequency
+     * @param eActCount, active element count
+     * @param e,         the index of the element to be deleted
+     * @param source,    the set where e to be delete from
+     */
+    static void deleteElement(DSGlobalVariable gv, int[] card, int[] freq, int eActCount,
+                              int e, int source) {
+        int[] eL = gv.geteL();
+        int[] eIL = gv.geteIL();
+        int[][] eAL = gv.geteAL();
+        // int[][] sAL = gv.getsAL();
+        // int[][] sIM = gv.getsIM();
+
+        // deleteVertex(freq, eL, eIL, eAL, card, sAL, sIM, e);
+
+        int last = eL[eActCount];
+        int currentIdx = eIL[e];
+        eL[currentIdx] = last;
+        eL[eActCount] = e;
+        eIL[last] = currentIdx;
+        eIL[e] = eActCount;
+
+        int d = freq[e];
+        for (int i = 1; i <= d; i++) {
+            int s = eAL[e][i];
+            if (s == source) {
+                continue;
+            }
+            decreaseSetCardinality(gv, card, s, e);
+        }
+
+        freq[e] = 0;
+
+        gv.seteIL(eIL);
+        // gv.setsAL(sAL);
+        gv.seteAL(eAL);
+        // gv.setsIM(sIM);
+        gv.seteL(eL);
+    }
+
+    /**
+     * get the set index which contains an element of frequency one
+     *
+     * @param gv,   global variables
+     * @param freq, element frequency
+     * @return set index
+     */
+    public static int getSetOfFrequencyOneElement(DSGlobalVariable gv, int[] freq, int eActCount) {
+        // int eActCount = freq[0];
+
+        int[] eL = gv.geteL();
+
+        int[][] eAL = gv.geteAL();
+
+        for (int i = 1; i <= eActCount; i++) {
+            int j = eL[i];
+            if (freq[j] == 1) {
+                return eAL[j][1];
+            }
+        }
+
+        return ConstantValue.IMPOSSIBLE_VALUE;
+    }
+
+    /**
+     * if set1 is a subset of set2
+     *
+     * @param gv,    global variables
+     * @param card,  set cardinalities
+     * @param s1Idx, set1 index
+     * @param s2Idx, set2 index
+     * @return true: set1 is a subset of set2; false: otherwise
+     */
+
+    static boolean is1Subset2(DSGlobalVariable gv, int[] card, int s1Idx, int s2Idx) {
+        if (s1Idx == s2Idx) {
+            return false;
+        }
+
+        int s1Card = card[s1Idx];
+        int s2Card = card[s2Idx];
+
+        if (s1Card == 0 || s2Card == 0 || s1Card > s2Card) {
+            return false;
+        }
+
+        int[][] sAL = gv.getsAL();
+        int[] s1Array = sAL[s1Idx];
+        int[] s2Array = sAL[s2Idx];
+
+        int count = 0;
+        for (int i = 1; i <= s1Card; i++) {
+            int tmp = s1Array[i];
+            if (Util.setContainsEleFromOne(s2Array, s2Card, tmp)) {
+                count++;
+            }
+        }
+
+        return count == s1Card;
+
+    }
+
+    /**
+     * if a set is a subset of another set, return the former set index
+     *
+     * @param gv,   global variable
+     * @param card, set cardinalities
+     * @return a subset of another set
+     */
+    public static int getSubset(DSGlobalVariable gv, int[] card) {
+        int[] sL = gv.getsL();
+        int sActCount = card[0];
+
+        for (int i = 1; i <= sActCount - 1; i++) {
+            int isL = sL[i];
+            if (card[isL] <= 0) {
+                continue;
+            }
+            for (int j = i + 1; j <= sActCount; j++) {
+
+                int jsL = sL[j];
+                if (card[jsL] <= 0) {
+                    continue;
+                }
+
+                if (is1Subset2(gv, card, isL, jsL)) {
+                    return isL;
+                } else if (is1Subset2(gv, card, jsL, isL)) {
+                    return jsL;
+                }
+
+            }
+        }
+
+        return ConstantValue.IMPOSSIBLE_VALUE;
+    }
+
+    /**
+     * convert global variables into the format useful for calculating maximum
+     * matching
+     *
+     * @param gv,   global variables
+     * @param card, set cardinalities
+     * @return an adjacency list of elements format
+     */
+    public static Map<Integer, List<Integer>> transferGVIntoMMParam(DSGlobalVariable gv, int[] card, int[] freq) {
+        // TODO: sL is not right
+        int[] sL = gv.getsL();
+        int[] eL = gv.geteL();
+        int[][] sAL = gv.getsAL();
+        int sActCount = gv.getsCount();
+        // int sActCount = card[0];
+        int eActCount = freq[0];
+
+        Map<Integer, List<Integer>> eleG = new HashMap<>();
+
+        Map<Integer, Integer> actEleIdxMap = new HashMap<>(eActCount);
+        for (int i = 1; i <= eActCount; i++) {
+            actEleIdxMap.put(eL[i], i);
+        }
+
+        for (int i = 1; i <= sActCount; i++) {
+            int sLi = sL[i];
+            if (card[sLi] > 0) {
+                int[] sEL = sAL[sLi];
+
+                for (int j = 1; j <= card[sLi]; j++) {
+                    int sELj = sEL[j];
+
+                    if (!eleG.containsKey(sELj)) {
+
+                        List<Integer> tmpList = new ArrayList<>();
+                        eleG.put(sELj, tmpList);
+
+                    }
+                    List<Integer> tmpList = eleG.get(sELj);
+
+                    for (int k = 1; k <= card[sLi]; k++) {
+                        if (j == k) {
+                            continue;
+                        }
+                        int sELk = sEL[k];
+                        if (!tmpList.contains(sELk)) {
+
+                            tmpList.add(sELk);
+                            if (!eleG.containsKey(sELk)) {
+
+                                List<Integer> tmpList2 = new ArrayList<>();
+                                eleG.put(sELk, tmpList2);
+
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        }
+
+        Map<Integer, List<Integer>> elePosG = new HashMap<>();
+
+        Set<Integer> gKeySet = eleG.keySet();
+        for (Integer key : gKeySet) {
+            List<Integer> vList = eleG.get(key);
+            List<Integer> v1List = new ArrayList<>(vList.size());
+            for (Integer v : vList) {
+                v1List.add(actEleIdxMap.get(v));
+            }
+            elePosG.put(actEleIdxMap.get(key), v1List);
+        }
+
+        return elePosG;
+
+    }
+
+    /**
+     * get the max cardinality set index in the list s containing sets
+     *
+     * @param gv,   global variables
+     * @param card, set cardinalities
+     * @return the max cardinality set index in the list s
+     */
+    public static int getMaxCardinalitySetIndex(DSGlobalVariable gv, int[] card, int sActCount) {
+
+        int maxCard = ConstantValue.IMPOSSIBLE_VALUE;
+        int index = ConstantValue.IMPOSSIBLE_VALUE;
+
+        int[] sL = gv.getsL();
+        // int sCount = card[0];
+        // int sCount=gv.getsCount();
+
+        for (int i = 1; i <= sActCount; i++) {
+            int j = sL[i];
+            if (card[j] <= 0) {
+                continue;
+            }
+            if (card[j] > maxCard) {
+                index = j;
+                maxCard = card[j];
+            }
+            if (card[j] >= maxCard && j < index) {
+                index = j;
+                maxCard = card[j];
+            }
+        }
+
+        return index;
+    }
+
+    /**
+     * decrease element frequency
+     *
+     * @param gv,   global variables
+     * @param freq, frequency
+     * @param e,    the index of the element to be decreased
+     * @param s,    the index of the set to be deleted
+     */
+    private static void decreaseElementFrequency(DSGlobalVariable gv, int[] freq, int e, int s) {
+        // int[] freq = gv.getFreq();
+        int[][] eAL = gv.geteAL();
+        int[][] eIM = gv.geteIM();
+
+        // deleteEdge(freq, eAL, eIM, eToDecIdx, sToDelIdx);
+        int i = eIM[s][e];
+        int j = freq[e];
+        int x = eAL[e][j];
+        eAL[e][i] = x;
+        eIM[x][e] = i;
+        eAL[e][j] = s;
+        eIM[s][e] = j;
+        freq[e]--;
+
+        // gv.setFreq(freq);
+        gv.seteAL(eAL);
+        gv.seteIM(eIM);
+        gv.setFreq(freq);
+
+    }
+
+    /**
+     * add a set to solution
+     *
+     * @param gv,        global variable
+     * @param card,      set cardinalities
+     * @param freq,      element frequency
+     * @param sActCount, active set count
+     * @param eActCount, active element count
+     * @param s,         the index of the set to be added
+     */
+    public static void addSetToCover(DSGlobalVariable gv, int[] card, int[] freq, int sActCount, int eActCount, int s) {
+        int[] sL = gv.getsL();
+        // int sActCount = card[0];
+        int[] sIL = gv.getsIL();
+        int[][] sAL = gv.getsAL();
+
+        int last = sL[sActCount];
+        int currentIdx = sIL[s];
+        sL[currentIdx] = last;
+        sL[sActCount] = s;
+        sIL[last] = currentIdx;
+        sIL[s] = sActCount;
+
+        int d = card[s];
+
+        // int i = sL[sToAddIdx];
+        // sL[i] = last;
+        // sL[sActCount] = sToAddIdx;
+        // sIL[last] = i;
+        // sIL[sToAddIdx] = sActCount;
+
+        for (int j = d; j >= 1; j--) {
+            int e = sAL[s][j];
+            deleteElement(gv, card, freq, eActCount - (j - 1), e, s);
+
+        }
+        card[s] = 0;
+
+        gv.setsL(sL);
+        gv.setsIL(sIL);
+        gv.setsAL(sAL);
+        card[0] = sActCount - 1;
+    }
+
+    public static boolean isIndepedentSet(ISGlobalVariable gv){
+        int[] idxSol=gv.getIdxSol();
+        int idxSolSize=gv.getIdxSolSize();
+        int[][] idxAL=gv.getIdxAL();
+        int[] idxDegree=gv.getIdxDegree();
+
+        for(int i=0;i<idxSolSize;i++){
+            int vIdx=idxSol[i];
+            int[] vNeigs=idxAL[vIdx];
+            int vDegree=idxDegree[vIdx];
+            for(int j=0;j<vDegree;j++){
+                int uIdx=vNeigs[j];
+                if(Util.setContainsEleFromZero(idxSol, idxSolSize,uIdx)){
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+
+    }
+
+    public static boolean isMaximalIndepedentSet(ISGlobalVariable gv){
+        int[] idxSol=gv.getIdxSol();
+        int idxSolSize=gv.getIdxSolSize();
+
+        Arrays.stream(idxSol, 0, idxSolSize).forEach(vIdx -> AlgoUtil.deleteClosedNeighs(gv, vIdx));
+        return  gv.getActVerCnt()==0;
+
     }
 }

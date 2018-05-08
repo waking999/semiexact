@@ -2,8 +2,8 @@ package au.edu.cdu.se.ds;
 
 import au.edu.cdu.se.TestUtil;
 import au.edu.cdu.se.io.FileOperation;
+import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.LogUtil;
-import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -30,7 +30,7 @@ public class MSC4TestDataset {
             long end = System.nanoTime();
 
             Assert.assertEquals(expectedSizes[i], gv.getBestSolCount());
-            Assert.assertTrue(Util.isValidSolution(gv));
+            Assert.assertTrue(AlgoUtil.isValidDSSolution(gv));
 
             String sb = fileName + ":" + gv.getBestSolCount() + ":" + (end - start) / 1000000000 +
                     " s.";

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
-import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
 
 /**
@@ -24,7 +24,7 @@ public class MSC4 implements IMSC {
 	 * @return max matching size
 	 */
 	int buildMaxMatching(DSGlobalVariable gv, int[] card, int[] freq) {
-		Map<Integer, List<Integer>> g = Util.transferGVIntoMMParam(gv, card, freq);
+		Map<Integer, List<Integer>> g = AlgoUtil.transferGVIntoMMParam(gv, card, freq);
 		MM mm = new MM();
 		MMObj o = mm.maxMatching(g);
 
@@ -72,7 +72,7 @@ public class MSC4 implements IMSC {
 		while (k1 != (bestSolCount - solCount - 1)) {
 			// subset rule
 			k1 = bestSolCount - solCount - 1;
-			int domSet = Util.getSubset(gv, card);
+			int domSet = AlgoUtil.getSubset(gv, card);
 			while (domSet > ConstantValue.IMPOSSIBLE_VALUE) {
 				// if (bestSolCount <= solCount + 1) {
 				// card[0] = s1;
@@ -82,13 +82,13 @@ public class MSC4 implements IMSC {
 				// gv.setSolCount(solCount);
 				// return true;
 				// }
-				Util.deleteSet(gv, card, freq, s1, domSet);
+				AlgoUtil.deleteSet(gv, card, freq, s1, domSet);
 				s1--;
 				count++;
-				domSet = Util.getSubset(gv, card);
+				domSet = AlgoUtil.getSubset(gv, card);
 			}
 			// frequency one rule
-			int freqOneSet = Util.getSetOfFrequencyOneElement(gv, freq, e1);
+			int freqOneSet = AlgoUtil.getSetOfFrequencyOneElement(gv, freq, e1);
 			while (freqOneSet > ConstantValue.IMPOSSIBLE_VALUE) {
 				// if (bestSolCount <= solCount + 1) {
 				// return true;
@@ -96,12 +96,12 @@ public class MSC4 implements IMSC {
 				sol[solPtr++] = freqOneSet;
 				solCount++;
 				int tmpCard = card[freqOneSet];
-				Util.addSetToCover(gv, card, freq, s1, e1, freqOneSet);
+				AlgoUtil.addSetToCover(gv, card, freq, s1, e1, freqOneSet);
 				e1 = e1 - tmpCard;
 				s1--;
 
 				count++;
-				freqOneSet = Util.getSetOfFrequencyOneElement(gv, freq, e1);
+				freqOneSet = AlgoUtil.getSetOfFrequencyOneElement(gv, freq, e1);
 			}
 			// TODO: other rules
 
@@ -235,7 +235,7 @@ public class MSC4 implements IMSC {
 		// return bestSolCount;
 		// }
 
-		int set = Util.getMaxCardinalitySetIndex(gv, card, s1);
+		int set = AlgoUtil.getMaxCardinalitySetIndex(gv, card, s1);
 
 		if (set == ConstantValue.IMPOSSIBLE_VALUE) {
 			return bestSolCount;
@@ -319,7 +319,7 @@ public class MSC4 implements IMSC {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.addSetToCover(gv, copyCard, copyFreq, s1, e1, set);
+		AlgoUtil.addSetToCover(gv, copyCard, copyFreq, s1, e1, set);
 		int e2 = e1 - tempCard;
 		int s2 = s1 - 1;
 		copyCard[0] = s2;
@@ -333,7 +333,7 @@ public class MSC4 implements IMSC {
 		gv.setSolPtr(solPtr);
 		gv.setSolCount(solCount);
 
-		Util.deleteSet(gv, card, freq, s1, set);
+		AlgoUtil.deleteSet(gv, card, freq, s1, set);
 		s1--;
 		card[0] = s1;
 		freq[0] = e1;
