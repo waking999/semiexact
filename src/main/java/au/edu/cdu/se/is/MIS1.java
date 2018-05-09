@@ -13,7 +13,31 @@ import au.edu.cdu.se.util.is.ISGlobalVariable;
  */
 public class MIS1 implements IMIS {
 
-    public int branch(ISGlobalVariable gv, AlgorithmParameter ap){
+    private ISGlobalVariable gv;
+    private AlgorithmParameter ap;
+
+    MIS1(ISGlobalVariable gv, AlgorithmParameter ap){
+        this.gv=gv;
+        this.ap=ap;
+    }
+
+    MIS1(){
+
+    }
+    public void setGv(ISGlobalVariable gv) {
+        this.gv = gv;
+    }
+
+    public void setAp(AlgorithmParameter ap) {
+        this.ap = ap;
+    }
+
+    public int run(){
+        return branch(this.gv, this.ap);
+    }
+
+
+    private int branch(ISGlobalVariable gv, AlgorithmParameter ap){
         int actVerCnt=gv.getActVerCnt();
 
         if(actVerCnt==0){

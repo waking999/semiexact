@@ -188,7 +188,6 @@ public class AlgoUtil {
     }
 
 
-
     /**
      * delete the edge between u and v in a graph
      *
@@ -386,22 +385,25 @@ public class AlgoUtil {
 //
 //    }
 
-//    /**
-//     * convert the idx solution into label solution
-//     *
-//     * @param g, the variables representing a graph
-//     * @return vertex solution in label format
-//     */
-//    public static int[] getLabSolution(ISGlobalVariable g) {
-//        int idxSolSize = g.getIdxSolSize();
-//        int[] idxSol = g.getIdxSol();
-//        int[] labLst = g.getLabLst();
-//        int[] sol = new int[idxSolSize];
-//        for (int i = 0; i < idxSolSize; i++) {
-//            sol[i] = labLst[idxSol[i]];
-//        }
-//        return sol;
-//    }
+    /**
+     * convert the idx solution into label solution
+     *
+     * @param g, the variables representing a graph
+     * @return vertex solution in label format
+     */
+    public static int[] getLabSolution(ISGlobalVariable g) {
+        int idxSolSize = g.getIdxSolSize();
+        int[] idxSol = g.getIdxSol();
+        int[] labLst = g.getLabLst();
+        int[] sol = new int[idxSolSize];
+        for (int i = 0; i < idxSolSize; i++) {
+            //need to get pos of idx in idxLst since the global variables have been modified and do not follow the initial order any more, hence can not use labLst[idxLst[i]] simply
+            int pos = Util.getContiansEleIdxFromZero(g.getIdxLst(), g.getVerCnt(), idxSol[i]);
+
+            sol[i] = labLst[pos];
+        }
+        return sol;
+    }
 
 //    public static String getLabSolutionStr(ISGlobalVariable g) {
 //        StringBuilder sb = new StringBuilder();
@@ -752,57 +754,61 @@ public class AlgoUtil {
 
     /**
      * get the first vertex whose degree is zero
+     *
      * @param gv, variables representing a graph
      * @return vertex index
      */
-    public static int getDegreeZeroVertex(ISGlobalVariable gv){
+    public static int getDegreeZeroVertex(ISGlobalVariable gv) {
         return getACertainDegreeVertex(gv, 0);
     }
 
     /**
      * get the first vertex whose degree is one
+     *
      * @param gv, variables representing a graph
      * @return vertex index
      */
-    public static int getDegreeOneVertex(ISGlobalVariable gv){
+    public static int getDegreeOneVertex(ISGlobalVariable gv) {
         return getACertainDegreeVertex(gv, 1);
     }
 
 
     /**
      * get the first highest degree vertex index
+     *
      * @param gv, variables representing a graph
      * @return vertex index
      */
-    public static int getHighestDegreeVertexIdx(ISGlobalVariable gv){
-        int maxDegree=ConstantValue.IMPOSSIBLE_VALUE;
-        int pos=ConstantValue.IMPOSSIBLE_VALUE;
+    public static int getHighestDegreeVertexIdx(ISGlobalVariable gv) {
+        int maxDegree = ConstantValue.IMPOSSIBLE_VALUE;
+        int pos = ConstantValue.IMPOSSIBLE_VALUE;
 
-        int[] idxDegree=gv.getIdxDegree();
-        int actVerCnt=gv.getActVerCnt();
-        for(int i=0;i<actVerCnt;i++){
-            if(idxDegree[i]>maxDegree){
-                maxDegree=idxDegree[i];
-                pos=i;
+        int[] idxDegree = gv.getIdxDegree();
+        int actVerCnt = gv.getActVerCnt();
+        for (int i = 0; i < actVerCnt; i++) {
+            if (idxDegree[i] > maxDegree) {
+                maxDegree = idxDegree[i];
+                pos = i;
             }
         }
-        int[] idxLst=gv.getIdxLst();
+        int[] idxLst = gv.getIdxLst();
         return idxLst[pos];
     }
 
     /**
      * delete closed neighborhood of vertex v
-     * @param gv, variables representing a graph
+     *
+     * @param gv,   variables representing a graph
      * @param vIdx, index of vertex v
      */
-    public static void deleteClosedNeighs(ISGlobalVariable gv,   int vIdx) {
-        int[][] idxAL=gv.getIdxAL();
-        int[] idxDegree=gv.getIdxDegree();
-        int vDegree=idxDegree[vIdx];
+    public static void deleteClosedNeighs(ISGlobalVariable gv, int vIdx) {
+        int[][] idxAL = gv.getIdxAL();
+        int[] idxDegree = gv.getIdxDegree();
+        int vDegree = idxDegree[vIdx];
 
         int[] vNeigs = idxAL[vIdx];
         //delete N(v)
-        for (int i = vDegree-1; i >=0 ; i--) {
+        for (int i = vDegree - 1; i >= 0; i--) {
             AlgoUtil.deleteVertex(gv, vNeigs[i]);
         }
         //delete v
@@ -885,10 +891,10 @@ public class AlgoUtil {
     /**
      * decrease the cardinality of a set
      *
-     * @param gv, global variable
+     * @param gv,   global variable
      * @param card, set cardinality
-     * @param s,  the index of the set to be decreased
-     * @param e,  the index of the element to be deleted
+     * @param s,    the index of the set to be decreased
+     * @param e,    the index of the element to be deleted
      */
     private static void decreaseSetCardinality(DSGlobalVariable gv, int[] card, int s, int e) {
         // int[] card = gv.getCard();
@@ -1240,19 +1246,19 @@ public class AlgoUtil {
         card[0] = sActCount - 1;
     }
 
-    public static boolean isIndepedentSet(ISGlobalVariable gv){
-        int[] idxSol=gv.getIdxSol();
-        int idxSolSize=gv.getIdxSolSize();
-        int[][] idxAL=gv.getIdxAL();
-        int[] idxDegree=gv.getIdxDegree();
+    public static boolean isIndepedentSet(ISGlobalVariable gv) {
+        int[] idxSol = gv.getIdxSol();
+        int idxSolSize = gv.getIdxSolSize();
+        int[][] idxAL = gv.getIdxAL();
+        int[] idxDegree = gv.getIdxDegree();
 
-        for(int i=0;i<idxSolSize;i++){
-            int vIdx=idxSol[i];
-            int[] vNeigs=idxAL[vIdx];
-            int vDegree=idxDegree[vIdx];
-            for(int j=0;j<vDegree;j++){
-                int uIdx=vNeigs[j];
-                if(Util.setContainsEleFromZero(idxSol, idxSolSize,uIdx)){
+        for (int i = 0; i < idxSolSize; i++) {
+            int vIdx = idxSol[i];
+            int[] vNeigs = idxAL[vIdx];
+            int vDegree = idxDegree[vIdx];
+            for (int j = 0; j < vDegree; j++) {
+                int uIdx = vNeigs[j];
+                if (Util.setContainsEleFromZero(idxSol, idxSolSize, uIdx)) {
                     return false;
                 }
             }
@@ -1263,12 +1269,12 @@ public class AlgoUtil {
 
     }
 
-    public static boolean isMaximalIndepedentSet(ISGlobalVariable gv){
-        int[] idxSol=gv.getIdxSol();
-        int idxSolSize=gv.getIdxSolSize();
+    public static boolean isMaximalIndepedentSet(ISGlobalVariable gv) {
+        int[] idxSol = gv.getIdxSol();
+        int idxSolSize = gv.getIdxSolSize();
 
         Arrays.stream(idxSol, 0, idxSolSize).forEach(vIdx -> AlgoUtil.deleteClosedNeighs(gv, vIdx));
-        return  gv.getActVerCnt()==0;
+        return gv.getActVerCnt() == 0;
 
     }
 }

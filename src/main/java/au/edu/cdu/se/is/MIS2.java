@@ -5,8 +5,6 @@ import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
 
-import java.util.Arrays;
-
 /**
  * This is the basic implementation of branch search tree with:
  * 1. only degree 0 reduction rule
@@ -14,21 +12,47 @@ import java.util.Arrays;
  */
 public class MIS2 implements IMIS {
 
-    private boolean preProcess(ISGlobalVariable gv) {
-        int[][] idxAL = gv.getIdxAL();
-        int[] idxDegree = gv.getIdxDegree();
-        int idxSolSize = gv.getIdxSolSize();
-        int[] idxSol= gv.getIdxSol();
 
-        int count=0;
+    private ISGlobalVariable gv;
+    private AlgorithmParameter ap;
+
+    MIS2(ISGlobalVariable gv, AlgorithmParameter ap) {
+        this.gv = gv;
+        this.ap = ap;
+
+    }
+
+    MIS2(){
+
+    }
+
+    public void setGv(ISGlobalVariable gv) {
+        this.gv = gv;
+    }
+
+    public void setAp(AlgorithmParameter ap) {
+        this.ap = ap;
+    }
+
+    public int run() {
+        return branch(this.gv, this.ap);
+    }
+
+    private boolean preProcess(ISGlobalVariable gv) {
+        //int[][] idxAL = gv.getIdxAL();
+        //int[] idxDegree = gv.getIdxDegree();
+        int idxSolSize = gv.getIdxSolSize();
+        int[] idxSol = gv.getIdxSol();
+
+        int count = 0;
 
         //reduction rule 1: degree zero
         int vIdx = AlgoUtil.getDegreeZeroVertex(gv);
-        while(vIdx!=ConstantValue.IMPOSSIBLE_VALUE){
-
+        while (vIdx != ConstantValue.IMPOSSIBLE_VALUE) {
+            count++;
 
             //if v's degree is 0, v is in the solution
-            idxSol[idxSolSize]=vIdx;
+            idxSol[idxSolSize] = vIdx;
             idxSolSize++;
 
             //delete v
@@ -40,13 +64,12 @@ public class MIS2 implements IMIS {
         gv.setIdxSol(idxSol);
         gv.setIdxSolSize(idxSolSize);
 
-        return count>0;
+        return count > 0;
 
     }
 
 
-
-    public int branch(ISGlobalVariable gv, AlgorithmParameter ap) {
+    private int branch(ISGlobalVariable gv, AlgorithmParameter ap) {
         int actVerCnt = gv.getActVerCnt();
 
         if (actVerCnt == 0) {
@@ -54,7 +77,7 @@ public class MIS2 implements IMIS {
         }
 
 
-        while(preProcess(gv)){
+        while (preProcess(gv)) {
             actVerCnt = gv.getActVerCnt();
             if (actVerCnt == 0) {
                 return gv.getIdxSolSize();
@@ -69,26 +92,26 @@ public class MIS2 implements IMIS {
 
         //branch 1; v in the solution
         int vIdx = AlgoUtil.getHighestDegreeVertexIdx(gv);
-        ISGlobalVariable gvTmp=AlgoUtil.copyGraphInGloablVariable(gv);
+        ISGlobalVariable gvTmp = AlgoUtil.copyGraphInGloablVariable(gv);
 
-        int[] idxSol=gvTmp.getIdxSol();
-        int idxSolSize=gvTmp.getIdxSolSize();
-        idxSol[idxSolSize++]=vIdx;
+        int[] idxSol = gvTmp.getIdxSol();
+        int idxSolSize = gvTmp.getIdxSolSize();
+        idxSol[idxSolSize++] = vIdx;
 
         AlgoUtil.deleteClosedNeighs(gvTmp, vIdx);
         gvTmp.setIdxSolSize(idxSolSize);
         gvTmp.setIdxSol(idxSol);
 
-        int b1=branch(gvTmp,ap);
+        int b1 = branch(gvTmp, ap);
 
 
         AlgoUtil.deleteVertex(gv, vIdx);
         int b2 = branch(gv, ap);
 
-        if(b1>b2){
-            gv=gvTmp;
+        if (b1 > b2) {
+            gv = gvTmp;
             return b1;
-        }else{
+        } else {
             return b2;
         }
     }

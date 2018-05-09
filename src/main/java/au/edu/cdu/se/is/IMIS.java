@@ -4,5 +4,10 @@ import au.edu.cdu.se.ds.AlgorithmParameter;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
 
 public interface IMIS {
-    int branch(ISGlobalVariable gv, AlgorithmParameter ap);
+    void setGv(ISGlobalVariable gv);
+
+    void setAp(AlgorithmParameter ap);
+
+    int run();
+    //int branch(ISGlobalVariable gv, AlgorithmParameter ap);
 }

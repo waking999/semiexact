@@ -9,13 +9,39 @@ import au.edu.cdu.se.util.is.ISGlobalVariable;
  * This is the basic implementation of branch search tree with:
  * 1. degree 0 reduction rule
  * 2. degree 1 reduction rule
- * 2. get solutions
+ * 3. get solutions
  */
 public class MIS3 implements IMIS {
 
+
+    private ISGlobalVariable gv;
+    private AlgorithmParameter ap;
+
+    MIS3(ISGlobalVariable gv, AlgorithmParameter ap) {
+        this.gv = gv;
+        this.ap = ap;
+    }
+
+    MIS3(){
+
+    }
+
+    public void setGv(ISGlobalVariable gv) {
+        this.gv = gv;
+    }
+
+    public void setAp(AlgorithmParameter ap) {
+        this.ap = ap;
+    }
+
+
+    public int run() {
+        return branch(this.gv, this.ap);
+    }
+
     private boolean preProcess(ISGlobalVariable gv) {
-        int[][] idxAL = gv.getIdxAL();
-        int[] idxDegree = gv.getIdxDegree();
+        //int[][] idxAL = gv.getIdxAL();
+        //int[] idxDegree = gv.getIdxDegree();
         int idxSolSize = gv.getIdxSolSize();
         int[] idxSol= gv.getIdxSol();
 
@@ -46,7 +72,7 @@ public class MIS3 implements IMIS {
             //delete N[v]
             AlgoUtil.deleteClosedNeighs(gv, vIdx);
 
-            vIdx = AlgoUtil.getDegreeZeroVertex(gv);
+            vIdx = AlgoUtil.getDegreeOneVertex(gv);
         }
 
         gv.setIdxSol(idxSol);
@@ -58,7 +84,7 @@ public class MIS3 implements IMIS {
 
 
 
-    public int branch(ISGlobalVariable gv, AlgorithmParameter ap) {
+    private int branch(ISGlobalVariable gv, AlgorithmParameter ap) {
         int actVerCnt = gv.getActVerCnt();
 
         if (actVerCnt == 0) {
