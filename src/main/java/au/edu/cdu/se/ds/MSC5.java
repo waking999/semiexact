@@ -24,7 +24,7 @@ public class MSC5 implements IMSC {
 		msc = new MSC4();
 	}
 
-	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
+	public int branch(DSGlobalVariable gv, DSAlgoParam ap) {
 		long start = System.nanoTime();
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();

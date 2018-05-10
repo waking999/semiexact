@@ -15,7 +15,7 @@ public class MIS2Test {
     public void testCase1() throws IOException {
         String filePath = TestUtil.getBasePath() + "/src/test/resources/sample1.txt";
         ISGlobalVariable gv = FileOperation.readGraphByEdgePairForIS(filePath);
-        IMIS mis = new MIS2(gv,null);
+        IMIS mis = new MIS2(gv);
 
         int rtn=mis.run();
         Assert.assertEquals(3,rtn);
@@ -25,7 +25,7 @@ public class MIS2Test {
     public void testCase_konect_000027_zebra() throws IOException {
         String filePath = TestUtil.getBasePath() + "/src/test/resources/KONECT/000027_zebra.konect";
         ISGlobalVariable gv = FileOperation.readGraphByEdgePairForIS(filePath);
-        IMIS mis = new MIS2(gv,null);
+        IMIS mis = new MIS2(gv);
 
         int rtn=mis.run();
 

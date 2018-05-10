@@ -1,6 +1,6 @@
 package au.edu.cdu.se;
 
-import au.edu.cdu.se.ds.AlgorithmParameter;
+import au.edu.cdu.se.ds.DSAlgoParam;
 import au.edu.cdu.se.ds.IMSC;
 import au.edu.cdu.se.io.DBOperation;
 import au.edu.cdu.se.io.DBParameter;
@@ -367,7 +367,7 @@ public class TestUtil {
         String id = map.get(ConstantValue.DB_COL_INS_ID);
         String instanceCode = map.get(ConstantValue.DB_COL_INS_CODE);
         String algTableName = DBOperation.getAlgorithmTableName(className);
-        AlgorithmParameter ap = getAP(map);
+        DSAlgoParam ap = getAP(map);
         int thresholdUpper = ap.getBestResultSize() + 1;
         String inputFile = resourcePath + dataSetPath + pathName;
 
@@ -413,7 +413,7 @@ public class TestUtil {
 //		for (int i = 0; i < lstLen; i++) {
 //			Map<String, String> map = lst.get(i);
 //
-//			AlgorithmParameter ap = getAP(map);
+//			DSAlgoParam ap = getAP(map);
 //
 //			String id = map.get(ConstantValue.DB_COL_INS_ID);
 //
@@ -462,7 +462,7 @@ public class TestUtil {
 //				Map<String, String> map = lst.get(i);
 //				DSGlobalVariable gv = getGV(baseFilePath, map);
 //
-//				AlgorithmParameter ap = getAP(map);
+//				DSAlgoParam ap = getAP(map);
 //
 //				String id = map.get(ConstantValue.DB_COL_INS_ID);
 //
@@ -488,7 +488,7 @@ public class TestUtil {
 //		}
 //	}
 
-    private static AlgorithmParameter getAP(Map<String, String> map) {
+    private static DSAlgoParam getAP(Map<String, String> map) {
         String allowedRunningTimeStr = map.get(ConstantValue.DB_COL_ALLOWED_RUNNING_TIME);
         long allowedRunningTime = Long.parseLong(allowedRunningTimeStr);
         String bestResultSizeStr = map.get(ConstantValue.DB_COL_BEST_RESULT_SIZE);
@@ -500,7 +500,7 @@ public class TestUtil {
         // String thesholdStr = map.get(ConstantValue.DB_COL_THRESHOLD);
         // int theshold = Integer.parseInt(thesholdStr);
 
-        AlgorithmParameter ap = new AlgorithmParameter();
+        DSAlgoParam ap = new DSAlgoParam();
         ap.setAcceptedResultSize(acceptedResultSize);
         ap.setUnacceptedResultSize(unacceptedResultSize);
         ap.setBestResultSize(bestResultSize);
@@ -636,7 +636,7 @@ public class TestUtil {
     // FileOperation().readGraphByEdgePair(filePath);
     // gv.setModel("Exact");
     //
-    // AlgorithmParameter ap = new AlgorithmParameter();
+    // DSAlgoParam ap = new DSAlgoParam();
     // ap.setAcceptedResultSize(acceptedResultSize);
     // ap.setUnacceptedResultSize(unacceptedResultSize);
     // ap.setBestResultSize(bestResultSize);

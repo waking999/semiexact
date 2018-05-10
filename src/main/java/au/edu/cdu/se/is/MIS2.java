@@ -1,6 +1,6 @@
 package au.edu.cdu.se.is;
 
-import au.edu.cdu.se.ds.AlgorithmParameter;
+
 import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
@@ -14,28 +14,21 @@ public class MIS2 implements IMIS {
 
 
     private ISGlobalVariable gv;
-    private AlgorithmParameter ap;
 
-    MIS2(ISGlobalVariable gv, AlgorithmParameter ap) {
+    MIS2(ISGlobalVariable gv) {
         this.gv = gv;
-        this.ap = ap;
-
     }
 
-    MIS2(){
-
-    }
 
     public void setGv(ISGlobalVariable gv) {
         this.gv = gv;
     }
 
-    public void setAp(AlgorithmParameter ap) {
-        this.ap = ap;
+    public void setAp(ISAlgoParam ap) {
     }
 
     public int run() {
-        return branch(this.gv, this.ap);
+        return branch(this.gv);
     }
 
     private boolean preProcess(ISGlobalVariable gv) {
@@ -69,7 +62,7 @@ public class MIS2 implements IMIS {
     }
 
 
-    private int branch(ISGlobalVariable gv, AlgorithmParameter ap) {
+    private int branch(ISGlobalVariable gv) {
         int actVerCnt = gv.getActVerCnt();
 
         if (actVerCnt == 0) {
@@ -102,11 +95,11 @@ public class MIS2 implements IMIS {
         gvTmp.setIdxSolSize(idxSolSize);
         gvTmp.setIdxSol(idxSol);
 
-        int b1 = branch(gvTmp, ap);
+        int b1 = branch(gvTmp);
 
 
         AlgoUtil.deleteVertex(gv, vIdx);
-        int b2 = branch(gv, ap);
+        int b2 = branch(gv);
 
         if (b1 > b2) {
             gv = gvTmp;

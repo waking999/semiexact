@@ -1,6 +1,6 @@
 package au.edu.cdu.se.ds;
 
-public class AlgorithmParameter {
+public class DSAlgoParam {
 	private long allowedRunningTime;
 	private int unacceptedResultSize;
 	private int acceptedResultSize;

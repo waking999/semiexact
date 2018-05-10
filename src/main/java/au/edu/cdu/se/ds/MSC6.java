@@ -22,7 +22,7 @@ public class MSC6 implements IMSC {
 		msc = new MSC4();
 	}
 
-	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
+	public int branch(DSGlobalVariable gv, DSAlgoParam ap) {
 		long start = System.nanoTime();
 		int acceptedResultSize = ap.getAcceptedResultSize();
 		int unacceptedResultSize = ap.getUnacceptedResultSize();

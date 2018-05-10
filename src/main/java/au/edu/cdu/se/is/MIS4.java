@@ -1,6 +1,6 @@
 package au.edu.cdu.se.is;
 
-import au.edu.cdu.se.ds.AlgorithmParameter;
+
 import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConnectComponents;
 import au.edu.cdu.se.util.ConstantValue;
@@ -21,26 +21,20 @@ import java.util.Set;
 public class MIS4 implements IMIS {
     private final ThreadLocal<ISGlobalVariable> wholeG; // to represent the original graph
     // parameters for fpt subroutine
-    int k;
-    int r;
-    private ISGlobalVariable gv;
-    private AlgorithmParameter ap;
+
+
+
     private ISGlobalVariable[] compGs;
 
-//    MIS4(ISGlobalVariable gv, AlgorithmParameter ap) {
-//        this.gv = gv;
-//        this.ap = ap;
-//
-//        wholeG = new ThreadLocal<>();
-//    }
+
 
     MIS4() {
         wholeG = new ThreadLocal<>();
     }
 
 
-    public void setAp(AlgorithmParameter ap) {
-        this.ap = ap;
+    public void setAp(ISAlgoParam ap) {
+
     }
 
     @Override
@@ -71,8 +65,6 @@ public class MIS4 implements IMIS {
             int[] compGLabLst = new int[compVerCnt];
             int[] compGIdxLst = new int[compVerCnt];
             int[] compGIdxDegree = new int[compVerCnt];
-            float[] compGIdxVote = new float[compVerCnt];
-            float[] compGIdxWeight = new float[compVerCnt];
 
 
 
@@ -149,14 +141,12 @@ public class MIS4 implements IMIS {
         }
 
         int[] wholeSol = new int[wholeSolSize];
-        ISGlobalVariable g = wholeG.get();
         int cursor = 0;
         for (int i = 0; i < compGsSize; i++) {
             int[] sol = sols[i];
 
             for (int aSol : sol) {
                 if (aSol != ConstantValue.IMPOSSIBLE_VALUE) {
-//                    int bSol=AlgoUtil.getIdxByLab(g,aSol);
                     wholeSol[cursor++] = aSol;
                 }
             }

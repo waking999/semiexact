@@ -158,7 +158,7 @@ public class MSC4 implements IMSC {
 
 	}
 
-	public int branch(DSGlobalVariable gv, AlgorithmParameter ap) {
+	public int branch(DSGlobalVariable gv, DSAlgoParam ap) {
 		int[] card = gv.getCard();
 		int[] freq = gv.getFreq();
 
