@@ -35,7 +35,7 @@ public class MSC5TestDataset {
 
         IMSC msc = new MSC5();
 
-        TestUtil.basicTestLoop(ConstantValue.DATASET_BHOSLIB, CLASS_NAME, msc);
+        TestUtil.basicTestLoop(ConstantValue.DATASET_BHOSLIB, ConstantValue.DB_VNAME_INS_DS_OPT, CLASS_NAME, msc);
 
     }
 
@@ -45,7 +45,7 @@ public class MSC5TestDataset {
 
         IMSC msc = new MSC5();
 
-        TestUtil.basicTestLoop(ConstantValue.DATASET_KONECT, CLASS_NAME, msc);
+        TestUtil.basicTestLoop(ConstantValue.DATASET_KONECT, ConstantValue.DB_VNAME_INS_DS_OPT, CLASS_NAME, msc);
 
     }
 

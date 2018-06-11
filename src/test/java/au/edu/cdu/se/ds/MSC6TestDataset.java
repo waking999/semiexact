@@ -18,7 +18,7 @@ public class MSC6TestDataset {
 
         IMSC msc = new MSC6();
 
-        TestUtil.basicTestLoop(ConstantValue.DATASET_KONECT, CLASS_NAME, msc);
+        TestUtil.basicTestLoop(ConstantValue.DATASET_KONECT,  ConstantValue.DB_VNAME_INS_DS_OPT,CLASS_NAME, msc);
 
     }
 
@@ -29,7 +29,7 @@ public class MSC6TestDataset {
 
         IMSC msc = new MSC6();
 
-        TestUtil.basicTestLoop(ConstantValue.DATASET_KONECT, CLASS_NAME, msc);
+        TestUtil.basicTestLoop(ConstantValue.DATASET_KONECT, ConstantValue.DB_VNAME_INS_DS_OPT, CLASS_NAME, msc);
 
     }
 

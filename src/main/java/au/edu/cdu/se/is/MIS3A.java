@@ -1,11 +1,9 @@
 package au.edu.cdu.se.is;
 
-import au.edu.cdu.se.ds.GreedyMSC;
+
 import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
-import au.edu.cdu.se.util.ds.DSGlobalVariable;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
-
 import java.util.Arrays;
 
 /**
@@ -16,18 +14,10 @@ import java.util.Arrays;
  * 4. add greedy
  */
 public class MIS3A implements IMIS {
-
-
     private ISGlobalVariable gv;
     private ISAlgoParam ap;
 
-    MIS3A(ISGlobalVariable gv, ISAlgoParam ap) {
-        this.gv = gv;
-
-    }
-
     MIS3A() {
-
     }
 
     public void setGv(ISGlobalVariable gv) {
@@ -40,6 +30,10 @@ public class MIS3A implements IMIS {
     }
 
 
+    private int bestSolSize;
+    private int[] bestSol;
+
+
     public int run() {
 
         long start = System.nanoTime();
@@ -50,10 +44,16 @@ public class MIS3A implements IMIS {
         long allowedRunningTime = ap.getAllowedRunningTime();
 
 
-        return branch(gv, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize, threshold,
+        bestSolSize = 0;
+
+
+        branch(gv, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize, threshold,
                 0);
 
+        gv.setBestSolSize(bestSolSize);
+        gv.setBestSol(bestSol);
 
+        return bestSolSize;
     }
 
     private boolean preProcess(ISGlobalVariable gv) {
@@ -103,19 +103,22 @@ public class MIS3A implements IMIS {
                        int acceptedResultSize, int unacceptedResultSize, int threshold, int level) {
 
         long current = System.nanoTime();
-        int bestSolSize = gv.getBestSolSize();
+
+        if (!AlgoUtil.existEdges(gv)) {
+            return bestSolSize;
+        }
+
         if (isMomentOfHappy(current, start, allowedRunningTime, acceptedResultSize, bestSolSize)) {
             gv.setModel(ConstantValue.MODEL_HAPPY);
 
             int idxSolSize = gv.getIdxSolSize();
             if (bestSolSize < idxSolSize) {
                 int[] idxSol = gv.getIdxSol();
-                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-                gv.setBestSol(bestSol);
-                gv.setBestSolSize(idxSolSize);
+                bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                bestSolSize = idxSolSize;
 
             }
-            bestSolSize = gv.getBestSolSize();
+
             return bestSolSize;
         }
 
@@ -130,18 +133,18 @@ public class MIS3A implements IMIS {
             IGreedyMIS algo = new GreedyMIS1();
             algo.setGv(gv);
 
-            int rtn = algo.run();
-            level += rtn;
+            algo.run();
+//            level += rtn;
             idxSolSize = gv.getIdxSolSize();
             if (bestSolSize < idxSolSize) {
                 int[] idxSol = gv.getIdxSol();
-                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-                gv.setBestSol(bestSol);
-                gv.setBestSolSize(idxSolSize);
+                bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                bestSolSize = idxSolSize;
 
             }
-            bestSolSize=gv.getBestSolSize();
-            return bestSolSize ;
+
+            return bestSolSize;
         }
 
 
@@ -154,11 +157,10 @@ public class MIS3A implements IMIS {
             if (bestSolSize < idxSolSize) {
                 int[] idxSol = gv.getIdxSol();
 
-                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-                gv.setBestSol(bestSol);
-                gv.setBestSolSize(idxSolSize);
+                bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                bestSolSize = idxSolSize;
             }
-            bestSolSize = gv.getBestSolSize();
+
             return bestSolSize;
         }
 
@@ -166,10 +168,8 @@ public class MIS3A implements IMIS {
         if (bestSolSize < idxSolSize) {
 
             int[] idxSol = gv.getIdxSol();
-            int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-            gv.setBestSol(bestSol);
-            gv.setBestSolSize(idxSolSize);
-            bestSolSize = gv.getBestSolSize();
+            bestSol = Arrays.copyOf(idxSol, idxSolSize);
+            bestSolSize = idxSolSize;
         }
 
         while (preProcess(gv)) {
@@ -179,11 +179,10 @@ public class MIS3A implements IMIS {
                 if (bestSolSize < idxSolSize) {
                     int[] idxSol = gv.getIdxSol();
 
-                    int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-                    gv.setBestSol(bestSol);
-                    gv.setBestSolSize(idxSolSize);
+                    bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                    bestSolSize = idxSolSize;
                 }
-                bestSolSize = gv.getBestSolSize();
+
                 return bestSolSize;
 
             }
@@ -197,11 +196,10 @@ public class MIS3A implements IMIS {
             if (bestSolSize < idxSolSize) {
                 int[] idxSol = gv.getIdxSol();
 
-                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-                gv.setBestSol(bestSol);
-                gv.setBestSolSize(idxSolSize);
+                bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                bestSolSize = idxSolSize;
             }
-            bestSolSize = gv.getBestSolSize();
+
             return bestSolSize;
 
         }
@@ -210,10 +208,8 @@ public class MIS3A implements IMIS {
         if (bestSolSize < idxSolSize) {
 
             int[] idxSol = gv.getIdxSol();
-            int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
-            gv.setBestSol(bestSol);
-            gv.setBestSolSize(idxSolSize);
-            bestSolSize = gv.getBestSolSize();
+            bestSol = Arrays.copyOf(idxSol, idxSolSize);
+            bestSolSize = idxSolSize;
         }
 
 
@@ -238,7 +234,7 @@ public class MIS3A implements IMIS {
         int b2 = branch(gv, start, allowedRunningTime,
                 acceptedResultSize, unacceptedResultSize, threshold, level + 1);
 
-        if (b1 > b2) {
+        if (b1 >= b2) {
             gv = gvTmp;
             return b1;
         } else {
@@ -254,6 +250,7 @@ public class MIS3A implements IMIS {
 
     private boolean isMomentOfHurry(long current, long start, long allowedRunningTime, int acceptedResultSize,
                                     int unacceptedResultSize, int bestSolSize, int idxSolSize, int threshold) {
+
         return (current - start >= allowedRunningTime) && (bestSolSize <= unacceptedResultSize)
                 && (acceptedResultSize - idxSolSize <= threshold);
 

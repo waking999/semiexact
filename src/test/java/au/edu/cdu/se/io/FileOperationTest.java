@@ -14,14 +14,14 @@ public class FileOperationTest {
     @Test(expected = IOException.class)
     public void testRetriveProblemInfoByEdgePairIOExp() throws IOException {
         String filePath = "";
-        FileOperation.readGraphByEdgePair(filePath);
+        FileOperation.readGraphByEdgePairForDS(filePath);
     }
 
     @Test(expected = NoSuchFileException.class)
     public void testRetriveProblemInfoByEdgePairFoundExp() throws IOException {
         String filePath = TestUtil.getBasePath() + "/src/test/resources/samplea.txt";
 
-        FileOperation.readGraphByEdgePair(filePath);
+        FileOperation.readGraphByEdgePairForDS(filePath);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class FileOperationTest {
 
         String filePath = TestUtil.getBasePath() + "/src/test/resources/sample1.txt";
 
-        DSGlobalVariable gv = FileOperation.readGraphByEdgePair(filePath);
+        DSGlobalVariable gv = FileOperation.readGraphByEdgePairForDS(filePath);
         TestUtil.printGlobalVariableStatus(gv);
 
     }

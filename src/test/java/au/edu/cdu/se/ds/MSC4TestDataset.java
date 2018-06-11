@@ -22,7 +22,7 @@ public class MSC4TestDataset {
             String fileName = fileNames[i];
             String filePath = TestUtil.getBasePath() + "/src/test/resources/" + folder + "/" + fileName;
 
-            DSGlobalVariable gv = FileOperation.readGraphByEdgePair(filePath);
+            DSGlobalVariable gv = FileOperation.readGraphByEdgePairForDS(filePath);
             MSC4 msc = new MSC4();
 
             long start = System.nanoTime();
