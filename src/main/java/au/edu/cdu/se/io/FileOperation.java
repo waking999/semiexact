@@ -26,7 +26,7 @@ public class FileOperation {
      * @return graph representation
      * @throws IOException, IOException
      */
-    public static DSGlobalVariable readGraphByEdgePair(String filePath) throws IOException {
+    public static DSGlobalVariable readGraphByEdgePairForDS(String filePath) throws IOException {
 
         DSGlobalVariable g = new DSGlobalVariable();
 
@@ -203,6 +203,7 @@ public class FileOperation {
              */
             String vCountStr = line0Array[0].trim();
             int vCount = Integer.parseInt(vCountStr);
+            int mallocsize = vCount + 1;
 
             // initialize the global variables
             gv = new ISGlobalVariable();
@@ -293,6 +294,16 @@ public class FileOperation {
                 }
             }
 
+            int[] sol = new int[mallocsize];
+            int[] bestSol = new int[mallocsize];
+            for (int i = 0; i <= vCount; i++) {
+                sol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+                bestSol[i] = ConstantValue.IMPOSSIBLE_VALUE;
+            }
+            gv.setIdxSol(sol);
+            gv.setIdxSolSize(0);
+            gv.setBestSol(bestSol);
+            gv.setBestSolSize(0);
 
             // initialize weight
             //AlgoUtil.initWeight(gv);

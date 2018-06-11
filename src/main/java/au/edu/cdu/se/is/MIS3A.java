@@ -1,15 +1,19 @@
 package au.edu.cdu.se.is;
 
+import au.edu.cdu.se.ds.GreedyMSC;
 import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
+import au.edu.cdu.se.util.ds.DSGlobalVariable;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
+
+import java.util.Arrays;
 
 /**
  * This is the basic implementation of branch search tree with:
  * 1. degree 0 reduction rule
  * 2. degree 1 reduction rule
  * 3. get solutions
- * 4. add parameter k
+ * 4. add greedy
  */
 public class MIS3A implements IMIS {
 
@@ -28,6 +32,7 @@ public class MIS3A implements IMIS {
 
     public void setGv(ISGlobalVariable gv) {
         this.gv = gv;
+
     }
 
     public void setAp(ISAlgoParam ap) {
@@ -36,7 +41,19 @@ public class MIS3A implements IMIS {
 
 
     public int run() {
-        return branch(this.gv);
+
+        long start = System.nanoTime();
+
+        int acceptedResultSize = ap.getAcceptedResultSize();
+        int unacceptedResultSize = ap.getUnacceptedResultSize();
+        int threshold = ap.getThreshold();
+        long allowedRunningTime = ap.getAllowedRunningTime();
+
+
+        return branch(gv, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize, threshold,
+                0);
+
+
     }
 
     private boolean preProcess(ISGlobalVariable gv) {
@@ -82,24 +99,121 @@ public class MIS3A implements IMIS {
     }
 
 
-    private int branch(ISGlobalVariable gv) {
+    private int branch(ISGlobalVariable gv, long start, long allowedRunningTime,
+                       int acceptedResultSize, int unacceptedResultSize, int threshold, int level) {
+
+        long current = System.nanoTime();
+        int bestSolSize = gv.getBestSolSize();
+        if (isMomentOfHappy(current, start, allowedRunningTime, acceptedResultSize, bestSolSize)) {
+            gv.setModel(ConstantValue.MODEL_HAPPY);
+
+            int idxSolSize = gv.getIdxSolSize();
+            if (bestSolSize < idxSolSize) {
+                int[] idxSol = gv.getIdxSol();
+                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                gv.setBestSol(bestSol);
+                gv.setBestSolSize(idxSolSize);
+
+            }
+            bestSolSize = gv.getBestSolSize();
+            return bestSolSize;
+        }
+
+        int idxSolSize = gv.getIdxSolSize();
+        if (isMomentOfHurry(current, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize, bestSolSize,
+                idxSolSize, threshold)) {
+            /*
+             * larger than unacceptedResultSize, our algorithm is going to stop
+             * exponential search at level min-theshold
+             */
+            gv.setModel(ConstantValue.MODEL_HURRY);
+            IGreedyMIS algo = new GreedyMIS1();
+            algo.setGv(gv);
+
+            int rtn = algo.run();
+            level += rtn;
+            idxSolSize = gv.getIdxSolSize();
+            if (bestSolSize < idxSolSize) {
+                int[] idxSol = gv.getIdxSol();
+                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                gv.setBestSol(bestSol);
+                gv.setBestSolSize(idxSolSize);
+
+            }
+            bestSolSize=gv.getBestSolSize();
+            return bestSolSize ;
+        }
+
+
         int actVerCnt = gv.getActVerCnt();
 
         if (actVerCnt == 0) {
-            return gv.getIdxSolSize();
+            idxSolSize = gv.getIdxSolSize();
+
+
+            if (bestSolSize < idxSolSize) {
+                int[] idxSol = gv.getIdxSol();
+
+                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                gv.setBestSol(bestSol);
+                gv.setBestSolSize(idxSolSize);
+            }
+            bestSolSize = gv.getBestSolSize();
+            return bestSolSize;
         }
 
+        idxSolSize = gv.getIdxSolSize();
+        if (bestSolSize < idxSolSize) {
+
+            int[] idxSol = gv.getIdxSol();
+            int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+            gv.setBestSol(bestSol);
+            gv.setBestSolSize(idxSolSize);
+            bestSolSize = gv.getBestSolSize();
+        }
 
         while (preProcess(gv)) {
             actVerCnt = gv.getActVerCnt();
             if (actVerCnt == 0) {
-                return gv.getIdxSolSize();
+                idxSolSize = gv.getIdxSolSize();
+                if (bestSolSize < idxSolSize) {
+                    int[] idxSol = gv.getIdxSol();
+
+                    int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                    gv.setBestSol(bestSol);
+                    gv.setBestSolSize(idxSolSize);
+                }
+                bestSolSize = gv.getBestSolSize();
+                return bestSolSize;
+
             }
         }
 
+
         actVerCnt = gv.getActVerCnt();
         if (actVerCnt == 0) {
-            return gv.getIdxSolSize();
+            idxSolSize = gv.getIdxSolSize();
+            bestSolSize = gv.getBestSolSize();
+            if (bestSolSize < idxSolSize) {
+                int[] idxSol = gv.getIdxSol();
+
+                int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+                gv.setBestSol(bestSol);
+                gv.setBestSolSize(idxSolSize);
+            }
+            bestSolSize = gv.getBestSolSize();
+            return bestSolSize;
+
+        }
+
+        idxSolSize = gv.getIdxSolSize();
+        if (bestSolSize < idxSolSize) {
+
+            int[] idxSol = gv.getIdxSol();
+            int[] bestSol = Arrays.copyOf(idxSol, idxSolSize);
+            gv.setBestSol(bestSol);
+            gv.setBestSolSize(idxSolSize);
+            bestSolSize = gv.getBestSolSize();
         }
 
 
@@ -108,18 +222,21 @@ public class MIS3A implements IMIS {
         ISGlobalVariable gvTmp = AlgoUtil.copyGraphInGloablVariable(gv);
 
         int[] idxSol = gvTmp.getIdxSol();
-        int idxSolSize = gvTmp.getIdxSolSize();
+        idxSolSize = gvTmp.getIdxSolSize();
         idxSol[idxSolSize++] = vIdx;
+
 
         AlgoUtil.deleteClosedNeighs(gvTmp, vIdx);
         gvTmp.setIdxSolSize(idxSolSize);
         gvTmp.setIdxSol(idxSol);
 
-        int b1 = branch(gvTmp);
+        int b1 = branch(gvTmp, start, allowedRunningTime,
+                acceptedResultSize, unacceptedResultSize, threshold, level + 1);
 
 
         AlgoUtil.deleteVertex(gv, vIdx);
-        int b2 = branch(gv);
+        int b2 = branch(gv, start, allowedRunningTime,
+                acceptedResultSize, unacceptedResultSize, threshold, level + 1);
 
         if (b1 > b2) {
             gv = gvTmp;
@@ -129,5 +246,17 @@ public class MIS3A implements IMIS {
         }
     }
 
+    private boolean isMomentOfHappy(long current, long start, long allowedRunningTime, int acceptedResultSize,
+                                    int bestSolSize) {
+        return (current - start >= allowedRunningTime) && (bestSolSize >= acceptedResultSize);
+    }
+
+
+    private boolean isMomentOfHurry(long current, long start, long allowedRunningTime, int acceptedResultSize,
+                                    int unacceptedResultSize, int bestSolSize, int idxSolSize, int threshold) {
+        return (current - start >= allowedRunningTime) && (bestSolSize <= unacceptedResultSize)
+                && (acceptedResultSize - idxSolSize <= threshold);
+
+    }
 
 }

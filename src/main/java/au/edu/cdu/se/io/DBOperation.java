@@ -144,6 +144,7 @@ public class DBOperation {
             e.printStackTrace();
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
                 c.commit();
                 c.close();
@@ -341,15 +342,19 @@ public class DBOperation {
 //		}
 //	}
 
+
+
+
     /**
      * get the information of instances by data set such as id, code, path and so on
      *
      * @param dataSetName, dataset name
      * @return the information of instances by data set such as id, code, path and so on
      */
-    public static List<Map<String, String>> getInstanceInfo(String dataSetName) {
+    public static List<Map<String, String>> getInstanceInfo(String dataSetName,String problemVName) {
         DBParameter dbpIn = new DBParameter();
-        dbpIn.setTableName(ConstantValue.DB_VNAME_INS_OPT);
+        //dbpIn.setTableName(ConstantValue.DB_VNAME_INS_DS_OPT);
+        dbpIn.setTableName(problemVName);
         String[] colNames = {ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_INS_CODE, ConstantValue.DB_COL_INS_NAME,
                 ConstantValue.DB_COL_DATASET_NAME, ConstantValue.DB_COL_DATASET_PATH_NAME,
                 ConstantValue.DB_COL_INS_PATH_NAME, ConstantValue.DB_COL_ALLOWED_RUNNING_TIME,
@@ -415,6 +420,7 @@ public class DBOperation {
             e.printStackTrace();
         } finally {
             try {
+                assert stmt != null;
                 stmt.close();
                 c.commit();
                 c.close();

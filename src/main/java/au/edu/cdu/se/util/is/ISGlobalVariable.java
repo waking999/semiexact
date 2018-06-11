@@ -8,13 +8,39 @@ import au.edu.cdu.se.util.ConstantValue;
 public class ISGlobalVariable {
     private Graph graph;
     private int actVerCnt; // the count active vertices
-    //private float[] idxVote; // the vote of each vertex (in index format)
-    //private float[] idxWeight; // the weight of each vertex (in index format)
-    //	private boolean[] idxDomed; // if a vertex (in index format) is dominated
-//	private boolean[] idxAdded; // if a vertex (in index format) is add to
+
     private int[] idxSol; // solution in process
-    // another graph
     private int idxSolSize; // size of solution in process
+
+    public int[] getBestSol() {
+        return bestSol;
+    }
+
+    public void setBestSol(int[] bestSol) {
+        this.bestSol = bestSol;
+    }
+
+    public int getBestSolSize() {
+        return bestSolSize;
+    }
+
+    public void setBestSolSize(int bestSolSize) {
+        this.bestSolSize = bestSolSize;
+    }
+
+    private int[] bestSol;
+    private int bestSolSize;
+
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    private String model;
 
     public ISGlobalVariable() {
         this.graph = new Graph();

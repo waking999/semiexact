@@ -1,15 +1,18 @@
 package au.edu.cdu.se;
 
 import au.edu.cdu.se.ds.DSAlgoParam;
+import au.edu.cdu.se.is.ISAlgoParam;
 import au.edu.cdu.se.ds.IMSC;
 import au.edu.cdu.se.io.DBOperation;
 import au.edu.cdu.se.io.DBParameter;
 import au.edu.cdu.se.io.FileOperation;
+import au.edu.cdu.se.is.IMIS;
 import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.LogUtil;
 import au.edu.cdu.se.util.Util;
 import au.edu.cdu.se.util.ds.DSGlobalVariable;
+import au.edu.cdu.se.util.is.ISGlobalVariable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
@@ -132,7 +135,7 @@ public class TestUtil {
     public static DSGlobalVariable getTC1RepFile() throws IOException {
         String filePath = TestUtil.getBasePath() + "/src/test/resources/sample1.txt";
 
-        return FileOperation.readGraphByEdgePair(filePath);
+        return FileOperation.readGraphByEdgePairForDS(filePath);
 
     }
 
@@ -326,13 +329,34 @@ public class TestUtil {
         return sb.substring(0, sb.length() - 1);
     }
 
-    public static void basicTestLoop(String dataSetName, String className, IMSC algo) {
+    public static void basicTestLoop(String dataSetName, String problemName, String className, IMSC algo) {
 
         /*
          * get the info of the instances of a certain dataset such as id, code,
          * path
          */
-        List<Map<String, String>> lst = DBOperation.getInstanceInfo(dataSetName);
+        List<Map<String, String>> lst = DBOperation.getInstanceInfo(dataSetName,problemName);
+        // loop to run the algorithm with the instance info and write to db
+
+
+        String batchNum = Util.getBatchNum();
+
+        for (Map<String, String> map : lst) {
+            try {
+                basicFunc(className, algo, batchNum, map, log);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void basicTestLoop(String dataSetName, String problemName, String className, IMIS algo) {
+
+        /*
+         * get the info of the instances of a certain dataset such as id, code,
+         * path
+         */
+        List<Map<String, String>> lst = DBOperation.getInstanceInfo(dataSetName,problemName);
         // loop to run the algorithm with the instance info and write to db
 
 
@@ -367,7 +391,7 @@ public class TestUtil {
         String id = map.get(ConstantValue.DB_COL_INS_ID);
         String instanceCode = map.get(ConstantValue.DB_COL_INS_CODE);
         String algTableName = DBOperation.getAlgorithmTableName(className);
-        DSAlgoParam ap = getAP(map);
+        DSAlgoParam ap = getDSAP(map);
         int thresholdUpper = ap.getBestResultSize() + 1;
         String inputFile = resourcePath + dataSetPath + pathName;
 
@@ -376,7 +400,7 @@ public class TestUtil {
         DBOperation.createTable(algTableName);
 
         for (int threshold = thresholdUpper; threshold > 0; threshold--) {
-            DSGlobalVariable gv = FileOperation.readGraphByEdgePair(inputFile);
+            DSGlobalVariable gv = FileOperation.readGraphByEdgePairForDS(inputFile);
             ap.setThreshold(threshold);
 
             long start = System.nanoTime();
@@ -389,6 +413,56 @@ public class TestUtil {
             DBOperation.executeInsert(dbpOut);
 
             String sb = instanceCode + ":" + gv.getBestSolCount() + ":" +
+                    String.format("%.3f", ((end - start) / 1000000000.0)) + " s.";
+            log.debug(sb);
+
+        }
+    }
+
+    /**
+     * the basic structure to run algorithms and write to db
+     * run on only one instance
+     * which is used for greedy dds algorithms
+     *
+     * @param className, class name
+     * @param algo,      algorithm object
+     * @param map,       map containing database table information
+     * @param log,       logger object
+     * @throws IOException, IOException
+     */
+    private static void basicFunc(String className, IMIS algo, String batchNum, Map<String, String> map, Logger log)
+            throws IOException {
+        String resourcePath = TestUtil.getBasePath() + "/src/test/resources";
+
+        String dataSetPath = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
+        String pathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
+        String id = map.get(ConstantValue.DB_COL_INS_ID);
+        String instanceCode = map.get(ConstantValue.DB_COL_INS_CODE);
+        String algTableName = DBOperation.getAlgorithmTableName(className);
+        ISAlgoParam ap = getISAP(map);
+        int thresholdUpper = ap.getBestResultSize()+1;
+        String inputFile = resourcePath + dataSetPath + pathName;
+
+        DBParameter dbpOut;
+
+        DBOperation.createTable(algTableName);
+
+        for (int threshold = 22; threshold >=0; threshold--) {
+            ISGlobalVariable gv = FileOperation.readGraphByEdgePairForIS(inputFile);
+            ap.setThreshold(threshold);
+            algo.setGv(gv);
+            algo.setAp(ap);
+
+            long start = System.nanoTime();
+            algo.run();
+            long end = System.nanoTime();
+
+            Assert.assertTrue(AlgoUtil.isIndepedentSet(gv));
+
+            dbpOut = getDBParamOutPut(algTableName, id, gv, start, end, batchNum, threshold);
+            DBOperation.executeInsert(dbpOut);
+
+            String sb = instanceCode + ":" + gv.getIdxSolSize() + ":" +
                     String.format("%.3f", ((end - start) / 1000000000.0)) + " s.";
             log.debug(sb);
 
@@ -413,7 +487,7 @@ public class TestUtil {
 //		for (int i = 0; i < lstLen; i++) {
 //			Map<String, String> map = lst.get(i);
 //
-//			DSAlgoParam ap = getAP(map);
+//			DSAlgoParam ap = getDSAP(map);
 //
 //			String id = map.get(ConstantValue.DB_COL_INS_ID);
 //
@@ -462,7 +536,7 @@ public class TestUtil {
 //				Map<String, String> map = lst.get(i);
 //				DSGlobalVariable gv = getGV(baseFilePath, map);
 //
-//				DSAlgoParam ap = getAP(map);
+//				DSAlgoParam ap = getDSAP(map);
 //
 //				String id = map.get(ConstantValue.DB_COL_INS_ID);
 //
@@ -488,7 +562,7 @@ public class TestUtil {
 //		}
 //	}
 
-    private static DSAlgoParam getAP(Map<String, String> map) {
+    private static DSAlgoParam getDSAP(Map<String, String> map) {
         String allowedRunningTimeStr = map.get(ConstantValue.DB_COL_ALLOWED_RUNNING_TIME);
         long allowedRunningTime = Long.parseLong(allowedRunningTimeStr);
         String bestResultSizeStr = map.get(ConstantValue.DB_COL_BEST_RESULT_SIZE);
@@ -497,8 +571,7 @@ public class TestUtil {
         int acceptedResultSize = Integer.parseInt(acceptedResultSizeStr);
         String unacceptedResultSizeStr = map.get(ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE);
         int unacceptedResultSize = Integer.parseInt(unacceptedResultSizeStr);
-        // String thesholdStr = map.get(ConstantValue.DB_COL_THRESHOLD);
-        // int theshold = Integer.parseInt(thesholdStr);
+
 
         DSAlgoParam ap = new DSAlgoParam();
         ap.setAcceptedResultSize(acceptedResultSize);
@@ -506,7 +579,28 @@ public class TestUtil {
         ap.setBestResultSize(bestResultSize);
 
         ap.setAllowedRunningTime(allowedRunningTime);
-        // ap.setTheshold(theshold);
+
+        return ap;
+    }
+
+    private static ISAlgoParam getISAP(Map<String, String> map) {
+        String allowedRunningTimeStr = map.get(ConstantValue.DB_COL_ALLOWED_RUNNING_TIME);
+        long allowedRunningTime = Long.parseLong(allowedRunningTimeStr);
+        String bestResultSizeStr = map.get(ConstantValue.DB_COL_BEST_RESULT_SIZE);
+        int bestResultSize = Integer.parseInt(bestResultSizeStr);
+        String acceptedResultSizeStr = map.get(ConstantValue.DB_COL_ACCEPT_RESULT_SIZE);
+        int acceptedResultSize = Integer.parseInt(acceptedResultSizeStr);
+        String unacceptedResultSizeStr = map.get(ConstantValue.DB_COL_UNACCEPT_RESULT_SIZE);
+        int unacceptedResultSize = Integer.parseInt(unacceptedResultSizeStr);
+
+
+        ISAlgoParam ap = new ISAlgoParam();
+        ap.setAcceptedResultSize(acceptedResultSize);
+        ap.setUnacceptedResultSize(unacceptedResultSize);
+        ap.setBestResultSize(bestResultSize);
+
+        ap.setAllowedRunningTime(allowedRunningTime);
+
         return ap;
     }
 
@@ -514,7 +608,7 @@ public class TestUtil {
 //		String iPathName = map.get(ConstantValue.DB_COL_INS_PATH_NAME);
 //		String dPathName = map.get(ConstantValue.DB_COL_DATASET_PATH_NAME);
 //		String filePath = baseFilePath + dPathName + iPathName;
-//		DSGlobalVariable gv = FileOperation.readGraphByEdgePair(filePath);
+//		DSGlobalVariable gv = FileOperation.readGraphByEdgePairForDS(filePath);
 //		return gv;
 //	}
 
@@ -534,6 +628,22 @@ public class TestUtil {
         return dbpOut;
     }
 
+
+    private static DBParameter getDBParamOutPut(String algTableName, String id, ISGlobalVariable gv, long start,
+                                                long end, String batchNum, int threshold) {
+        DBParameter dbpOut;
+        dbpOut = new DBParameter();
+        dbpOut.setTableName(algTableName);
+        String[] colPairNamesOut = {ConstantValue.DB_COL_INS_ID, ConstantValue.DB_COL_RESULT_SIZE,
+                ConstantValue.DB_COL_RUNNING_TIME, ConstantValue.DB_COL_BATCH_NUM, ConstantValue.DB_COL_THRESHOLD,
+                ConstantValue.DB_COL_MODEL};
+
+        String[] colPairValuesOut = {id, Integer.toString(gv.getBestSolSize()), Long.toString((end - start)),
+                batchNum, Integer.toString(threshold), gv.getModel()};
+        dbpOut.setColPairNames(colPairNamesOut);
+        dbpOut.setColPairValues(colPairValuesOut);
+        return dbpOut;
+    }
 //	private static DBParameter getDBParamOutPut(String algTableName, String batchNum, String id, DSGlobalVariable gv,
 //			long start, long end) {
 //		DBParameter dbpOut;
@@ -633,7 +743,7 @@ public class TestUtil {
     //
     // String filePath = baseFilePath + dPathName + iPathName;
     // GlobalVariable gv = new
-    // FileOperation().readGraphByEdgePair(filePath);
+    // FileOperation().readGraphByEdgePairForDS(filePath);
     // gv.setModel("Exact");
     //
     // DSAlgoParam ap = new DSAlgoParam();

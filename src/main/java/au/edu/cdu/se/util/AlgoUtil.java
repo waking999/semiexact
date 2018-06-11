@@ -254,6 +254,12 @@ public class AlgoUtil {
         gNew.setIdxSol(Arrays.copyOf(idxSol, idxSol.length));
         //sol size
         gNew.setIdxSolSize(g.getIdxSolSize());
+
+        int[] bestSol=g.getBestSol();
+        int bestSolSize=g.getBestSolSize();
+        gNew.setBestSol(Arrays.copyOf(bestSol,bestSolSize));
+        gNew.setBestSolSize(bestSolSize);
+
         // IM
         int[][] idxIM = g.getIdxIM();
         int idxIMLen = idxIM.length;
@@ -781,18 +787,20 @@ public class AlgoUtil {
      */
     public static int getHighestDegreeVertexIdx(ISGlobalVariable gv) {
         int maxDegree = ConstantValue.IMPOSSIBLE_VALUE;
-        int pos = ConstantValue.IMPOSSIBLE_VALUE;
+        int maxVIdx = ConstantValue.IMPOSSIBLE_VALUE;
 
         int[] idxDegree = gv.getIdxDegree();
         int actVerCnt = gv.getActVerCnt();
+        int[] idxLst=gv.getIdxLst();
         for (int i = 0; i < actVerCnt; i++) {
-            if (idxDegree[i] > maxDegree) {
-                maxDegree = idxDegree[i];
-                pos = i;
+            int vIdx=idxLst[i];
+            if (idxDegree[vIdx] > maxDegree) {
+                maxDegree = idxDegree[vIdx];
+                maxVIdx = vIdx;
             }
         }
-        int[] idxLst = gv.getIdxLst();
-        return idxLst[pos];
+
+        return maxVIdx;
     }
 
     /**
@@ -1276,5 +1284,17 @@ public class AlgoUtil {
         Arrays.stream(idxSol, 0, idxSolSize).forEach(vIdx -> AlgoUtil.deleteClosedNeighs(gv, vIdx));
         return gv.getActVerCnt() == 0;
 
+    }
+    public static boolean existEdges(ISGlobalVariable gv){
+        int[] idxLst=gv.getIdxLst();
+        int[] idxDegree=gv.getIdxDegree();
+        int actVerCnt=gv.getActVerCnt();
+        for(int i=0;i<actVerCnt;i++){
+            int d=idxDegree[idxLst[i]];
+            if(d>0){
+                return true;
+            }
+        }
+        return false;
     }
 }

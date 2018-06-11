@@ -44,3 +44,7 @@ Thumbs.db
 src/test/java/au/edu/cdu/semiexact/ALgoTests.java
 *.db
 result/db/semi-exact-result.db
+
+*.mis
+*.clq
+*.konect
