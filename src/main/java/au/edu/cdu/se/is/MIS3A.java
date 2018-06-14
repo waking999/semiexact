@@ -4,6 +4,7 @@ package au.edu.cdu.se.is;
 import au.edu.cdu.se.util.AlgoUtil;
 import au.edu.cdu.se.util.ConstantValue;
 import au.edu.cdu.se.util.is.ISGlobalVariable;
+
 import java.util.Arrays;
 
 /**
@@ -32,22 +33,25 @@ public class MIS3A implements IMIS {
 
     private int bestSolSize;
     private int[] bestSol;
+    private int unacceptedResultSize;
+    private int acceptedResultSize;
 
 
     public int run() {
 
         long start = System.nanoTime();
 
-        int acceptedResultSize = ap.getAcceptedResultSize();
-        int unacceptedResultSize = ap.getUnacceptedResultSize();
+        acceptedResultSize = ap.getAcceptedResultSize();
+        unacceptedResultSize = ap.getUnacceptedResultSize();
         int threshold = ap.getThreshold();
         long allowedRunningTime = ap.getAllowedRunningTime();
 
-
         bestSolSize = 0;
 
+        System.out.println("unacceptedResultSize=" + unacceptedResultSize + ",bestSolSize=" + bestSolSize + ",acceptedResultSize=" + acceptedResultSize);
 
-        branch(gv, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize, threshold,
+
+        branch(gv, start, allowedRunningTime, threshold,
                 0);
 
         gv.setBestSolSize(bestSolSize);
@@ -100,7 +104,7 @@ public class MIS3A implements IMIS {
 
 
     private int branch(ISGlobalVariable gv, long start, long allowedRunningTime,
-                       int acceptedResultSize, int unacceptedResultSize, int threshold, int level) {
+                       int threshold, int level) {
 
         long current = System.nanoTime();
 
@@ -108,7 +112,7 @@ public class MIS3A implements IMIS {
             return bestSolSize;
         }
 
-        if (isMomentOfHappy(current, start, allowedRunningTime, acceptedResultSize, bestSolSize)) {
+        if (isMomentOfHappy(current, start, allowedRunningTime)) {
             gv.setModel(ConstantValue.MODEL_HAPPY);
 
             int idxSolSize = gv.getIdxSolSize();
@@ -123,7 +127,7 @@ public class MIS3A implements IMIS {
         }
 
         int idxSolSize = gv.getIdxSolSize();
-        if (isMomentOfHurry(current, start, allowedRunningTime, acceptedResultSize, unacceptedResultSize, bestSolSize,
+        if (isMomentOfHurry(current, start, allowedRunningTime,
                 idxSolSize, threshold)) {
             /*
              * larger than unacceptedResultSize, our algorithm is going to stop
@@ -139,9 +143,14 @@ public class MIS3A implements IMIS {
             if (bestSolSize < idxSolSize) {
                 int[] idxSol = gv.getIdxSol();
                 bestSol = Arrays.copyOf(idxSol, idxSolSize);
-                bestSol = Arrays.copyOf(idxSol, idxSolSize);
                 bestSolSize = idxSolSize;
 
+                if (bestSolSize >= unacceptedResultSize && bestSolSize < acceptedResultSize) {
+                    //unacceptedResultSize = Math.max(unacceptedResultSize+(acceptedResultSize-unacceptedResultSize+1)/2, bestSolSize );
+                    unacceptedResultSize=unacceptedResultSize+(bestSolSize-unacceptedResultSize+1)/2;
+                    acceptedResultSize = acceptedResultSize - (acceptedResultSize - bestSolSize) / 4;
+                    System.out.println("unacceptedResultSize=" + unacceptedResultSize + ",bestSolSize=" + bestSolSize + ",acceptedResultSize=" + acceptedResultSize);
+                }
             }
 
             return bestSolSize;
@@ -227,12 +236,12 @@ public class MIS3A implements IMIS {
         gvTmp.setIdxSol(idxSol);
 
         int b1 = branch(gvTmp, start, allowedRunningTime,
-                acceptedResultSize, unacceptedResultSize, threshold, level + 1);
+                threshold, level + 1);
 
 
         AlgoUtil.deleteVertex(gv, vIdx);
         int b2 = branch(gv, start, allowedRunningTime,
-                acceptedResultSize, unacceptedResultSize, threshold, level + 1);
+                threshold, level + 1);
 
         if (b1 >= b2) {
             gv = gvTmp;
@@ -242,14 +251,12 @@ public class MIS3A implements IMIS {
         }
     }
 
-    private boolean isMomentOfHappy(long current, long start, long allowedRunningTime, int acceptedResultSize,
-                                    int bestSolSize) {
+    private boolean isMomentOfHappy(long current, long start, long allowedRunningTime) {
         return (current - start >= allowedRunningTime) && (bestSolSize >= acceptedResultSize);
     }
 
 
-    private boolean isMomentOfHurry(long current, long start, long allowedRunningTime, int acceptedResultSize,
-                                    int unacceptedResultSize, int bestSolSize, int idxSolSize, int threshold) {
+    private boolean isMomentOfHurry(long current, long start, long allowedRunningTime, int idxSolSize, int threshold) {
 
         return (current - start >= allowedRunningTime) && (bestSolSize <= unacceptedResultSize)
                 && (acceptedResultSize - idxSolSize <= threshold);

@@ -447,7 +447,7 @@ public class TestUtil {
 
         DBOperation.createTable(algTableName);
 
-        for (int threshold = 22; threshold >=0; threshold--) {
+        for (int threshold = thresholdUpper; threshold >=thresholdUpper*2/3; threshold--) {
             ISGlobalVariable gv = FileOperation.readGraphByEdgePairForIS(inputFile);
             ap.setThreshold(threshold);
             algo.setGv(gv);

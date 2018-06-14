@@ -41,10 +41,10 @@ public class MIS3ATest {
         mis.setAp(ap);
 
         int rtn = mis.run();
-        Assert.assertEquals(30, rtn);
+        Assert.assertEquals(28, rtn);
     }
 
-    @Ignore
+  //  @Ignore
     @Test
     public void testBHOSLIB() {
 
